@@ -1,5 +1,8 @@
 defmodule StreamazeWeb.DashboardController do
   use StreamazeWeb, :controller
+  import StreamazeWeb.UserAuth
+
+  plug :require_authenticated_user
 
   def index(conn, _params) do
     managed_streamers =
