@@ -16,16 +16,26 @@
           <%= link "Streamaze", to: Routes.page_path(@conn, :index), class: "text-2xl font-bold text-white" %>
         </span>
         <div class="gap-4 flex flex-row">
-          <span>
-            Signed in as Zane
-          </span>
-          <span>
-            <%= link "My profile", to: "#" %>
-          </span>
-          ·
-          <span>
-            <%= link "Sign out", to: "#" %>
-          </span>
+          <%= if @current_user do %>
+            <span>
+              Signed in as <%= @current_user.email %>
+            </span>
+            <span>
+              <%= link "My profile", to: "#" %>
+            </span>
+            ·
+            <span>
+              <%= link "Sign out", to: Routes.user_session_path(@conn, :delete), method: :delete %>
+            </span>
+          <% else %>
+            <span>
+              <%= link "Sign in", to: Routes.user_session_path(@conn, :new) %>
+            </span>
+            ·
+            <span>
+              <%= link "Sign up", to: Routes.user_registration_path(@conn, :new) %>
+            </span>
+          <% end %>
         </div>
       </div>
     </header>
