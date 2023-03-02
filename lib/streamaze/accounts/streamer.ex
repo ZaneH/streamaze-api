@@ -16,5 +16,6 @@ defmodule Streamaze.Accounts.Streamer do
     streamer
     |> cast(attrs, [:name, :youtube_url])
     |> validate_required([:name, :youtube_url])
+    |> unique_constraint(:name)
   end
 end

@@ -1,41 +1,33 @@
-<h1>Listing Streamers</h1>
+<h1>All Streamers</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.streamer_index_path(@socket, :index)}>
-    <.live_component
-      module={StreamazeWeb.StreamerLive.FormComponent}
-      id={@streamer.id || :new}
-      title={@page_title}
-      action={@live_action}
-      streamer={@streamer}
-      return_to={Routes.streamer_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
+<section class="mb-6">
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal return_to={Routes.streamer_index_path(@socket, :index)}>
+      <.live_component
+        module={StreamazeWeb.StreamerLive.FormComponent}
+        id={@streamer.id || :new}
+        title={@page_title}
+        action={@live_action}
+        streamer={@streamer}
+        return_to={Routes.streamer_index_path(@socket, :index)}
+      />
+    </.modal>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Youtube url</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="streamers">
+  <ul>
     <%= for streamer <- @streamers do %>
-      <tr id={"streamer-#{streamer.id}"}>
-        <td><%= streamer.name %></td>
-        <td><%= streamer.youtube_url %></td>
+      <li id={"streamer-#{streamer.id}"}>
+        <%= streamer.name %> -
+        <%= link streamer.youtube_url, to: streamer.youtube_url, target: "_blank" %>
 
-        <td>
+        <%!-- <td>
           <span><%= live_redirect "Show", to: Routes.streamer_show_path(@socket, :show, streamer) %></span>
           <span><%= live_patch "Edit", to: Routes.streamer_index_path(@socket, :edit, streamer) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: streamer.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
+        </td> --%>
+      </li>
     <% end %>
-  </tbody>
-</table>
+  </ul>
+</section>
 
 <span><%= live_patch "New Streamer", to: Routes.streamer_index_path(@socket, :new) %></span>

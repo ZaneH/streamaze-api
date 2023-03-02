@@ -29,6 +29,25 @@
         list-style: disc;
         padding-left: 1.5em;
     }
+
+    form {
+        @apply text-black;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    form label {
+        @apply font-medium leading-none;
+    }
+
+    #modal h2 {
+        @apply text-2xl font-bold text-black pb-4;
+    }
+
+    button[type="submit"] {
+        @apply bg-blue-500 text-white font-bold py-2 px-4 rounded my-2;
+    }
 }
 
 /* Alerts and form errors used by phx.new */
@@ -62,7 +81,7 @@
 .invalid-feedback {
     color: #a94442;
     display: block;
-    margin: -1rem 0 2rem;
+    margin: -0.5em 0 0;
 }
 
 /* LiveView specific classes for your customization */
@@ -90,6 +109,7 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
 }
 
 .phx-modal-content {

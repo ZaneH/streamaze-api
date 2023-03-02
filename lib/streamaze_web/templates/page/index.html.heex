@@ -21,7 +21,10 @@
         <%= link "Invite Managers", to: "#" %>
       </li>
       <li>
-        <%= link "My Streamers", to: "#" %>
+        <%= link "My Dashboard", to: "#" %>
+      </li>
+      <li>
+        <%= link "All Streamers", to: Routes.streamer_index_path(@conn, :index) %>
       </li>
       <li>
         <%= link "Streamaze Discord", to: "https://discord.gg/c3RetD5r5Y", target: "_blank" %>
