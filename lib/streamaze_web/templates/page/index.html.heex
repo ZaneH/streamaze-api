@@ -1,37 +1,31 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}", name: "Streamaze" %></h1>
-  <p>Streaming tools for professionals</p>
+<section class="text-center my-8">
+  <h1 class="text-3xl font-bold leading-snug"><%= gettext "Welcome to %{name}", name: "Streamaze" %></h1>
+  <p class="text-lg">Streaming tools for professionals</p>
 </section>
 
-<section class="row">
-  <article class="column">
+<div class="flex flex-col gap-3">
+  <section>
     <h2>Active Streams</h2>
-    <ul>
+    <ul class="flex flex-col gap-3">
       <%= for stream <- @live_list do %>
         <li>
-          <%= link stream.streamer.name, to: stream.streamer.youtube_url, target: "_blank" %>
+          <%= stream.streamer.name %> (<%= link "YouTube", to: stream.streamer.youtube_url, target: "_blank" %>)
         </li>
       <% end %>
     </ul>
-  </article>
-  <article class="column">
+  </section>
+  <section>
     <h2>Quick Links</h2>
-    <ul>
+    <ul class="flex flex-col gap-3">
       <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
+        <%= link "Invite Managers", to: "#" %>
       </li>
       <li>
-        <a href="https://web.libera.chat/#elixir">#elixir on Libera Chat (IRC)</a>
+        <%= link "My Streamers", to: "#" %>
       </li>
       <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-      <li>
-        <a href="https://discord.gg/elixir">Elixir on Discord</a>
+        <%= link "Streamaze Discord", to: "https://discord.gg/c3RetD5r5Y", target: "_blank" %>
       </li>
     </ul>
-  </article>
-</section>
+  </section>
+</div>

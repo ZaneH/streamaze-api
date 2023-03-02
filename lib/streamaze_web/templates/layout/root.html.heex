@@ -9,11 +9,21 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body>
+  <body class="h-screen px-6 max-w-4xl mx-auto bg-gray-900 text-white">
     <header>
-      <div class="container">
-        Zane
-        <%= link "My profile", to: "#" %> · <%= link "Sign out", to: "#" %>
+      <div class="py-6 justify-between flex">
+        <span>
+          Signed in as Zane
+        </span>
+        <div class="gap-4 flex flex-row">
+          <span>
+            <%= link "My profile", to: "#" %>
+          </span>
+          ·
+          <span>
+            <%= link "Sign out", to: "#" %>
+          </span>
+        </div>
       </div>
     </header>
     <%= @inner_content %>
