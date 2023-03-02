@@ -1,7 +1,10 @@
 defmodule StreamazeWeb.PageController do
   use StreamazeWeb, :controller
 
+  alias Streamaze.Streams
+
   def index(conn, _params) do
-    render(conn, "index.html")
+    live_list = Streams.list_live_streams()
+    render(conn, "index.html", live_list: live_list)
   end
 end

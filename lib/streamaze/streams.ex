@@ -114,7 +114,7 @@ defmodule Streamaze.Streams do
 
   """
   def list_live_streams do
-    Repo.all(LiveStream)
+    LiveStream |> Ecto.Query.preload(:streamer) |> Repo.all()
   end
 
   @doc """

@@ -10,7 +10,8 @@ defmodule Streamaze.Streams.LiveStream do
     field :subathon_minutes_per_dollar, :float
     field :subathon_seconds_added, :float
     field :subathon_start_minutes, :float
-    field :streamer_id, :id
+
+    belongs_to :streamer, Streamaze.Accounts.Streamer
 
     timestamps()
   end
@@ -18,7 +19,15 @@ defmodule Streamaze.Streams.LiveStream do
   @doc false
   def changeset(live_stream, attrs) do
     live_stream
-    |> cast(attrs, [:is_subathon, :subathon_start_minutes, :subathon_minutes_per_dollar, :subathon_seconds_added, :donation_goal, :donation_goal_currency, :is_live])
-    |> validate_required([:is_subathon, :subathon_start_minutes, :subathon_minutes_per_dollar, :subathon_seconds_added, :donation_goal, :donation_goal_currency, :is_live])
+    |> cast(attrs, [
+      :is_subathon,
+      :subathon_start_minutes,
+      :subathon_minutes_per_dollar,
+      :subathon_seconds_added,
+      :donation_goal,
+      :donation_goal_currency,
+      :is_live
+    ])
+    |> validate_required([:streamer_id])
   end
 end

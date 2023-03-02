@@ -6,6 +6,8 @@ defmodule Streamaze.Accounts.Streamer do
     field :name, :string
     field :youtube_url, :string
 
+    has_many :live_streams, Streamaze.Streams.LiveStream
+
     timestamps()
   end
 

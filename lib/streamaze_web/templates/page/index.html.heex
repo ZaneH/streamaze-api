@@ -1,25 +1,21 @@
 <section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
+  <h1><%= gettext "Welcome to %{name}", name: "Streamaze" %></h1>
+  <p>Streaming tools for professionals</p>
 </section>
 
 <section class="row">
   <article class="column">
-    <h2>Resources</h2>
+    <h2>Active Streams</h2>
     <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.6/CHANGELOG.md">v1.6 Changelog</a>
-      </li>
+      <%= for stream <- @live_list do %>
+        <li>
+          <%= link stream.streamer.name, to: stream.streamer.youtube_url, target: "_blank" %>
+        </li>
+      <% end %>
     </ul>
   </article>
   <article class="column">
-    <h2>Help</h2>
+    <h2>Quick Links</h2>
     <ul>
       <li>
         <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
