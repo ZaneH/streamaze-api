@@ -21,6 +21,10 @@ defmodule Streamaze.Finances do
     Repo.all(Expense)
   end
 
+  def list_streamer_expenses(streamer_id) do
+    Repo.all(from e in Expense, where: e.streamer_id == ^streamer_id)
+  end
+
   @doc """
   Gets a single expense.
 
@@ -115,6 +119,15 @@ defmodule Streamaze.Finances do
   """
   def list_donations do
     Repo.all(Donation)
+  end
+
+  def list_latest_donations(streamer_id) do
+    Repo.all(
+      from d in Donation,
+        where: d.streamer_id == ^streamer_id,
+        order_by: [desc: d.inserted_at],
+        limit: 10
+    )
   end
 
   @doc """

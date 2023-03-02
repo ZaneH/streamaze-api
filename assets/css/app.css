@@ -10,7 +10,12 @@
     }
 
     h2 {
-        @apply text-3xl font-bold;
+        @apply text-3xl font-semibold;
+        line-height: 2em;
+    }
+
+    h3 {
+        @apply text-2xl font-semibold;
         line-height: 2em;
     }
 

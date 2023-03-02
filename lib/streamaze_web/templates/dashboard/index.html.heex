@@ -1,11 +1,21 @@
-<h1>My Dashboard</h1>
+<section class="mt-8">
+    <h2>Details</h2>
+    <%= if @selected_streamer do %>
+        <%= @selected_streamer.name %> <%= link "(YouTube)", to: @selected_streamer.youtube_url, target: "_blank" %>
+    <% end %>
 
-<section>
-    <select>
-        <%= for streamer <- @managed_streamers do %>
-            <option value={streamer.id}>
-                <%= streamer.name %>
-            </option>
-        <% end %>
-    </select>
+    <h2>Latest Expenses</h2>
+    <%= for expense <- @streamer_expenses do %>
+        <%= expense.amount %> <%= expense.currency %>
+    <% end %>
+
+    <h2>Latest Donations</h2>
+    <%= for donation <- @latest_donations do %>
+        <%= donation.amount %> <%= donation.currency %>
+    <% end %>
+
+    <h2>Latest Streams</h2>
+    <%= for stream <- @latest_inactive_streams do %>
+        <%= stream.inserted_at %>
+    <% end %>
 </section>

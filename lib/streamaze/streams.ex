@@ -117,6 +117,14 @@ defmodule Streamaze.Streams do
     LiveStream |> Ecto.Query.preload(:streamer) |> Repo.all()
   end
 
+  def list_active_live_streams(streamer_id) do
+    Repo.all(from l in LiveStream, where: l.is_live == true and l.streamer_id == ^streamer_id)
+  end
+
+  def list_inactive_live_streams(streamer_id) do
+    Repo.all(from l in LiveStream, where: l.is_live == false and l.streamer_id == ^streamer_id)
+  end
+
   @doc """
   Gets a single live_stream.
 

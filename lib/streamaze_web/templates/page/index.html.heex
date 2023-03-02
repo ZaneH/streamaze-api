@@ -9,7 +9,7 @@
     <ul class="flex flex-col gap-3">
       <%= for stream <- @live_list do %>
         <li>
-          <%= stream.streamer.name %> (<%= link "YouTube", to: stream.streamer.youtube_url, target: "_blank" %>)
+          <%= stream.streamer.name %> <%= link "(YouTube)", to: stream.streamer.youtube_url, target: "_blank" %>
         </li>
       <% end %>
     </ul>
