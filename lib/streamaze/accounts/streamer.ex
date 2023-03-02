@@ -18,7 +18,7 @@ defmodule Streamaze.Accounts.Streamer do
   def changeset(streamer, attrs) do
     streamer
     |> cast(attrs, [:name, :youtube_url])
-    |> cast_assoc(:users, required: false)
+    |> cast_assoc(:streamer_managers, required: false)
     |> validate_required([:name, :youtube_url])
     |> unique_constraint(:name)
   end
