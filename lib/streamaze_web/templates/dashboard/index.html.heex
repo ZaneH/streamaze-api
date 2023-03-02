@@ -1,11 +1,11 @@
 <h1>My Dashboard</h1>
 
 <section>
-    <%!-- <select>
-        <%= for streamer <- @streamers do %>
+    <select>
+        <%= for streamer <- @managed_streamers do %>
             <option value={streamer.id}>
                 <%= streamer.name %>
             </option>
         <% end %>
-    </select> --%>
+    </select>
 </section>

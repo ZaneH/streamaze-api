@@ -6,7 +6,7 @@ defmodule Streamaze.Accounts do
   import Ecto.Query, warn: false
   alias Streamaze.Repo
 
-  alias Streamaze.Accounts.{User, UserToken, UserNotifier}
+  alias Streamaze.Accounts.{User, UserToken, UserNotifier, Streamer}
 
   ## Database getters
 
@@ -59,6 +59,19 @@ defmodule Streamaze.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  def list_streamers_for_manager(manager_id) do
+    case Repo.get(User, manager_id) do
+      %User{} = user ->
+        Ecto.assoc(user, :streamer_managers)
+        |> Repo.all()
+        |> Repo.preload(:streamer)
+        |> Enum.map(& &1.streamer)
+
+      nil ->
+        []
+    end
+  end
 
   ## User registration
 
