@@ -1,0 +1,51 @@
+<h1>Show Donation</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.donation_show_path(@socket, :show, @donation)}>
+    <.live_component
+      module={StreamazeWeb.DonationLive.FormComponent}
+      id={@donation.id}
+      title={@page_title}
+      action={@live_action}
+      donation={@donation}
+      return_to={Routes.donation_show_path(@socket, :show, @donation)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Amount:</strong>
+    <%= @donation.amount %>
+  </li>
+
+  <li>
+    <strong>Currency:</strong>
+    <%= @donation.currency %>
+  </li>
+
+  <li>
+    <strong>Sender:</strong>
+    <%= @donation.sender %>
+  </li>
+
+  <li>
+    <strong>Message:</strong>
+    <%= @donation.message %>
+  </li>
+
+  <li>
+    <strong>Metadata:</strong>
+    <%= @donation.metadata %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @donation.type %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.donation_show_path(@socket, :edit, @donation), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.donation_index_path(@socket, :index) %></span>

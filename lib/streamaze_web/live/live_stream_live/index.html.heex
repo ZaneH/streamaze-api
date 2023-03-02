@@ -1,0 +1,51 @@
+<h1>Listing Live streams</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.live_stream_index_path(@socket, :index)}>
+    <.live_component
+      module={StreamazeWeb.LiveStreamLive.FormComponent}
+      id={@live_stream.id || :new}
+      title={@page_title}
+      action={@live_action}
+      live_stream={@live_stream}
+      return_to={Routes.live_stream_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Is subathon</th>
+      <th>Subathon start minutes</th>
+      <th>Subathon minutes per dollar</th>
+      <th>Subathon seconds added</th>
+      <th>Donation goal</th>
+      <th>Donation goal currency</th>
+      <th>Is live</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="live_streams">
+    <%= for live_stream <- @live_streams do %>
+      <tr id={"live_stream-#{live_stream.id}"}>
+        <td><%= live_stream.is_subathon %></td>
+        <td><%= live_stream.subathon_start_minutes %></td>
+        <td><%= live_stream.subathon_minutes_per_dollar %></td>
+        <td><%= live_stream.subathon_seconds_added %></td>
+        <td><%= live_stream.donation_goal %></td>
+        <td><%= live_stream.donation_goal_currency %></td>
+        <td><%= live_stream.is_live %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.live_stream_show_path(@socket, :show, live_stream) %></span>
+          <span><%= live_patch "Edit", to: Routes.live_stream_index_path(@socket, :edit, live_stream) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: live_stream.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Live stream", to: Routes.live_stream_index_path(@socket, :new) %></span>

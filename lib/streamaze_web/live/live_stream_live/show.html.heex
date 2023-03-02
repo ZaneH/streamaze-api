@@ -1,0 +1,56 @@
+<h1>Show Live stream</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.live_stream_show_path(@socket, :show, @live_stream)}>
+    <.live_component
+      module={StreamazeWeb.LiveStreamLive.FormComponent}
+      id={@live_stream.id}
+      title={@page_title}
+      action={@live_action}
+      live_stream={@live_stream}
+      return_to={Routes.live_stream_show_path(@socket, :show, @live_stream)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Is subathon:</strong>
+    <%= @live_stream.is_subathon %>
+  </li>
+
+  <li>
+    <strong>Subathon start minutes:</strong>
+    <%= @live_stream.subathon_start_minutes %>
+  </li>
+
+  <li>
+    <strong>Subathon minutes per dollar:</strong>
+    <%= @live_stream.subathon_minutes_per_dollar %>
+  </li>
+
+  <li>
+    <strong>Subathon seconds added:</strong>
+    <%= @live_stream.subathon_seconds_added %>
+  </li>
+
+  <li>
+    <strong>Donation goal:</strong>
+    <%= @live_stream.donation_goal %>
+  </li>
+
+  <li>
+    <strong>Donation goal currency:</strong>
+    <%= @live_stream.donation_goal_currency %>
+  </li>
+
+  <li>
+    <strong>Is live:</strong>
+    <%= @live_stream.is_live %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.live_stream_show_path(@socket, :edit, @live_stream), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.live_stream_index_path(@socket, :index) %></span>

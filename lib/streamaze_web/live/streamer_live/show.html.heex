@@ -1,0 +1,31 @@
+<h1>Show Streamer</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.streamer_show_path(@socket, :show, @streamer)}>
+    <.live_component
+      module={StreamazeWeb.StreamerLive.FormComponent}
+      id={@streamer.id}
+      title={@page_title}
+      action={@live_action}
+      streamer={@streamer}
+      return_to={Routes.streamer_show_path(@socket, :show, @streamer)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @streamer.name %>
+  </li>
+
+  <li>
+    <strong>Youtube url:</strong>
+    <%= @streamer.youtube_url %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.streamer_show_path(@socket, :edit, @streamer), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.streamer_index_path(@socket, :index) %></span>

@@ -1,0 +1,44 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="live_stream-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <%= label f, :is_subathon %>
+    <%= checkbox f, :is_subathon %>
+    <%= error_tag f, :is_subathon %>
+  
+    <%= label f, :subathon_start_minutes %>
+    <%= number_input f, :subathon_start_minutes, step: "any" %>
+    <%= error_tag f, :subathon_start_minutes %>
+  
+    <%= label f, :subathon_minutes_per_dollar %>
+    <%= number_input f, :subathon_minutes_per_dollar, step: "any" %>
+    <%= error_tag f, :subathon_minutes_per_dollar %>
+  
+    <%= label f, :subathon_seconds_added %>
+    <%= number_input f, :subathon_seconds_added, step: "any" %>
+    <%= error_tag f, :subathon_seconds_added %>
+  
+    <%= label f, :donation_goal %>
+    <%= number_input f, :donation_goal, step: "any" %>
+    <%= error_tag f, :donation_goal %>
+  
+    <%= label f, :donation_goal_currency %>
+    <%= text_input f, :donation_goal_currency %>
+    <%= error_tag f, :donation_goal_currency %>
+  
+    <%= label f, :is_live %>
+    <%= checkbox f, :is_live %>
+    <%= error_tag f, :is_live %>
+  
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

@@ -1,0 +1,49 @@
+<h1>Listing Donations</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.donation_index_path(@socket, :index)}>
+    <.live_component
+      module={StreamazeWeb.DonationLive.FormComponent}
+      id={@donation.id || :new}
+      title={@page_title}
+      action={@live_action}
+      donation={@donation}
+      return_to={Routes.donation_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>Currency</th>
+      <th>Sender</th>
+      <th>Message</th>
+      <th>Metadata</th>
+      <th>Type</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="donations">
+    <%= for donation <- @donations do %>
+      <tr id={"donation-#{donation.id}"}>
+        <td><%= donation.amount %></td>
+        <td><%= donation.currency %></td>
+        <td><%= donation.sender %></td>
+        <td><%= donation.message %></td>
+        <td><%= donation.metadata %></td>
+        <td><%= donation.type %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.donation_show_path(@socket, :show, donation) %></span>
+          <span><%= live_patch "Edit", to: Routes.donation_index_path(@socket, :edit, donation) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: donation.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Donation", to: Routes.donation_index_path(@socket, :new) %></span>
