@@ -7,11 +7,11 @@
     </div>
   <% end %>
 
-  <%= label f, :email %>
+  <%= label f, :email, class: "text-white" %>
   <%= email_input f, :email, required: true %>
   <%= error_tag f, :email %>
 
-  <%= label f, :password %>
+  <%= label f, :password, class: "text-white" %>
   <%= password_input f, :password, required: true %>
   <%= error_tag f, :password %>
 
