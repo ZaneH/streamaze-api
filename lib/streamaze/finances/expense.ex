@@ -13,7 +13,8 @@ defmodule Streamaze.Finances.Expense do
   @doc false
   def changeset(expense, attrs) do
     expense
-    |> cast(attrs, [:amount, :currency])
-    |> validate_required([:amount, :currency])
+    |> cast(attrs, [:amount, :currency, :streamer_id])
+    |> validate_required([:amount, :currency, :streamer_id])
+    |> foreign_key_constraint(:streamer_id)
   end
 end
