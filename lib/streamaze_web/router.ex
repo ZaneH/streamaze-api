@@ -1,6 +1,7 @@
 defmodule StreamazeWeb.Router do
   use StreamazeWeb, :router
 
+  alias StreamazeWeb.StreamerController
   import StreamazeWeb.UserAuth
 
   pipeline :browser do
@@ -15,6 +16,8 @@ defmodule StreamazeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    resources "/api/streamers", StreamerController, only: [:index, :create]
   end
 
   scope "/", StreamazeWeb do
