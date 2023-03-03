@@ -17,16 +17,20 @@
         </span>
         <div class="gap-4 flex flex-row">
           <%= if @current_user do %>
-            <span>
-              Signed in as <%= @current_user.email %>
-            </span>
-            <span>
-              <%= link "My profile", to: "#" %>
-            </span>
-            ·
-            <span>
-              <%= link "Sign out", to: Routes.user_session_path(@conn, :delete), method: :delete %>
-            </span>
+            <div class="flex flex-col text-right">
+              <span>
+                Signed in as <%= @current_user.email %>
+              </span>
+              <div>
+                <span>
+                  <%= link "My profile", to: "#" %>
+                </span>
+                ·
+                <span>
+                  <%= link "Sign out", to: Routes.user_session_path(@conn, :delete), method: :delete %>
+                </span>
+              </div>
+            </div>
           <% else %>
             <span>
               <%= link "Sign in", to: Routes.user_session_path(@conn, :new) %>
