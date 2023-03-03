@@ -1,21 +1,98 @@
 <section class="mt-8">
     <h2>Details</h2>
-    <%= if @selected_streamer do %>
-        <%= @selected_streamer.name %> <%= link "(YouTube)", to: @selected_streamer.youtube_url, target: "_blank" %>
-    <% end %>
+
+    <h4>Active Streams for <%= @selected_streamer.name %> <%= link "(YouTube)", to: @selected_streamer.youtube_url, target: "_blank" %></h4>
+
+    <div class="rounded-md border border-gray-700">
+        <table class="table-auto w-full">
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>Subathon</th>
+                    <th>Minutes per Dollar</th>
+                </tr>
+            </thead>
+            <tbody class="bg-gray-800">
+                <%= for stream <- @live_streams do %>
+                    <tr>
+                        <td><%= stream.inserted_at %></td>
+                        <td><%= if stream.is_subathon, do: "✓" %></td>
+                        <td><%= stream.subathon_minutes_per_dollar %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <p class="text-right py-4 px-8">View all</p>
+    </div>
 
     <h2>Latest Expenses</h2>
-    <%= for expense <- @streamer_expenses do %>
-        <%= expense.amount %> <%= expense.currency %>
-    <% end %>
+    <div class="rounded-md border border-gray-700">
+        <table class="table-auto w-full">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody class="bg-gray-800">
+                <%= for expense <- @streamer_expenses do %>
+                    <tr>
+                        <td><%= expense.inserted_at %></td>
+                        <td><%= :erlang.float_to_binary(expense.amount, [decimals: 2]) %> <%= expense.currency %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <p class="text-right py-4 px-8">View all</p>
+    </div>
 
     <h2>Latest Donations</h2>
-    <%= for donation <- @latest_donations do %>
-        <%= donation.amount %> <%= donation.currency %>
-    <% end %>
+    <div class="rounded-md border border-gray-700">
+        <table class="table-auto w-full">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Donor</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody class="bg-gray-800">
+                <%= for donation <- @latest_donations do %>
+                    <tr>
+                        <td><%= donation.inserted_at %></td>
+                        <td><%= :erlang.float_to_binary(donation.amount, [decimals: 2]) %> <%= donation.currency %></td>
+                        <td><%= donation.sender %></td>
+                        <td><%= donation.message %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <p class="text-right py-4 px-8">View all</p>
+    </div>
 
-    <h2>Latest Streams</h2>
-    <%= for stream <- @latest_inactive_streams do %>
-        <%= stream.inserted_at %>
+    <%= if length(@latest_inactive_streams) > 0 do %>
+        <h2>Past Streams</h2>
+        <div class="rounded-md border border-gray-700">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th>Start Time</th>
+                        <th>Subathon</th>
+                        <th>Minutes per Dollar</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-800">
+                    <%= for stream <- @latest_inactive_streams do %>
+                        <tr>
+                            <td><%= stream.inserted_at %></td>
+                            <td><%= if stream.is_subathon, do: "✓" %></td>
+                            <td><%= stream.subathon_minutes_per_dollar %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            <p class="text-right py-4 px-8">View all</p>
+        </div>
     <% end %>
 </section>

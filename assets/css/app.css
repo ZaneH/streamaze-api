@@ -10,12 +10,17 @@
     }
 
     h2 {
-        @apply text-3xl font-semibold;
+        @apply text-3xl font-semibold mt-5 mb-2;
         line-height: 2em;
     }
 
     h3 {
         @apply text-2xl font-semibold;
+        line-height: 2em;
+    }
+
+    h4 {
+        @apply text-xl font-semibold;
         line-height: 2em;
     }
 
@@ -33,6 +38,14 @@
     ul {
         list-style: disc;
         padding-left: 1.5em;
+    }
+
+    th {
+        @apply text-left px-3 py-3 border-b-slate-700 border-b;
+    }
+
+    td {
+        @apply px-3 py-3 border-t-slate-700 border-t;
     }
 
     form {
