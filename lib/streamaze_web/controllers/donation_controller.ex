@@ -1,19 +1,19 @@
-defmodule StreamazeWeb.StreamerController do
+defmodule StreamazeWeb.DonationController do
   use StreamazeWeb, :controller
 
-  alias Streamaze.Streams
+  alias Streamaze.Finances
 
   def index(conn, _params) do
-    streamers = Streams.list_streamers()
-    render(conn, "index.json", streamers: streamers)
+    donations = Finances.list_donations()
+    render(conn, "index.json", donations: donations)
   end
 
   def create(conn, params) do
-    case Streams.create_streamer(params) do
-      {:ok, streamer} ->
+    case Finances.create_donation(params) do
+      {:ok, donation} ->
         conn
         |> put_status(:created)
-        |> render("create.json", streamer: streamer)
+        |> render("create.json", donation: donation)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

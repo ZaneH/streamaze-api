@@ -17,7 +17,7 @@ defmodule Streamaze.Finances.Donation do
   @doc false
   def changeset(donation, attrs) do
     donation
-    |> cast(attrs, [:amount, :currency, :sender, :message, :metadata, :type])
-    |> validate_required([:amount, :currency, :sender, :message, :metadata, :type])
+    |> cast(attrs, [:amount, :currency, :sender, :type])
+    |> validate_required([:amount, :currency, :sender, :type])
   end
 end

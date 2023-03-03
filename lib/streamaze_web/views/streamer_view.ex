@@ -2,24 +2,18 @@ defmodule StreamazeWeb.StreamerView do
   use StreamazeWeb, :view
 
   def render("index.json", %{streamers: streamers}) do
-    streamers
-    |> Enum.map(fn streamer ->
-      %{
-        id: streamer.id,
-        name: streamer.name,
-        youtube_url: streamer.youtube_url
-      }
-    end)
+    %{data: render_many(streamers, StreamazeWeb.StreamerView, "show.json")}
+  end
+
+  def render("create.json", %{streamer: streamer}) do
+    %{success: true, data: render_one(streamer, StreamazeWeb.StreamerView, "show.json")}
   end
 
   def render("show.json", %{streamer: streamer}) do
     %{
-      success: true,
-      data: %{
-        id: streamer.id,
-        name: streamer.name,
-        youtube_url: streamer.youtube_url
-      }
+      id: streamer.id,
+      name: streamer.name,
+      youtube_url: streamer.youtube_url
     }
   end
 
