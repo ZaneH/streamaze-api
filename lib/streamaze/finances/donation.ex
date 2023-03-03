@@ -17,7 +17,9 @@ defmodule Streamaze.Finances.Donation do
   @doc false
   def changeset(donation, attrs) do
     donation
-    |> cast(attrs, [:amount, :currency, :sender, :type])
-    |> validate_required([:amount, :currency, :sender, :type])
+    |> cast(attrs, [:amount, :currency, :sender, :type, :streamer_id])
+    |> validate_required([:amount, :currency, :sender, :type, :streamer_id])
+    |> validate_number(:amount, greater_than: 0)
+    |> foreign_key_constraint(:streamer_id)
   end
 end
