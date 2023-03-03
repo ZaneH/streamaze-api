@@ -1,7 +1,13 @@
 defmodule StreamazeWeb.Router do
   use StreamazeWeb, :router
 
-  alias StreamazeWeb.{StreamerController, DonationController, ExpenseController}
+  alias StreamazeWeb.{
+    StreamerController,
+    DonationController,
+    ExpenseController,
+    LiveStreamController
+  }
+
   import StreamazeWeb.UserAuth
 
   pipeline :browser do
@@ -20,6 +26,7 @@ defmodule StreamazeWeb.Router do
     resources "/api/streamers", StreamerController, only: [:index, :create]
     resources "/api/donations", DonationController, only: [:index, :create]
     resources "/api/expenses", ExpenseController, only: [:index, :create]
+    resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update]
   end
 
   scope "/", StreamazeWeb do

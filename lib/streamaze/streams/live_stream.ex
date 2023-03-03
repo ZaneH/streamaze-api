@@ -26,8 +26,10 @@ defmodule Streamaze.Streams.LiveStream do
       :subathon_seconds_added,
       :donation_goal,
       :donation_goal_currency,
-      :is_live
+      :is_live,
+      :streamer_id
     ])
     |> validate_required([:streamer_id])
+    |> foreign_key_constraint(:streamer_id)
   end
 end
