@@ -20,6 +20,6 @@ defmodule Streamaze.Accounts.Streamer do
     |> cast(attrs, [:name, :youtube_url])
     |> cast_assoc(:streamer_managers, required: false)
     |> validate_required([:name, :youtube_url])
-    |> unique_constraint(:name)
+    |> unique_constraint(:youtube_url)
   end
 end

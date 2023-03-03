@@ -8,5 +8,7 @@ defmodule Streamaze.Repo.Migrations.CreateStreamers do
 
       timestamps()
     end
+
+    create unique_index(:streamers, [:youtube_url])
   end
 end
