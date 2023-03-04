@@ -117,8 +117,6 @@ defmodule Streamaze.Finances do
   end
 
   def list_streamer_donations(streamer_id) do
-    IO.inspect(streamer_id)
-
     Repo.all(
       from d in Donation,
         where: d.streamer_id == ^streamer_id,
