@@ -33,7 +33,8 @@ defmodule StreamazeWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/dashboard", DashboardController, :index
+
+    live "/dashboard", DashboardLive.Index, :index
 
     live "/streamers", StreamerLive.Index, :index
     live "/streamers/new", StreamerLive.Index, :new
