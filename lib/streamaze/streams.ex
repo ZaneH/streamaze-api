@@ -125,6 +125,13 @@ defmodule Streamaze.Streams do
     Repo.all(from l in LiveStream, where: l.is_live == false and l.streamer_id == ^streamer_id)
   end
 
+  def list_active_subathons(streamer_id) do
+    Repo.all(
+      from l in LiveStream,
+        where: l.is_live == true and l.streamer_id == ^streamer_id and l.is_subathon == true
+    )
+  end
+
   @doc """
   Gets a single live_stream.
 
