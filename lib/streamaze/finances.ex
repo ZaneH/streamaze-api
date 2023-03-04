@@ -121,7 +121,13 @@ defmodule Streamaze.Finances do
     Repo.all(Donation)
   end
 
+  def list_latest_donations(_streamer_id = nil) do
+    []
+  end
+
   def list_latest_donations(streamer_id) do
+    IO.inspect(streamer_id)
+
     Repo.all(
       from d in Donation,
         where: d.streamer_id == ^streamer_id,
