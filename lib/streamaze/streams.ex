@@ -73,6 +73,24 @@ defmodule Streamaze.Streams do
     |> Repo.update()
   end
 
+  def get_streamers_net_profit(streamer_id) do
+    streamer = get_streamer!(streamer_id)
+
+    expenses = Ecto.assoc(streamer, :expenses) |> Repo.all()
+
+    donations = Ecto.assoc(streamer, :donations) |> Repo.all()
+
+    net_profit =
+      Enum.reduce(donations, 0, fn donation, acc ->
+        acc + donation.amount
+      end) +
+        Enum.reduce(expenses, 0, fn expense, acc ->
+          acc + expense.amount
+        end)
+
+    net_profit
+  end
+
   @doc """
   Deletes a streamer.
 

@@ -9,7 +9,8 @@ defmodule Streamaze.Finances.Donation do
     field :metadata, :map
     field :sender, :string
     field :type, :string
-    field :streamer_id, :id
+
+    belongs_to :streamer, Streamaze.Accounts.Streamer
 
     timestamps()
   end

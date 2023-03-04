@@ -5,7 +5,8 @@ defmodule Streamaze.Finances.Expense do
   schema "expenses" do
     field :amount, :float
     field :currency, :string
-    field :streamer_id, :id
+
+    belongs_to :streamer, Streamaze.Accounts.Streamer
 
     timestamps()
   end

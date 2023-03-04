@@ -6,7 +6,7 @@ defmodule Streamaze.Accounts do
   import Ecto.Query, warn: false
   alias Streamaze.Repo
 
-  alias Streamaze.Accounts.{User, UserToken, UserNotifier, Streamer}
+  alias Streamaze.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
 
