@@ -39,7 +39,7 @@ defmodule StreamazeWeb.DashboardController do
     latest_donations =
       case selected_streamer do
         nil -> []
-        streamer -> Streamaze.Finances.list_latest_donations(streamer.id)
+        streamer -> Streamaze.Finances.list_streamer_donations(streamer.id)
       end
 
     latest_inactive_streams =

@@ -5,7 +5,7 @@ defmodule StreamazeWeb.DonationController do
   alias Streamaze.Streams
 
   def index(conn, _params) do
-    donations = Finances.list_latest_donations(conn.params["streamer_id"])
+    donations = Finances.list_streamer_donations(conn.params["streamer_id"])
     render(conn, "index.json", donations: donations)
   end
 

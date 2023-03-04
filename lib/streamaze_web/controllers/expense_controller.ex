@@ -4,7 +4,7 @@ defmodule StreamazeWeb.ExpenseController do
   alias Streamaze.Finances
 
   def index(conn, _params) do
-    expenses = Finances.list_expenses()
+    expenses = Finances.list_streamer_expenses(conn.params["streamer_id"])
     render(conn, "index.json", expense: expenses)
   end
 

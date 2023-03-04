@@ -8,17 +8,8 @@ defmodule Streamaze.Finances do
 
   alias Streamaze.Finances.Expense
 
-  @doc """
-  Returns the list of expenses.
-
-  ## Examples
-
-      iex> list_expenses()
-      [%Expense{}, ...]
-
-  """
-  def list_expenses do
-    Repo.all(Expense)
+  def list_streamer_expenses(_streamer_id = nil) do
+    []
   end
 
   def list_streamer_expenses(streamer_id) do
@@ -121,11 +112,11 @@ defmodule Streamaze.Finances do
     Repo.all(Donation)
   end
 
-  def list_latest_donations(_streamer_id = nil) do
+  def list_streamer_donations(_streamer_id = nil) do
     []
   end
 
-  def list_latest_donations(streamer_id) do
+  def list_streamer_donations(streamer_id) do
     IO.inspect(streamer_id)
 
     Repo.all(

@@ -5,8 +5,8 @@ defmodule StreamazeWeb.ExpenseLive.Index do
   alias Streamaze.Finances.Expense
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :expenses, list_expenses())}
+  def mount(params, _session, socket) do
+    {:ok, assign(socket, :expenses, list_expenses(params["streamer_id"]))}
   end
 
   @impl true
@@ -37,10 +37,11 @@ defmodule StreamazeWeb.ExpenseLive.Index do
     expense = Finances.get_expense!(id)
     {:ok, _} = Finances.delete_expense(expense)
 
-    {:noreply, assign(socket, :expenses, list_expenses())}
+    streamer_id = expense.streamer_id
+    {:noreply, assign(socket, :expenses, list_expenses(streamer_id))}
   end
 
-  defp list_expenses do
-    Finances.list_expenses()
+  defp list_expenses(streamer_id) do
+    Finances.list_streamer_expenses(streamer_id)
   end
 end

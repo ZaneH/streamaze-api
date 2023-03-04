@@ -3,13 +3,14 @@ defmodule Streamaze.Streams.LiveStream do
   import Ecto.Changeset
 
   schema "live_streams" do
-    field :donation_goal, :float
-    field :donation_goal_currency, :string
-    field :is_live, :boolean, default: false
     field :is_subathon, :boolean, default: false
+    field :subathon_start_time, :utc_datetime
     field :subathon_minutes_per_dollar, :float
     field :subathon_seconds_added, :float
     field :subathon_start_minutes, :float
+    field :donation_goal, :float
+    field :donation_goal_currency, :string
+    field :is_live, :boolean, default: false
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
@@ -21,6 +22,7 @@ defmodule Streamaze.Streams.LiveStream do
     live_stream
     |> cast(attrs, [
       :is_subathon,
+      :subathon_start_time,
       :subathon_start_minutes,
       :subathon_minutes_per_dollar,
       :subathon_seconds_added,
