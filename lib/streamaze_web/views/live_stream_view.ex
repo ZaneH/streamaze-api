@@ -21,6 +21,10 @@ defmodule StreamazeWeb.LiveStreamView do
     }
   end
 
+  def render("update.json", %{live_stream: live_stream}) do
+    %{success: true, data: render_one(live_stream, StreamazeWeb.LiveStreamView, "show.json")}
+  end
+
   def render("error.json", %{changeset: changeset}) do
     %{
       success: false,

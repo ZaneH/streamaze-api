@@ -22,12 +22,14 @@ defmodule StreamazeWeb.LiveStreamController do
     end
   end
 
-  def update(conn, %{"id" => id, "live_stream" => live_stream_params}) do
-    case Streams.update_live_stream(id, live_stream_params) do
+  def update(conn, params) do
+    live_stream = Streams.get_live_stream!(conn.params["id"])
+
+    case Streams.update_live_stream(live_stream, params) do
       {:ok, live_stream} ->
         conn
         |> put_status(:created)
-        |> render("create.json", live_stream: live_stream)
+        |> render("update.json", live_stream: live_stream)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
