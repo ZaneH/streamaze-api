@@ -6,6 +6,8 @@ defmodule Streamaze.Accounts.Streamer do
     field :name, :string
     field :youtube_url, :string
 
+    has_one :user, Streamaze.Accounts.User
+
     has_many :live_streams, Streamaze.Streams.LiveStream
     has_many :expenses, Streamaze.Finances.Expense
     has_many :donations, Streamaze.Finances.Donation

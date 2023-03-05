@@ -1,0 +1,28 @@
+<h1>Invite Managers</h1>
+
+<p>Invite managers to your stream dashboard.</p>
+
+<br />
+
+<b>Managers can:</b>
+<ul>
+    <li>View donations and expenses</li>
+    <li>View your previous streams</li>
+    <li>Modify your net profit (by changing expenses)</li>
+    <li>Modify subathon settings</li>
+</ul>
+
+<b>Managers cannot:</b>
+<ul>
+    <li>Modify donations</li>
+</ul>
+
+<br />
+
+<.form let={f} for={@form}>
+    <%= label f, "Invite code", class: "text-white" %>
+    <%= text_input f, "invite_code", placeholder: "stmz-xxxxxx-xxxxxxxx" %>
+    <%= error_tag f, :invite_code %>
+
+    <%= submit "Invite", class: "btn btn-primary" %>
+</.form>

@@ -37,6 +37,15 @@ defmodule Streamaze.Streams do
   """
   def get_streamer!(id), do: Repo.get!(Streamer, id)
 
+  def get_streamer_for_user!(user_id) do
+    Repo.one(
+      from s in Streamer,
+        join: u in assoc(s, :user),
+        where: u.id == ^user_id,
+        select: s
+    )
+  end
+
   @doc """
   Creates a streamer.
 

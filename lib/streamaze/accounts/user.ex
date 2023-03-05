@@ -8,6 +8,8 @@ defmodule Streamaze.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    belongs_to :streamer, Streamaze.Accounts.Streamer
+
     has_many :streamer_managers, Streamaze.StreamerManager
 
     timestamps()
