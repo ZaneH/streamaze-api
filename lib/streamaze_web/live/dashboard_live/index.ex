@@ -10,7 +10,7 @@ defmodule StreamazeWeb.DashboardLive.Index do
   end
 
   @impl true
-  def mount(%{"streamer_id" => streamer_id}, session, socket) do
+  def mount(%{"streamer_id" => streamer_id}, _session, socket) do
     form = %{"selected_streamer_id" => streamer_id}
 
     selected_streamer = Streams.get_streamer!(streamer_id)
@@ -20,8 +20,8 @@ defmodule StreamazeWeb.DashboardLive.Index do
     donations = Finances.list_streamer_donations(selected_streamer.id)
     managed_streamers = Accounts.list_streamers_for_manager(socket.assigns.current_user.id)
     net_profit = Streams.get_streamers_net_profit(selected_streamer.id)
-    total_donations = Finances.get_streamers_total_donations(selected_streamer.id)
-    total_expenses = Finances.get_streamers_total_expenses(selected_streamer.id)
+    total_donations = Finances.get_streamers_total_donations(selected_streamer.id) || 0.0
+    total_expenses = Finances.get_streamers_total_expenses(selected_streamer.id) || 0.0
 
     {:ok,
      assign(socket, :selected_streamer, selected_streamer)

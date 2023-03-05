@@ -77,7 +77,6 @@ defmodule Streamaze.Streams do
     streamer = get_streamer!(streamer_id)
 
     expenses = Ecto.assoc(streamer, :expenses) |> Repo.all()
-
     donations = Ecto.assoc(streamer, :donations) |> Repo.all()
 
     net_profit =
@@ -88,7 +87,7 @@ defmodule Streamaze.Streams do
           acc + expense.amount
         end)
 
-    net_profit
+    net_profit / 1
   end
 
   @doc """
