@@ -22,7 +22,7 @@
     <h2>Quick Links</h2>
     <ul class="flex flex-col gap-3">
       <li>
-        <%= link "Invite Managers", to: "#" %>
+        <%= link "Invite Managers", to: Routes.managers_index_path(@conn, :index) %>
       </li>
       <li>
         <%= link "Manager Dashboard", to: Routes.dashboard_index_path(@conn, :index) %>
