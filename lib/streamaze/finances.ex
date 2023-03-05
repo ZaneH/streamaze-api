@@ -12,8 +12,12 @@ defmodule Streamaze.Finances do
     []
   end
 
-  def list_streamer_expenses(streamer_id) do
-    Repo.all(from e in Expense, where: e.streamer_id == ^streamer_id)
+  def list_streamer_expenses(streamer_id, limit \\ 10) do
+    Expense
+    |> where([e], e.streamer_id == ^streamer_id)
+    |> order_by(desc: :inserted_at)
+    |> limit(^limit)
+    |> Repo.all()
   end
 
   @doc """
@@ -116,13 +120,12 @@ defmodule Streamaze.Finances do
     []
   end
 
-  def list_streamer_donations(streamer_id) do
-    Repo.all(
-      from d in Donation,
-        where: d.streamer_id == ^streamer_id,
-        order_by: [desc: d.inserted_at],
-        limit: 10
-    )
+  def list_streamer_donations(streamer_id, limit \\ 10) do
+    Donation
+    |> where([d], d.streamer_id == ^streamer_id)
+    |> order_by(desc: :inserted_at)
+    |> limit(^limit)
+    |> Repo.all()
   end
 
   @doc """
