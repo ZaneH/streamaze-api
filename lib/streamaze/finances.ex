@@ -36,6 +36,13 @@ defmodule Streamaze.Finances do
   """
   def get_expense!(id), do: Repo.get!(Expense, id)
 
+  def get_streamers_total_expenses(streamer_id) do
+    Expense
+    |> where([e], e.streamer_id == ^streamer_id)
+    |> select([e], sum(e.amount))
+    |> Repo.one()
+  end
+
   @doc """
   Creates a expense.
 
@@ -143,6 +150,13 @@ defmodule Streamaze.Finances do
 
   """
   def get_donation!(id), do: Repo.get!(Donation, id)
+
+  def get_streamers_total_donations(streamer_id) do
+    Donation
+    |> where([d], d.streamer_id == ^streamer_id)
+    |> select([d], sum(d.amount))
+    |> Repo.one()
+  end
 
   @doc """
   Creates a donation.

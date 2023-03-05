@@ -13,9 +13,19 @@
 <section class="mt-8">
     <%= if @selected_streamer do %>
         <h2>Details</h2>
-        <p><b>Net profit:</b> $<%= :erlang.float_to_binary(@net_profit, [decimals: 2]) %></p>
+        <ul>
+            <li>
+                <b>Net profit:</b> <%= :erlang.float_to_binary(@net_profit, [decimals: 2]) %> USD
+            </li>
+            <li>
+                <b>Total donations:</b> <%= :erlang.float_to_binary(@total_donations, [decimals: 2]) %> USD
+            </li>
+            <li>
+                <b>Total expenses:</b> <%= :erlang.float_to_binary(@total_expenses, [decimals: 2]) %> USD
+            </li>
+        </ul>
 
-        <h4>Active Streams for <%= @selected_streamer.name %> <%= link "(YouTube)", to: @selected_streamer.youtube_url, target: "_blank" %></h4>
+        <h2>Active Streams for <%= @selected_streamer.name %> <%= link "(YouTube)", to: @selected_streamer.youtube_url, target: "_blank" %></h2>
 
         <div class="rounded-md border border-gray-700">
             <table class="table-auto w-full">

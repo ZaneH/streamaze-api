@@ -12,14 +12,16 @@ defmodule StreamazeWeb.DashboardLive.Index do
   @impl true
   def mount(%{"streamer_id" => streamer_id}, session, socket) do
     form = %{"selected_streamer_id" => streamer_id}
-    selected_streamer = Streams.get_streamer!(streamer_id)
 
+    selected_streamer = Streams.get_streamer!(streamer_id)
     active_streams = Streams.list_active_live_streams(selected_streamer.id)
     inactive_streams = Streams.list_inactive_live_streams(selected_streamer.id)
     expenses = Finances.list_streamer_expenses(selected_streamer.id)
     donations = Finances.list_streamer_donations(selected_streamer.id)
     managed_streamers = Accounts.list_streamers_for_manager(socket.assigns.current_user.id)
     net_profit = Streams.get_streamers_net_profit(selected_streamer.id)
+    total_donations = Finances.get_streamers_total_donations(selected_streamer.id)
+    total_expenses = Finances.get_streamers_total_expenses(selected_streamer.id)
 
     {:ok,
      assign(socket, :selected_streamer, selected_streamer)
@@ -30,12 +32,15 @@ defmodule StreamazeWeb.DashboardLive.Index do
      |> assign(:selected_streamer_id, selected_streamer.id)
      |> assign(:managed_streamers, managed_streamers)
      |> assign(:net_profit, net_profit)
-     |> assign(:form, form)}
+     |> assign(:form, form)
+     |> assign(:total_donations, total_donations)
+     |> assign(:total_expenses, total_expenses)}
   end
 
   def mount(_params, _session, socket) do
-    managed_streamers = Accounts.list_streamers_for_manager(socket.assigns.current_user.id)
     form = %{"selected_streamer_id" => nil}
+
+    managed_streamers = Accounts.list_streamers_for_manager(socket.assigns.current_user.id)
 
     {:ok,
      assign(socket, :selected_streamer, nil)
