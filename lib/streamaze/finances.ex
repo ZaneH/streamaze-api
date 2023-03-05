@@ -39,7 +39,7 @@ defmodule Streamaze.Finances do
   def get_streamers_total_expenses(streamer_id) do
     Expense
     |> where([e], e.streamer_id == ^streamer_id)
-    |> select([e], sum(e.amount))
+    |> select([e], sum(e.amount_in_usd))
     |> Repo.one()
   end
 
@@ -154,7 +154,7 @@ defmodule Streamaze.Finances do
   def get_streamers_total_donations(streamer_id) do
     Donation
     |> where([d], d.streamer_id == ^streamer_id)
-    |> select([d], sum(d.amount))
+    |> select([d], sum(d.amount_in_usd))
     |> Repo.one()
   end
 

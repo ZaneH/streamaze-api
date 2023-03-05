@@ -5,6 +5,7 @@ defmodule Streamaze.Finances.Expense do
   schema "expenses" do
     field :amount, :float
     field :currency, :string
+    field :amount_in_usd, :float
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
@@ -14,8 +15,8 @@ defmodule Streamaze.Finances.Expense do
   @doc false
   def changeset(expense, attrs) do
     expense
-    |> cast(attrs, [:amount, :currency, :streamer_id])
-    |> validate_required([:amount, :currency, :streamer_id])
+    |> cast(attrs, [:amount, :currency, :amount_in_usd, :streamer_id])
+    |> validate_required([:amount, :currency, :amount_in_usd, :streamer_id])
     |> foreign_key_constraint(:streamer_id)
   end
 end

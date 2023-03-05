@@ -2,6 +2,7 @@
 
 <section>
     <.form let={f} for={@form} phx-change="update_selected_streamer">
+        <%= label f, :selected_streamer_id, "Select a streamer", class: "text-white" %>
         <%= if length(@managed_streamers) > 0 do %>
             <%= select f, :selected_streamer_id, Enum.map(@managed_streamers, & {&1.name, &1.id}), prompt: "Select a streamer..." %>
         <% else %>
@@ -10,7 +11,7 @@
     </.form>
 </section>
 
-<section class="mt-8">
+<section class="mt-4">
     <%= if @selected_streamer do %>
         <h2>Overview</h2>
         <ul>
@@ -54,7 +55,7 @@
 
         <h2>Last 10 Expenses</h2>
         <div class="rounded-md border border-gray-700">
-            <table class="table-auto w-full">
+            <table class="table-fixed w-full">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -75,7 +76,7 @@
 
         <h2>Last 10 Donations</h2>
         <div class="rounded-md border border-gray-700">
-            <table class="table-auto w-full">
+            <table class="table-fixed w-full">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -101,7 +102,7 @@
         <%= if length(@latest_inactive_streams) > 0 do %>
             <h2>Past Streams</h2>
             <div class="rounded-md border border-gray-700">
-                <table class="table-auto w-full">
+                <table class="table-fixed w-full">
                     <thead>
                         <tr>
                             <th>Start Time</th>

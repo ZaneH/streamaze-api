@@ -33,12 +33,9 @@ defmodule StreamazeWeb.DonationController do
           Streams.update_live_stream(subathon, %{
             subathon_seconds_added:
               subathon.subathon_seconds_added +
-                donation.amount * subathon.subathon_minutes_per_dollar * 60
+                donation.amount_in_usd * subathon.subathon_minutes_per_dollar * 60
           })
         end)
-
-      _ ->
-        {:error, "No active subathon found"}
     end
   end
 end
