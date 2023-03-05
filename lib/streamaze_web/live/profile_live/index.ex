@@ -1,4 +1,5 @@
 defmodule StreamazeWeb.ProfileLive.Index do
+  alias Streamaze.Accounts
   alias Streamaze.Streams
   use StreamazeWeb, :live_view
   on_mount(Streamaze.UserLiveAuth)
@@ -6,7 +7,7 @@ defmodule StreamazeWeb.ProfileLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     form = %{
-      "my_invite_code" => ""
+      "my_invite_code" => Accounts.get_invite_code_for_user(socket.assigns.current_user.id)
     }
 
     streamer = Streams.get_streamer_for_user(socket.assigns.current_user.id)
