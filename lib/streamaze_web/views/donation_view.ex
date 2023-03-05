@@ -12,8 +12,11 @@ defmodule StreamazeWeb.DonationView do
   def render("show.json", %{donation: donation}) do
     %{
       id: donation.id,
-      amount: donation.amount,
-      currency: donation.currency,
+      value: %{
+        amount: donation.value.amount,
+        currency: donation.value.currency
+      },
+      amount_in_usd: donation.amount_in_usd,
       sender: donation.sender,
       type: donation.type,
       message: donation.message,

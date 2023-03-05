@@ -81,10 +81,10 @@ defmodule Streamaze.Streams do
 
     net_profit =
       Enum.reduce(donations, 0, fn donation, acc ->
-        acc + donation.amount
+        acc + donation.amount_in_usd
       end) +
         Enum.reduce(expenses, 0, fn expense, acc ->
-          acc + expense.amount
+          acc + expense.amount_in_usd
         end)
 
     net_profit / 1

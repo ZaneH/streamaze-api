@@ -19,9 +19,13 @@ defmodule StreamazeWeb.DashboardLive.Index do
     expenses = Finances.list_streamer_expenses(selected_streamer.id)
     donations = Finances.list_streamer_donations(selected_streamer.id)
     managed_streamers = Accounts.list_streamers_for_manager(socket.assigns.current_user.id)
-    net_profit = Streams.get_streamers_net_profit(selected_streamer.id)
-    total_donations = Finances.get_streamers_total_donations(selected_streamer.id) || 0.0
-    total_expenses = Finances.get_streamers_total_expenses(selected_streamer.id) || 0.0
+    {:ok, net_profit} = Money.parse(Streams.get_streamers_net_profit(selected_streamer.id), :USD)
+
+    {:ok, total_donations} =
+      Money.parse(Finances.get_streamers_total_donations(selected_streamer.id) || 0.0)
+
+    {:ok, total_expenses} =
+      Money.parse(Finances.get_streamers_total_expenses(selected_streamer.id) || 0.0)
 
     {:ok,
      assign(socket, :selected_streamer, selected_streamer)
@@ -54,6 +58,7 @@ defmodule StreamazeWeb.DashboardLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  @impl true
   def handle_event(
         "update_selected_streamer",
         %{"selected_streamer_id" => selected_streamer_id},

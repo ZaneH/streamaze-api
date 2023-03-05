@@ -12,8 +12,11 @@ defmodule StreamazeWeb.ExpenseView do
   def render("show.json", %{expense: expense}) do
     %{
       id: expense.id,
-      amount: expense.amount,
-      currency: expense.currency,
+      value: %{
+        amount: expense.value.amount,
+        currency: expense.value.currency
+      },
+      amount_in_usd: expense.amount_in_usd,
       streamer_id: expense.streamer_id,
       inserted_at: expense.inserted_at,
       updated_at: expense.updated_at

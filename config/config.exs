@@ -62,3 +62,6 @@ config :tailwind,
   ),
     cd: Path.expand("../assets", __DIR__)
   ]
+
+config :money,
+  default_currency: :USD

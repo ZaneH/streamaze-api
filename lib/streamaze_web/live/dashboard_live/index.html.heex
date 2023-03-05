@@ -16,13 +16,13 @@
         <h2>Overview</h2>
         <ul>
             <li>
-                <b>Net profit:</b> <%= :erlang.float_to_binary(@net_profit, [decimals: 2]) %> USD
+                <b>Net profit:</b> <%= Money.to_string(@net_profit) %>
             </li>
             <li>
-                <b>Total donations:</b> <%= :erlang.float_to_binary(@total_donations, [decimals: 2]) %> USD
+                <b>Total donations:</b> <%= Money.to_string(@total_donations) %>
             </li>
             <li>
-                <b>Total expenses:</b> <%= :erlang.float_to_binary(@total_expenses, [decimals: 2]) %> USD
+                <b>Total expenses:</b> <%= Money.to_string(@total_expenses) %>
             </li>
             <li>
                 <b>YouTube Channel:</b> <%= link @selected_streamer.youtube_url, to: @selected_streamer.youtube_url, target: "_blank" %>
@@ -66,7 +66,7 @@
                     <%= for expense <- @streamer_expenses do %>
                         <tr>
                             <td><%= expense.inserted_at %></td>
-                            <td><%= :erlang.float_to_binary(expense.amount, [decimals: 2]) %> <%= expense.currency %></td>
+                            <td><%= Money.to_string(expense.value) %></td>
                         </tr>
                     <% end %>
                 </tbody>
@@ -89,7 +89,7 @@
                     <%= for donation <- @latest_donations do %>
                         <tr>
                             <td><%= donation.inserted_at %></td>
-                            <td><%= :erlang.float_to_binary(donation.amount, [decimals: 2]) %> <%= donation.currency %></td>
+                            <td><%= Money.to_string(donation.value) %></td>
                             <td><%= donation.sender %></td>
                             <td><%= donation.message %></td>
                         </tr>
