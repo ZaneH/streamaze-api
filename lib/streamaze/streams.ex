@@ -5,8 +5,8 @@ defmodule Streamaze.Streams do
 
   import Ecto.Query, warn: false
   alias Streamaze.Repo
-
   alias Streamaze.Accounts.Streamer
+  alias Streamaze.StreamerManager
 
   @doc """
   Returns the list of streamers.
@@ -37,13 +37,27 @@ defmodule Streamaze.Streams do
   """
   def get_streamer!(id), do: Repo.get!(Streamer, id)
 
-  def get_streamer_for_user!(user_id) do
+  def get_streamer_for_user(user_id) do
     Repo.one(
       from s in Streamer,
         join: u in assoc(s, :user),
         where: u.id == ^user_id,
         select: s
     )
+  end
+
+  def add_manager_to_streamer(manager_invite_code, streamer_id) do
+    streamer = get_streamer!(streamer_id)
+    user = Streamaze.Accounts.get_user_by_invite_code(manager_invite_code)
+
+    case user do
+      nil ->
+        {:error, :not_found}
+
+      _ ->
+        streamer_manager = %StreamerManager{user_id: user.id, streamer_id: streamer.id}
+        Repo.insert(streamer_manager)
+    end
   end
 
   @doc """

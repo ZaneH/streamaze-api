@@ -8,5 +8,7 @@ defmodule Streamaze.Repo.Migrations.CreateStreamerManagers do
 
       timestamps()
     end
+
+    create unique_index(:streamer_managers, [:user_id, :streamer_id])
   end
 end

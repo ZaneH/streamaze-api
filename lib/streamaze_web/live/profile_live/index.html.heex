@@ -1,0 +1,10 @@
+<h1>My Profile</h1>
+
+<p>Here you can view and edit your profile.</p>
+
+<br />
+
+<.form let={f} for={@form}>
+    <%= label f, "My invite code", class: "text-white" %>
+    <%= text_input f, "my_invite_code", disabled: true %>
+</.form>

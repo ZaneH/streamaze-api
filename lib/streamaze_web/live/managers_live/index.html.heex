@@ -8,9 +8,11 @@
 <ul>
     <li>View donations and expenses</li>
     <li>View your previous streams</li>
-    <li>Modify your net profit (by changing expenses)</li>
+    <li>Modify expenses</li>
     <li>Modify subathon settings</li>
 </ul>
+
+<br />
 
 <b>Managers cannot:</b>
 <ul>
@@ -19,9 +21,9 @@
 
 <br />
 
-<.form let={f} for={@form}>
+<.form let={f} for={@form} phx-submit="save">
     <%= label f, "Invite code", class: "text-white" %>
-    <%= text_input f, "invite_code", placeholder: "stmz-xxxxxx-xxxxxxxx" %>
+    <%= text_input f, :invite_code, placeholder: "stmz-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" %>
     <%= error_tag f, :invite_code %>
 
     <%= submit "Invite", class: "btn btn-primary" %>

@@ -60,6 +60,14 @@ defmodule Streamaze.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_invite_code(invite_code) do
+    Repo.one(
+      from u in User,
+        where: u.invite_code == ^invite_code,
+        select: u
+    )
+  end
+
   def list_streamers_for_manager(manager_id) do
     case Repo.get(User, manager_id) do
       %User{} = user ->
