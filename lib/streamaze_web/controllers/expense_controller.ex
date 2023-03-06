@@ -11,6 +11,8 @@ defmodule StreamazeWeb.ExpenseController do
   def create(conn, params) do
     case Finances.create_expense(params) do
       {:ok, expense} ->
+        broadcast_expense(expense)
+
         conn
         |> put_status(:created)
         |> render("create.json", expense: expense)
@@ -20,5 +22,15 @@ defmodule StreamazeWeb.ExpenseController do
         |> put_status(:unprocessable_entity)
         |> render("error.json", changeset: changeset)
     end
+  end
+
+  defp broadcast_expense(expense) do
+    StreamazeWeb.Endpoint.broadcast("streamer:#{expense.streamer_id}", "expense", %{
+      streamer_id: expense.streamer_id,
+      value: %{
+        amount: expense.value.amount,
+        currency: expense.value.currency
+      }
+    })
   end
 end
