@@ -35,10 +35,10 @@ defmodule StreamazeWeb.Router do
     get "/", PageController, :index
 
     live "/dashboard", DashboardLive.Index, :index
+    live "/dashboard/donations", DashboardLive.Donations, :index
+    live "/dashboard/expenses", DashboardLive.Expenses, :index
 
     live "/managers/invite", ManagersLive.Index, :index
-
-    live "/profile", ProfileLive.Index, :index
 
     live "/streamers", StreamerLive.Index, :index
     live "/streamers/new", StreamerLive.Index, :new

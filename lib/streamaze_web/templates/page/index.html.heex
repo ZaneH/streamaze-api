@@ -1,11 +1,11 @@
 <section class="text-center my-8">
   <h1 class="text-3xl font-bold leading-snug"><%= gettext "Welcome to %{name}", name: "Streamaze" %></h1>
-  <p class="text-lg">Streaming tools for the best</p>
+  <p class="text-lg">Your favorite stream companion</p>
 </section>
 
 <div class="flex flex-col gap-3">
   <section>
-    <h2>Active Streams</h2>
+    <h2>Active Live Streams</h2>
     <%= if length(@live_list) == 0 do %>
       <p class="text-gray-400">No streams are currently live</p>
     <% else %>

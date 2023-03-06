@@ -31,27 +31,35 @@
 
         <h2>Active Streams for <%= @selected_streamer.name %></h2>
 
-        <div class="rounded-md border border-gray-700">
-            <table class="table-auto w-full">
-                <thead>
-                    <tr>
-                        <th>Start Time</th>
-                        <th>Subathon</th>
-                        <th>Minutes per Dollar</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-gray-800">
-                    <%= for stream <- @live_streams do %>
+        <%= if length(@live_streams) > 0 do %>
+            <div class="rounded-md border border-gray-700">
+                <table class="table-auto w-full">
+                    <thead>
                         <tr>
-                            <td><%= stream.inserted_at %></td>
-                            <td><%= if stream.is_subathon, do: "✓" %></td>
-                            <td><%= stream.subathon_minutes_per_dollar %></td>
+                            <th>Start Time</th>
+                            <th>Subathon</th>
+                            <th>Minutes per Dollar</th>
+                            <th class="text-right pr-8">Actions</th>
                         </tr>
-                    <% end %>
-                </tbody>
-            </table>
-            <p class="text-right py-4 px-8">View all</p>
-        </div>
+                    </thead>
+                    <tbody class="bg-gray-800">
+                        <%= for stream <- @live_streams do %>
+                            <tr>
+                                <td><%= stream.inserted_at %></td>
+                                <td><%= if stream.is_subathon, do: "✓ :: 4h 32m 12s" %></td>
+                                <td><%= stream.subathon_minutes_per_dollar %></td>
+                                <td class="text-right pr-8">
+                                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+                <p class="text-right py-4 px-8 cursor-pointer">View all</p>
+            </div>
+        <% else %>
+            <p class="text-gray-400">No active streams</p>
+        <% end %>
 
         <h2>Last 10 Expenses</h2>
         <div class="rounded-md border border-gray-700">
@@ -60,6 +68,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Amount</th>
+                        <th class="text-right pr-8">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-gray-800">
@@ -67,11 +76,15 @@
                         <tr>
                             <td><%= expense.inserted_at %></td>
                             <td><%= Money.to_string(expense.value) %></td>
+                            <td class="text-right pr-8">
+                                <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                <button class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
+                            </td>
                         </tr>
                     <% end %>
                 </tbody>
             </table>
-            <p class="text-right py-4 px-8">View all</p>
+            <p class="text-right py-4 px-8 cursor-pointer" phx-click="view_all_expenses">View all</p>
         </div>
 
         <h2>Last 10 Donations</h2>
@@ -96,7 +109,7 @@
                     <% end %>
                 </tbody>
             </table>
-            <p class="text-right py-4 px-8">View all</p>
+            <p class="text-right py-4 px-8 cursor-pointer" phx-click="view_all_donations">View all</p>
         </div>
 
         <%= if length(@latest_inactive_streams) > 0 do %>
@@ -120,7 +133,7 @@
                         <% end %>
                     </tbody>
                 </table>
-                <p class="text-right py-4 px-8">View all</p>
+                <p class="text-right py-4 px-8 cursor-pointer">View all</p>
             </div>
         <% end %>
     <% end %>

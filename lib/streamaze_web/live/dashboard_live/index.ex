@@ -70,6 +70,36 @@ defmodule StreamazeWeb.DashboardLive.Index do
      )}
   end
 
+  @impl true
+  def handle_event(
+        "view_all_donations",
+        _params,
+        socket
+      ) do
+    {:noreply,
+     redirect(socket,
+       to:
+         Routes.dashboard_donations_path(socket, :index,
+           streamer_id: socket.assigns.selected_streamer_id
+         )
+     )}
+  end
+
+  @impl true
+  def handle_event(
+        "view_all_expenses",
+        _params,
+        socket
+      ) do
+    {:noreply,
+     redirect(socket,
+       to:
+         Routes.dashboard_expenses_path(socket, :index,
+           streamer_id: socket.assigns.selected_streamer_id
+         )
+     )}
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "My Dashboard")
