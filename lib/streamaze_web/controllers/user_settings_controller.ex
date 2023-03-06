@@ -7,7 +7,11 @@ defmodule StreamazeWeb.UserSettingsController do
   plug :assign_email_and_password_changesets
 
   def edit(conn, _params) do
-    render(conn, "edit.html")
+    form = %{
+      "my_invite_code" => Accounts.get_invite_code_for_user(conn.assigns.current_user.id)
+    }
+
+    render(conn, "edit.html", form: form)
   end
 
   def update(conn, %{"action" => "update_email"} = params) do

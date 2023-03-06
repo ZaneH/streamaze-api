@@ -6,12 +6,8 @@ defmodule StreamazeWeb.ProfileLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    form = %{
-      "my_invite_code" => Accounts.get_invite_code_for_user(socket.assigns.current_user.id)
-    }
-
     streamer = Streams.get_streamer_for_user(socket.assigns.current_user.id)
-    {:ok, assign(socket, :streamer, streamer) |> assign(:form, form)}
+    {:ok, assign(socket, :streamer, streamer)}
   end
 
   @impl true
