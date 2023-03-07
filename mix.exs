@@ -52,7 +52,8 @@ defmodule Streamaze.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:money, "~> 1.12"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:httpoison, "~> 2.0"}
     ]
   end
 

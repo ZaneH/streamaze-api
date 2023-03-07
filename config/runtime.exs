@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :streamaze, StreamazeWeb.Endpoint, server: true
 end
 
+config :streamaze, Streamaze.OBS,
+  livebond_api_url: System.get_env("LIVEBOND_API_URL") || raise("LIVEBOND_API_URL is missing")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

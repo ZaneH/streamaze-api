@@ -1,6 +1,7 @@
 defmodule StreamazeWeb.StreamerChannel do
   use Phoenix.Channel
 
+  alias Streamaze.OBS
   alias Streamaze.Streams
   alias Streamaze.Finances
 
@@ -17,6 +18,48 @@ defmodule StreamazeWeb.StreamerChannel do
     else
       {:error, %{reason: "unauthorized"}}
     end
+  end
+
+  def handle_in("switch_scene", %{"scene" => scene}, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+    OBS.switch_scene(streamer_key, scene)
+    {:noreply, socket}
+  end
+
+  def handle_in("start_server", %{"service" => service}, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+    OBS.start_server(streamer_key, %{"service" => service})
+    {:noreply, socket}
+  end
+
+  def handle_in("stop_server", _payload, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+    OBS.stop_server(streamer_key)
+    {:noreply, socket}
+  end
+
+  def handle_in("start_broadcast", _payload, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+    OBS.start_broadcast(streamer_key)
+    {:noreply, socket}
+  end
+
+  def handle_in("stop_broadcast", _payload, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+    OBS.stop_broadcast(streamer_key)
+    {:noreply, socket}
+  end
+
+  def handle_in("stop_pi", _payload, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+    OBS.stop_pi(streamer_key)
+    {:noreply, socket}
   end
 
   def handle_info(:after_join, socket) do
@@ -41,12 +84,13 @@ defmodule StreamazeWeb.StreamerChannel do
       last_10_donations:
         Enum.map(latest_donations, fn donation ->
           %{
+            displayString: Money.to_string(donation.value),
             value: %{
               amount: donation.value.amount,
               currency: donation.value.currency
             },
             message: donation.message,
-            name: donation.sender,
+            sender: donation.sender,
             streamer_id: donation.streamer_id,
             inserted_at: donation.inserted_at
           }
