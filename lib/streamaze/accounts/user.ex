@@ -7,7 +7,8 @@ defmodule Streamaze.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-    field :invite_code, :string
+    field :invite_code, :string, redact: true
+    field :api_key, :string, redact: true
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
@@ -40,9 +41,10 @@ defmodule Streamaze.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     attrs = Map.put_new(attrs, "invite_code", "stmz-#{Ecto.UUID.generate()}")
+    attrs = Map.put_new(attrs, "api_key", "api-#{Ecto.UUID.generate()}")
 
     user
-    |> cast(attrs, [:email, :password, :invite_code])
+    |> cast(attrs, [:email, :password, :invite_code, :api_key])
     |> validate_email()
     |> validate_password(opts)
   end

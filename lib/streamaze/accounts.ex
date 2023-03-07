@@ -76,6 +76,14 @@ defmodule Streamaze.Accounts do
     )
   end
 
+  def get_api_key_for_user(user_id) do
+    Repo.one(
+      from u in User,
+        where: u.id == ^user_id,
+        select: u.api_key
+    )
+  end
+
   def list_streamers_for_manager(manager_id) do
     case Repo.get(User, manager_id) do
       %User{} = user ->

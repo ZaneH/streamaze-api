@@ -2,6 +2,7 @@ defmodule StreamazeWeb.ExpenseController do
   use StreamazeWeb, :controller
 
   alias Streamaze.Finances
+  alias Streamaze.Streams
 
   def index(conn, _params) do
     expenses = Finances.list_streamer_expenses(conn.params["streamer_id"])
@@ -26,10 +27,13 @@ defmodule StreamazeWeb.ExpenseController do
 
   defp broadcast_expense(expense) do
     StreamazeWeb.Endpoint.broadcast("streamer:#{expense.streamer_id}", "expense", %{
-      streamer_id: expense.streamer_id,
-      value: %{
-        amount: expense.value.amount,
-        currency: expense.value.currency
+      net_profit: Streams.get_streamers_net_profit(expense.streamer_id),
+      expense: %{
+        streamer_id: expense.streamer_id,
+        value: %{
+          amount: expense.value.amount,
+          currency: expense.value.currency
+        }
       }
     })
   end

@@ -46,6 +46,15 @@ defmodule Streamaze.Streams do
     )
   end
 
+  def get_streamer_id_for_api_key(api_key) do
+    Repo.one(
+      from s in Streamer,
+        join: u in assoc(s, :user),
+        where: u.api_key == ^api_key,
+        select: s.id
+    )
+  end
+
   def add_manager_to_streamer(manager_invite_code, streamer_id) do
     streamer = get_streamer!(streamer_id)
     user = Streamaze.Accounts.get_user_by_invite_code(manager_invite_code)
@@ -187,6 +196,16 @@ defmodule Streamaze.Streams do
 
   """
   def get_live_stream!(id), do: Repo.get!(LiveStream, id)
+
+  def get_live_stream_by_streamer_id(streamer_id) do
+    Repo.one(
+      from l in LiveStream,
+        where: l.streamer_id == ^streamer_id,
+        where: l.is_live == true,
+        order_by: [desc: l.inserted_at],
+        limit: 1
+    )
+  end
 
   @doc """
   Creates a live_stream.

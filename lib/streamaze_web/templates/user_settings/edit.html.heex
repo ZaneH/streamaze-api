@@ -4,11 +4,18 @@
 
 <br />
 
-<h3>Invite code</h3>
+<h3>Key codes</h3>
+
+<p>Do not share your key codes with anyone. They can be used to impersonate you.</p>
+
+<br />
 
 <.form let={f} for={@form}>
     <%= label f, "My invite code", class: "text-white" %>
     <%= text_input f, "my_invite_code", disabled: true %>
+
+    <%= label f, "API key", class: "text-white" %>
+    <%= text_input f, "api_key", disabled: true %>
 </.form>
 
 <br />

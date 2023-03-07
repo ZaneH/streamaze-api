@@ -11,6 +11,7 @@ defmodule Streamaze.Streams.LiveStream do
     field :donation_goal, :float
     field :donation_goal_currency, :string
     field :is_live, :boolean, default: false
+    field :subathon_ended_time, :utc_datetime
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
@@ -29,7 +30,8 @@ defmodule Streamaze.Streams.LiveStream do
       :donation_goal,
       :donation_goal_currency,
       :is_live,
-      :streamer_id
+      :streamer_id,
+      :subathon_ended_time
     ])
     |> validate_required([:streamer_id])
     |> foreign_key_constraint(:streamer_id)

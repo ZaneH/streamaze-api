@@ -55,14 +55,17 @@ defmodule StreamazeWeb.DonationController do
 
   defp broadcast_donation(donation) do
     StreamazeWeb.Endpoint.broadcast("streamer:#{donation.streamer_id}", "donation", %{
-      id: donation.id,
-      sender: donation.sender,
-      type: donation.type,
-      message: donation.message,
-      displayString: Money.to_string(donation.value),
-      value: %{
-        amount: donation.value.amount,
-        currency: donation.value.currency
+      net_profit: Streams.get_streamers_net_profit(donation.streamer_id),
+      donation: %{
+        id: donation.id,
+        sender: donation.sender,
+        type: donation.type,
+        message: donation.message,
+        displayString: Money.to_string(donation.value),
+        value: %{
+          amount: donation.value.amount,
+          currency: donation.value.currency
+        }
       }
     })
   end

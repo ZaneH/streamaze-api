@@ -8,7 +8,8 @@ defmodule StreamazeWeb.UserSettingsController do
 
   def edit(conn, _params) do
     form = %{
-      "my_invite_code" => Accounts.get_invite_code_for_user(conn.assigns.current_user.id)
+      "my_invite_code" => Accounts.get_invite_code_for_user(conn.assigns.current_user.id),
+      "api_key" => Accounts.get_api_key_for_user(conn.assigns.current_user.id)
     }
 
     render(conn, "edit.html", form: form)

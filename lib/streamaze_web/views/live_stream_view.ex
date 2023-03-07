@@ -17,12 +17,18 @@ defmodule StreamazeWeb.LiveStreamView do
       is_subathon: live_stream.is_subathon,
       subathon_minutes_per_dollar: live_stream.subathon_minutes_per_dollar,
       subathon_seconds_added: live_stream.subathon_seconds_added,
-      subathon_start_minutes: live_stream.subathon_start_minutes
+      subathon_start_minutes: live_stream.subathon_start_minutes,
+      subathon_start_time: live_stream.subathon_start_time,
+      subathon_ended_time: live_stream.subathon_ended_time
     }
   end
 
   def render("update.json", %{live_stream: live_stream}) do
     %{success: true, data: render_one(live_stream, StreamazeWeb.LiveStreamView, "show.json")}
+  end
+
+  def render("error.json", %{error: error}) do
+    %{success: false, error: error}
   end
 
   def render("error.json", %{changeset: changeset}) do
