@@ -1,17 +1,27 @@
 defmodule StreamazeWeb.StreamerChannel do
   use Phoenix.Channel
 
+  alias Streamaze.Accounts
   alias Streamaze.OBS
   alias Streamaze.Streams
   alias Streamaze.Finances
 
-  # TODO: Implement authorization
-  defp authorized?(_streamer_id) do
-    true
+  defp authorized?(streamer_id, given_token) do
+    found_user = Accounts.get_user_by_api_key(given_token)
+
+    case found_user do
+      %Accounts.User{:api_key => api_key} ->
+        given_token === api_key and found_user.streamer_id === String.to_integer(streamer_id)
+
+      _ ->
+        false
+    end
   end
 
-  def join("streamer:" <> streamer_id, _payload, socket) do
-    if authorized?(streamer_id) == true do
+  def join("streamer:" <> streamer_id, payload, socket) do
+    IO.puts(authorized?(streamer_id, payload["userToken"]))
+
+    if authorized?(streamer_id, payload["userToken"]) do
       socket = assign(socket, :streamer_id, streamer_id)
       send(self(), :after_join)
       {:ok, socket}
@@ -71,6 +81,7 @@ defmodule StreamazeWeb.StreamerChannel do
     push(socket, "initial_state", %{
       net_profit: Streams.get_streamers_net_profit(streamer_id),
       active_stream: %{
+        id: active_stream.id,
         donation_goal: active_stream.donation_goal,
         donation_goal_currency: active_stream.donation_goal_currency,
         is_live: active_stream.is_live,
@@ -85,25 +96,25 @@ defmodule StreamazeWeb.StreamerChannel do
         Enum.map(latest_donations, fn donation ->
           %{
             displayString: Money.to_string(donation.value),
-            value: %{
-              amount: donation.value.amount,
-              currency: donation.value.currency
-            },
             message: donation.message,
             sender: donation.sender,
             streamer_id: donation.streamer_id,
-            inserted_at: donation.inserted_at
+            inserted_at: donation.inserted_at,
+            value: %{
+              amount: donation.value.amount,
+              currency: donation.value.currency
+            }
           }
         end),
       last_10_expenses:
         Enum.map(latest_expenses, fn expense ->
           %{
+            streamer_id: expense.streamer_id,
+            inserted_at: expense.inserted_at,
             value: %{
               amount: expense.value.amount,
               currency: expense.value.currency
-            },
-            streamer_id: expense.streamer_id,
-            inserted_at: expense.inserted_at
+            }
           }
         end)
     })

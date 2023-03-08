@@ -68,6 +68,15 @@ defmodule Streamaze.Accounts do
     )
   end
 
+  def get_user_by_api_key(api_key) do
+    Repo.one(
+      from u in User,
+        where: u.api_key == ^api_key,
+        select: u
+    )
+    |> Repo.preload(:streamer)
+  end
+
   def get_invite_code_for_user(user_id) do
     Repo.one(
       from u in User,
