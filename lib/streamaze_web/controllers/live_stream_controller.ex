@@ -27,6 +27,8 @@ defmodule StreamazeWeb.LiveStreamController do
 
     case Streams.update_live_stream(live_stream, params) do
       {:ok, live_stream} ->
+        broadcast_subathon_update(live_stream)
+
         conn
         |> put_status(:created)
         |> render("update.json", live_stream: live_stream)
@@ -63,5 +65,14 @@ defmodule StreamazeWeb.LiveStreamController do
         |> put_status(:not_found)
         |> render("error.json", error: "Live stream not found")
     end
+  end
+
+  defp broadcast_subathon_update(live_stream) do
+    StreamazeWeb.Endpoint.broadcast("streamer:#{live_stream.streamer_id}", "subathon", %{
+      id: live_stream.id,
+      subathon_seconds_added: live_stream.subathon_seconds_added,
+      subathon_start_time: live_stream.subathon_start_time,
+      subathon_start_minutes: live_stream.subathon_start_minutes
+    })
   end
 end

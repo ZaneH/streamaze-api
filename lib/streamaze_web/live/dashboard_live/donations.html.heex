@@ -15,7 +15,14 @@
                 <tr>
                     <td><%= donation.inserted_at %></td>
                     <td><%= Money.to_string(donation.value) %></td>
-                    <td><%= donation.sender %></td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <%= if donation.metadata["pfp"] do %>
+                                <img class="w-7 h-7 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
+                            <% end %>
+                            <%= donation.sender %>
+                        </div>
+                    </td>
                     <td><%= donation.message %></td>
                 </tr>
             <% end %>

@@ -19,8 +19,6 @@ defmodule StreamazeWeb.StreamerChannel do
   end
 
   def join("streamer:" <> streamer_id, payload, socket) do
-    IO.puts(authorized?(streamer_id, payload["userToken"]))
-
     if authorized?(streamer_id, payload["userToken"]) do
       socket = assign(socket, :streamer_id, streamer_id)
       send(self(), :after_join)
@@ -76,7 +74,6 @@ defmodule StreamazeWeb.StreamerChannel do
     streamer_id = socket.assigns.streamer_id
     active_stream = Streams.get_live_stream_by_streamer_id(streamer_id)
     latest_donations = Finances.list_streamer_donations(streamer_id)
-    latest_expenses = Finances.list_streamer_expenses(streamer_id)
 
     push(socket, "initial_state", %{
       net_profit: Streams.get_streamers_net_profit(streamer_id),
@@ -95,25 +92,17 @@ defmodule StreamazeWeb.StreamerChannel do
       last_10_donations:
         Enum.map(latest_donations, fn donation ->
           %{
+            type: donation.type,
             displayString: Money.to_string(donation.value),
             message: donation.message,
             sender: donation.sender,
             streamer_id: donation.streamer_id,
             inserted_at: donation.inserted_at,
+            amount_in_usd: donation.amount_in_usd,
+            metadata: donation.metadata,
             value: %{
               amount: donation.value.amount,
               currency: donation.value.currency
-            }
-          }
-        end),
-      last_10_expenses:
-        Enum.map(latest_expenses, fn expense ->
-          %{
-            streamer_id: expense.streamer_id,
-            inserted_at: expense.inserted_at,
-            value: %{
-              amount: expense.value.amount,
-              currency: expense.value.currency
             }
           }
         end)

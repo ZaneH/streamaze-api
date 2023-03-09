@@ -22,7 +22,8 @@ defmodule StreamazeWeb.DonationView do
       message: donation.message,
       metadata: donation.metadata,
       created_at: donation.inserted_at,
-      updated_at: donation.updated_at
+      updated_at: donation.updated_at,
+      streamer_id: donation.streamer_id
     }
   end
 
