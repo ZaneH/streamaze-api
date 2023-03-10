@@ -87,13 +87,14 @@ defmodule StreamazeWeb.StreamerChannel do
         subathon_seconds_added: active_stream.subathon_seconds_added,
         subathon_start_minutes: active_stream.subathon_start_minutes,
         subathon_start_time: active_stream.subathon_start_time,
-        subathon_ended_time: active_stream.subathon_ended_time
+        subathon_ended_time: active_stream.subathon_ended_time,
+        streamer_id: active_stream.streamer_id
       },
       last_10_donations:
         Enum.map(latest_donations, fn donation ->
           %{
             type: donation.type,
-            displayString: Money.to_string(donation.value),
+            display_string: Money.to_string(donation.value),
             message: donation.message,
             sender: donation.sender,
             streamer_id: donation.streamer_id,
