@@ -17,6 +17,21 @@ defmodule StreamazeWeb.StreamerView do
     }
   end
 
+  def render("show_private.json", %{streamer: streamer}) do
+    %{
+      id: streamer.id,
+      name: streamer.name,
+      youtube_url: streamer.youtube_url,
+      streamlabs_token: streamer.streamlabs_token,
+      lanyard_api_key: streamer.lanyard_api_key,
+      discord_id: streamer.discord_id
+    }
+  end
+
+  def render("error.json", %{error: error}) do
+    %{success: false, error: error}
+  end
+
   def render("error.json", %{changeset: changeset}) do
     %{
       success: false,

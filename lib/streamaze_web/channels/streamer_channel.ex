@@ -79,6 +79,7 @@ defmodule StreamazeWeb.StreamerChannel do
       net_profit: Streams.get_streamers_net_profit(streamer_id),
       active_stream: %{
         id: active_stream.id,
+        streamer_id: active_stream.streamer_id,
         donation_goal: active_stream.donation_goal,
         donation_goal_currency: active_stream.donation_goal_currency,
         is_live: active_stream.is_live,
@@ -87,8 +88,7 @@ defmodule StreamazeWeb.StreamerChannel do
         subathon_seconds_added: active_stream.subathon_seconds_added,
         subathon_start_minutes: active_stream.subathon_start_minutes,
         subathon_start_time: active_stream.subathon_start_time,
-        subathon_ended_time: active_stream.subathon_ended_time,
-        streamer_id: active_stream.streamer_id
+        subathon_ended_time: active_stream.subathon_ended_time
       },
       last_10_donations:
         Enum.map(latest_donations, fn donation ->

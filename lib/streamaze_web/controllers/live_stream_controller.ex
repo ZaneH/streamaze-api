@@ -3,6 +3,19 @@ defmodule StreamazeWeb.LiveStreamController do
 
   alias Streamaze.Streams
 
+  def index(conn, %{"api_key" => api_key}) do
+    try do
+      detected_streamer_id = Streams.get_streamer_id_for_api_key(api_key)
+      live_stream = Streams.get_live_stream_by_streamer_id(detected_streamer_id)
+      render(conn, "index.json", live_stream: [live_stream])
+    rescue
+      _ in Ecto.NoResultsError ->
+        conn
+        |> put_status(:not_found)
+        |> render("error.json", error: "Live stream not found")
+    end
+  end
+
   def index(conn, _params) do
     live_streams = Streams.list_live_streams()
     render(conn, "index.json", live_stream: live_streams)
@@ -44,21 +57,6 @@ defmodule StreamazeWeb.LiveStreamController do
     try do
       live_stream = Streams.get_live_stream!(conn.params["id"])
       render(conn, "show.json", live_stream: live_stream)
-    rescue
-      _ in Ecto.NoResultsError ->
-        conn
-        |> put_status(:not_found)
-        |> render("error.json", error: "Live stream not found")
-    end
-  end
-
-  def current(conn, params) do
-    try do
-      api_key = params["api_key"]
-
-      detected_streamer_id = Streams.get_streamer_id_for_api_key(api_key)
-      live_stream = Streams.get_live_stream_by_streamer_id(detected_streamer_id)
-      render(conn, "index.json", live_stream: [live_stream])
     rescue
       _ in Ecto.NoResultsError ->
         conn

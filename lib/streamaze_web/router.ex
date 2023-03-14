@@ -22,6 +22,7 @@ defmodule StreamazeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    get "/api/streamers/current", StreamerController, :current
     get "/api/live_streams/current", LiveStreamController, :current
 
     resources "/api/streamers", StreamerController, only: [:index, :create]

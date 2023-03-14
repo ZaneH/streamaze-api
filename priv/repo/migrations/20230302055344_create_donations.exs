@@ -5,8 +5,8 @@ defmodule Streamaze.Repo.Migrations.CreateDonations do
     create table(:donations) do
       add :amount, :float
       add :currency, :string
-      add :sender, :string
-      add :message, :string
+      add :sender, :text
+      add :message, :text
       add :metadata, :map
       add :type, :string
       add :streamer_id, references(:streamers, on_delete: :nothing)

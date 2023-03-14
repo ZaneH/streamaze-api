@@ -3,6 +3,20 @@ defmodule StreamazeWeb.StreamerController do
 
   alias Streamaze.Streams
 
+  def index(conn, %{"api_key" => api_key}) do
+    try do
+      detected_streamer_id = Streams.get_streamer_id_for_api_key(api_key)
+      streamer = Streams.get_streamer!(detected_streamer_id)
+
+      render(conn, "show_private.json", streamer: streamer)
+    rescue
+      _ ->
+        conn
+        |> put_status(:not_found)
+        |> render("error.json", error: "Streamer not found")
+    end
+  end
+
   def index(conn, _params) do
     streamers = Streams.list_streamers()
     render(conn, "index.json", streamers: streamers)

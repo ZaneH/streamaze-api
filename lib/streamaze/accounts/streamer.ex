@@ -5,6 +5,9 @@ defmodule Streamaze.Accounts.Streamer do
   schema "streamers" do
     field :name, :string
     field :youtube_url, :string
+    field :streamlabs_token, :string, redact: true
+    field :lanyard_api_key, :string, redact: true
+    field :discord_id, :string
 
     has_one :user, Streamaze.Accounts.User
 
