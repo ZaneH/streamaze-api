@@ -1,23 +1,25 @@
 <h1>View Expenses</h1>
 
-<table class="table-fixed w-full">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Amount</th>
-            <th class="text-right pr-8">Actions</th>
-        </tr>
-    </thead>
-    <tbody class="bg-gray-800">
-        <%= for expense <- @all_expenses do %>
+<div class="rounded-md border border-gray-700">
+    <table class="table-fixed w-full">
+        <thead>
             <tr>
-                <td><%= expense.inserted_at %></td>
-                <td><%= Money.to_string(expense.value) %></td>
-                <td class="text-right pr-8">
-                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>
-                    <button class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
-                </td>
+                <th>Date</th>
+                <th>Amount</th>
+                <th class="text-right pr-8">Actions</th>
             </tr>
-        <% end %>
-    </tbody>
-</table>
+        </thead>
+        <tbody class="bg-gray-800">
+            <%= for expense <- @all_expenses do %>
+                <tr>
+                    <td><%= expense.inserted_at %></td>
+                    <td><%= Money.to_string(expense.value) %></td>
+                    <td class="text-right pr-8">
+                        <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>
+                        <button class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
