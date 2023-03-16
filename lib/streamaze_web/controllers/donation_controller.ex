@@ -63,6 +63,7 @@ defmodule StreamazeWeb.DonationController do
         message: donation.message,
         displayString: Money.to_string(donation.value),
         metadata: donation.metadata,
+        amount_in_usd: donation.amount_in_usd,
         value: %{
           amount: donation.value.amount,
           currency: donation.value.currency

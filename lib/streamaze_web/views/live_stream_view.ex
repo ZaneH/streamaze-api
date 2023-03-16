@@ -13,6 +13,7 @@ defmodule StreamazeWeb.LiveStreamView do
     %{
       donation_goal: live_stream.donation_goal,
       donation_goal_currency: live_stream.donation_goal_currency,
+      start_time: live_stream.start_time,
       is_live: live_stream.is_live,
       is_subathon: live_stream.is_subathon,
       subathon_minutes_per_dollar: live_stream.subathon_minutes_per_dollar,

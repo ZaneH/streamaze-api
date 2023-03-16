@@ -82,6 +82,7 @@ defmodule StreamazeWeb.StreamerChannel do
         streamer_id: active_stream.streamer_id,
         donation_goal: active_stream.donation_goal,
         donation_goal_currency: active_stream.donation_goal_currency,
+        start_time: active_stream.start_time,
         is_live: active_stream.is_live,
         is_subathon: active_stream.is_subathon,
         subathon_minutes_per_dollar: active_stream.subathon_minutes_per_dollar,

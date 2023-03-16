@@ -8,6 +8,7 @@ defmodule Streamaze.Streams.LiveStream do
     field :subathon_minutes_per_dollar, :float
     field :subathon_seconds_added, :float
     field :subathon_start_minutes, :float
+    field :start_time, :utc_datetime
     field :donation_goal, :float
     field :donation_goal_currency, :string
     field :is_live, :boolean, default: false
@@ -27,6 +28,7 @@ defmodule Streamaze.Streams.LiveStream do
       :subathon_start_minutes,
       :subathon_minutes_per_dollar,
       :subathon_seconds_added,
+      :start_time,
       :donation_goal,
       :donation_goal_currency,
       :is_live,
