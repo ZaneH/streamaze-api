@@ -4,7 +4,7 @@ defmodule Streamaze.Finances.Expense do
 
   schema "expenses" do
     field :value, Money.Ecto.Composite.Type
-    field :amount_in_usd, :float
+    field :amount_in_usd, :decimal
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 

@@ -46,7 +46,7 @@
                         <%= for stream <- @live_streams do %>
                             <tr>
                                 <td><%= stream.inserted_at %></td>
-                                <td><%= if stream.is_subathon, do: "✓ :: 4h 32m 12s" %></td>
+                                <td><%= if stream.is_subathon, do: "✓ • 4h 32m 12s" %></td>
                                 <td><%= stream.subathon_minutes_per_dollar %></td>
                                 <td class="text-right pr-8">
                                     <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>

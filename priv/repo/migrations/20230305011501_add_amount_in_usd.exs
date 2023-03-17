@@ -3,11 +3,11 @@ defmodule Streamaze.Repo.Migrations.AddAmountInUsd do
 
   def change do
     alter table(:expenses) do
-      add :amount_in_usd, :float
+      add :amount_in_usd, :decimal
     end
 
     alter table(:donations) do
-      add :amount_in_usd, :float
+      add :amount_in_usd, :decimal
     end
   end
 end

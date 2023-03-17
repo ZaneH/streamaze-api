@@ -33,7 +33,7 @@ defmodule StreamazeWeb.DonationController do
         |> Enum.map(fn subathon ->
           new_seconds =
             subathon.subathon_seconds_added +
-              donation.amount_in_usd * subathon.subathon_minutes_per_dollar * 60
+              Decimal.to_float(donation.amount_in_usd) * subathon.subathon_minutes_per_dollar * 60
 
           Streams.update_live_stream(subathon, %{
             subathon_seconds_added: new_seconds
@@ -41,6 +41,9 @@ defmodule StreamazeWeb.DonationController do
 
           broadcast_subathon_update(subathon, new_seconds)
         end)
+
+      _ ->
+        :no_subathons_to_update
     end
   end
 

@@ -4,7 +4,7 @@ defmodule Streamaze.Finances.Donation do
 
   schema "donations" do
     field :value, Money.Ecto.Composite.Type
-    field :amount_in_usd, :float
+    field :amount_in_usd, :decimal
     field :message, :string
     field :metadata, :map
     field :sender, :string

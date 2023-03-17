@@ -53,7 +53,8 @@ defmodule Streamaze.MixProject do
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:money, "~> 1.12"},
       {:cors_plug, "~> 3.0"},
-      {:httpoison, "~> 2.0"}
+      {:httpoison, "~> 2.0"},
+      {:decimal, "~> 2.0"}
     ]
   end
 
