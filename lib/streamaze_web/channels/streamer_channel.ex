@@ -75,40 +75,42 @@ defmodule StreamazeWeb.StreamerChannel do
     active_stream = Streams.get_live_stream_by_streamer_id(streamer_id)
     latest_donations = Finances.list_streamer_donations(streamer_id)
 
-    push(socket, "initial_state", %{
-      net_profit: Streams.get_streamers_net_profit(streamer_id),
-      active_stream: %{
-        id: active_stream.id,
-        streamer_id: active_stream.streamer_id,
-        donation_goal: active_stream.donation_goal,
-        donation_goal_currency: active_stream.donation_goal_currency,
-        start_time: active_stream.start_time,
-        is_live: active_stream.is_live,
-        is_subathon: active_stream.is_subathon,
-        subathon_minutes_per_dollar: active_stream.subathon_minutes_per_dollar,
-        subathon_seconds_added: active_stream.subathon_seconds_added,
-        subathon_start_minutes: active_stream.subathon_start_minutes,
-        subathon_start_time: active_stream.subathon_start_time,
-        subathon_ended_time: active_stream.subathon_ended_time
-      },
-      last_10_donations:
-        Enum.map(latest_donations, fn donation ->
-          %{
-            type: donation.type,
-            display_string: Money.to_string(donation.value),
-            message: donation.message,
-            sender: donation.sender,
-            streamer_id: donation.streamer_id,
-            inserted_at: donation.inserted_at,
-            amount_in_usd: donation.amount_in_usd,
-            metadata: donation.metadata,
-            value: %{
-              amount: donation.value.amount,
-              currency: donation.value.currency
+    if active_stream do
+      push(socket, "initial_state", %{
+        net_profit: Streams.get_streamers_net_profit(streamer_id),
+        active_stream: %{
+          id: active_stream.id,
+          streamer_id: active_stream.streamer_id,
+          donation_goal: active_stream.donation_goal,
+          donation_goal_currency: active_stream.donation_goal_currency,
+          start_time: active_stream.start_time,
+          is_live: active_stream.is_live,
+          is_subathon: active_stream.is_subathon,
+          subathon_minutes_per_dollar: active_stream.subathon_minutes_per_dollar,
+          subathon_seconds_added: active_stream.subathon_seconds_added,
+          subathon_start_minutes: active_stream.subathon_start_minutes,
+          subathon_start_time: active_stream.subathon_start_time,
+          subathon_ended_time: active_stream.subathon_ended_time
+        },
+        last_10_donations:
+          Enum.map(latest_donations, fn donation ->
+            %{
+              type: donation.type,
+              display_string: Money.to_string(donation.value),
+              message: donation.message,
+              sender: donation.sender,
+              streamer_id: donation.streamer_id,
+              inserted_at: donation.inserted_at,
+              amount_in_usd: donation.amount_in_usd,
+              metadata: donation.metadata,
+              value: %{
+                amount: donation.value.amount,
+                currency: donation.value.currency
+              }
             }
-          }
-        end)
-    })
+          end)
+      })
+    end
 
     {:noreply, socket}
   end
