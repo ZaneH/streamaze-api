@@ -22,10 +22,17 @@ defmodule StreamazeWeb.StreamerView do
       id: streamer.id,
       name: streamer.name,
       youtube_url: streamer.youtube_url,
-      streamlabs_token: streamer.streamlabs_token,
-      lanyard_api_key: streamer.lanyard_api_key,
-      discord_id: streamer.discord_id
+      chat_config: streamer.chat_config,
+      clip_config: streamer.clip_config,
+      obs_config: streamer.obs_config,
+      viewers_config: streamer.viewers_config,
+      donations_config: streamer.donations_config,
+      lanyard_config: streamer.lanyard_config
     }
+  end
+
+  def render("update.json", %{streamer: streamer}) do
+    %{success: true, data: render_one(streamer, StreamazeWeb.StreamerView, "show.json")}
   end
 
   def render("error.json", %{error: error}) do

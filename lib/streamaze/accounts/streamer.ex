@@ -5,9 +5,13 @@ defmodule Streamaze.Accounts.Streamer do
   schema "streamers" do
     field :name, :string
     field :youtube_url, :string
-    field :streamlabs_token, :string, redact: true
-    field :lanyard_api_key, :string, redact: true
-    field :discord_id, :string
+
+    field :chat_config, :map
+    field :clip_config, :map
+    field :obs_config, :map, redact: true
+    field :viewers_config, :map
+    field :donations_config, :map, redact: true
+    field :lanyard_config, :map, redact: true
 
     has_one :user, Streamaze.Accounts.User
 
@@ -24,7 +28,16 @@ defmodule Streamaze.Accounts.Streamer do
   @doc false
   def changeset(streamer, attrs) do
     streamer
-    |> cast(attrs, [:name, :youtube_url])
+    |> cast(attrs, [
+      :name,
+      :youtube_url,
+      :chat_config,
+      :clip_config,
+      :obs_config,
+      :viewers_config,
+      :donations_config,
+      :lanyard_config
+    ])
     |> cast_assoc(:streamer_managers, required: false)
     |> validate_required([:name, :youtube_url])
     |> unique_constraint(:youtube_url)

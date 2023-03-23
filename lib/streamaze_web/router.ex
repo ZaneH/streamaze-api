@@ -25,7 +25,7 @@ defmodule StreamazeWeb.Router do
     get "/api/streamers/current", StreamerController, :current
     get "/api/live_streams/current", LiveStreamController, :current
 
-    resources "/api/streamers", StreamerController, only: [:index, :create]
+    resources "/api/streamers", StreamerController, only: [:index, :create, :update]
     resources "/api/donations", DonationController, only: [:index, :create]
     resources "/api/expenses", ExpenseController, only: [:index, :create]
     resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
