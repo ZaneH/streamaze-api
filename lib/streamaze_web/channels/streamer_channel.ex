@@ -28,46 +28,88 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("switch_scene", %{"scene" => scene}, socket) do
+  def handle_in("switch_scene", %{"scene" => scene} = payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"
-    OBS.switch_scene(streamer_key, scene)
-    {:noreply, socket}
+
+    case OBS.switch_scene(streamer_key, scene) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error switching to #{scene}")
+        {:reply, {:error, payload}, socket}
+    end
   end
 
-  def handle_in("start_server", %{"service" => service}, socket) do
+  def handle_in("start_server", %{"service" => service} = payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"
-    OBS.start_server(streamer_key, %{"service" => service})
-    {:noreply, socket}
+
+    case OBS.start_server(streamer_key, %{"service" => service}) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error starting #{service} server")
+        {:reply, {:error, payload}, socket}
+    end
   end
 
-  def handle_in("stop_server", _payload, socket) do
+  def handle_in("stop_server", payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"
-    OBS.stop_server(streamer_key)
-    {:noreply, socket}
+
+    case OBS.stop_server(streamer_key) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error stopping server")
+        {:reply, {:error, payload}, socket}
+    end
   end
 
-  def handle_in("start_broadcast", _payload, socket) do
+  def handle_in("start_broadcast", payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"
-    OBS.start_broadcast(streamer_key)
-    {:noreply, socket}
+
+    case OBS.start_broadcast(streamer_key) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error starting broadcast")
+        {:reply, {:error, payload}, socket}
+    end
   end
 
-  def handle_in("stop_broadcast", _payload, socket) do
+  def handle_in("stop_broadcast", payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"
-    OBS.stop_broadcast(streamer_key)
-    {:noreply, socket}
+
+    case OBS.stop_broadcast(streamer_key) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error stopping broadcast")
+        {:reply, {:error, payload}, socket}
+    end
   end
 
-  def handle_in("stop_pi", _payload, socket) do
+  def handle_in("stop_pi", payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"
-    OBS.stop_pi(streamer_key)
-    {:noreply, socket}
+
+    case OBS.stop_pi(streamer_key) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error stopping Pi")
+        {:reply, {:error, payload}, socket}
+    end
   end
 
   def handle_info(:after_join, socket) do
