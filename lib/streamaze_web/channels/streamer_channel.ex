@@ -7,11 +7,11 @@ defmodule StreamazeWeb.StreamerChannel do
   alias Streamaze.Finances
 
   defp authorized?(streamer_id, given_token) do
-    found_user = Accounts.get_user_by_api_key(given_token)
+    found_user = Accounts.get_user_by_api_key(streamer_id, given_token)
 
     case found_user do
-      %Accounts.User{:api_key => api_key} ->
-        given_token === api_key and found_user.streamer_id === String.to_integer(streamer_id)
+      %Accounts.User{} ->
+        true
 
       _ ->
         false
@@ -20,9 +20,8 @@ defmodule StreamazeWeb.StreamerChannel do
 
   def join("streamer:" <> streamer_id, payload, socket) do
     if authorized?(streamer_id, payload["userToken"]) do
-      socket = assign(socket, :streamer_id, streamer_id)
       send(self(), :after_join)
-      {:ok, socket}
+      {:ok, socket |> assign(:streamer_id, streamer_id)}
     else
       {:error, %{reason: "unauthorized"}}
     end

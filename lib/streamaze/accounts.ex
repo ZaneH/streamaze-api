@@ -68,10 +68,10 @@ defmodule Streamaze.Accounts do
     )
   end
 
-  def get_user_by_api_key(api_key) do
+  def get_user_by_api_key(streamer_id, api_key) do
     Repo.one(
       from u in User,
-        where: u.api_key == ^api_key,
+        where: u.api_key == ^api_key and u.streamer_id == ^streamer_id,
         select: u
     )
     |> Repo.preload(:streamer)
