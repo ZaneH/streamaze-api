@@ -10,6 +10,9 @@ defmodule Streamaze.OBS do
       {:ok, %HTTPoison.Response{status_code: 500}} ->
         {:error, "Internal server error"}
 
+      {:ok, %HTTPoison.Response{status_code: 502}} ->
+        {:error, "Unknown error"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
@@ -29,6 +32,9 @@ defmodule Streamaze.OBS do
       {:ok, %HTTPoison.Response{status_code: 500}} ->
         {:error, "Internal server error"}
 
+      {:ok, %HTTPoison.Response{status_code: 502}} ->
+        {:error, "Unknown error"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
@@ -46,6 +52,9 @@ defmodule Streamaze.OBS do
 
       {:ok, %HTTPoison.Response{status_code: 500}} ->
         {:error, "Internal server error"}
+
+      {:ok, %HTTPoison.Response{status_code: 502}} ->
+        {:error, "Unknown error"}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
@@ -65,6 +74,9 @@ defmodule Streamaze.OBS do
       {:ok, %HTTPoison.Response{status_code: 500}} ->
         {:error, "Internal server error"}
 
+      {:ok, %HTTPoison.Response{status_code: 502}} ->
+        {:error, "Unknown error"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
@@ -83,6 +95,9 @@ defmodule Streamaze.OBS do
       {:ok, %HTTPoison.Response{status_code: 500}} ->
         {:error, "Internal server error"}
 
+      {:ok, %HTTPoison.Response{status_code: 502}} ->
+        {:error, "Unknown error"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
@@ -100,6 +115,9 @@ defmodule Streamaze.OBS do
 
       {:ok, %HTTPoison.Response{status_code: 500}} ->
         {:error, "Internal server error"}
+
+      {:ok, %HTTPoison.Response{status_code: 502}} ->
+        {:error, "Unknown error"}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
