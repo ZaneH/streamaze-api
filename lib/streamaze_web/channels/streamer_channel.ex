@@ -111,6 +111,19 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
+  def handle_in("update_subathon_settings", payload, socket) do
+    live_stream = Streams.get_live_stream_by_streamer_id(socket.assigns.streamer_id)
+
+    case Streams.update_live_stream(live_stream, payload) do
+      {:ok, _} ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, %Ecto.Changeset{} = _} ->
+        payload = Map.put(payload, "reason", "Error updating subathon settings")
+        {:reply, {:error, payload}, socket}
+    end
+  end
+
   def handle_info(:after_join, socket) do
     streamer_id = socket.assigns.streamer_id
     active_stream = Streams.get_live_stream_by_streamer_id(streamer_id)
