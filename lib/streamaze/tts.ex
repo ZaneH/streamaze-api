@@ -9,7 +9,7 @@ defmodule Streamaze.TTS do
   def available_voices(api_key) do
     url = available_voices_url()
     headers = [{"Content-Type", "application/json"}, {"xi-api-key", api_key}]
-    HTTPoison.get!(url, headers)
+    HTTPoison.get!(url, headers) |> Map.get(:body) |> Jason.decode!() |> Map.get("voices")
   end
 
   defp text_to_speech_url(voice_id, api_key) do

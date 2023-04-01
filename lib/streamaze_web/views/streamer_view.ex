@@ -31,6 +31,10 @@ defmodule StreamazeWeb.StreamerView do
     }
   end
 
+  def render("voices.json", %{voices: voices}) do
+    %{data: render_many(voices, StreamazeWeb.VoiceView, "show.json")}
+  end
+
   def render("update.json", %{streamer: streamer}) do
     %{success: true, data: render_one(streamer, StreamazeWeb.StreamerView, "show.json")}
   end
