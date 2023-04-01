@@ -54,7 +54,11 @@ defmodule Streamaze.MixProject do
       {:money, "~> 1.12"},
       {:cors_plug, "~> 3.0"},
       {:httpoison, "~> 2.0"},
-      {:decimal, "~> 2.0"}
+      {:decimal, "~> 2.0"},
+      {:ex_aws, "~> 2.1"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 

@@ -23,6 +23,14 @@ end
 config :streamaze, Streamaze.OBS,
   livebond_api_url: System.get_env("LIVEBOND_API_URL") || raise("LIVEBOND_API_URL is missing")
 
+config :ex_aws,
+  access_key_id:
+    [{:system, "AWS_ACCESS_KEY_ID"}, :instance_role] || raise("AWS_ACCESS_KEY_ID is missing"),
+  secret_access_key:
+    [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role] ||
+      raise("AWS_SECRET_ACCESS_KEY is missing"),
+  region: System.get_env("AWS_REGION") || raise("AWS_REGION is missing")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
