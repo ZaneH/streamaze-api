@@ -21,6 +21,7 @@ defmodule StreamazeWeb.StreamerChannel do
   def join("streamer:" <> streamer_id, payload, socket) do
     if authorized?(streamer_id, payload["userToken"]) do
       send(self(), :after_join)
+
       {:ok, socket |> assign(:streamer_id, streamer_id)}
     else
       {:error, %{reason: "unauthorized"}}

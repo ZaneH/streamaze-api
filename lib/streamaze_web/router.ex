@@ -5,7 +5,8 @@ defmodule StreamazeWeb.Router do
     StreamerController,
     DonationController,
     ExpenseController,
-    LiveStreamController
+    LiveStreamController,
+    TTSController
   }
 
   import StreamazeWeb.UserAuth
@@ -22,10 +23,11 @@ defmodule StreamazeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
     get "/api/streamers/current", StreamerController, :current
-    get "/api/streamers/voices", StreamerController, :voices
     get "/api/live_streams/current", LiveStreamController, :current
 
+    resources "/api/tts", TTSController, only: [:index, :create]
     resources "/api/streamers", StreamerController, only: [:index, :create, :update]
     resources "/api/donations", DonationController, only: [:index, :create]
     resources "/api/expenses", ExpenseController, only: [:index, :create]

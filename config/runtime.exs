@@ -29,7 +29,7 @@ config :ex_aws,
   secret_access_key:
     [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role] ||
       raise("AWS_SECRET_ACCESS_KEY is missing"),
-  region: System.get_env("AWS_REGION") || raise("AWS_REGION is missing")
+  region: {:system, "AWS_REGION"} || raise("AWS_REGION is missing")
 
 if config_env() == :prod do
   database_url =

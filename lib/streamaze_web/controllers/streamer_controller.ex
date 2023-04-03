@@ -52,21 +52,4 @@ defmodule StreamazeWeb.StreamerController do
         |> render("error.json", changeset: changeset)
     end
   end
-
-  def voices(conn, _) do
-    streamer_id = Streams.get_streamer_id_for_api_key(conn.params["api_key"])
-    streamer = Streams.get_streamer!(streamer_id)
-
-    case streamer.donations_config do
-      %{"elevenlabs_key" => elevenlabs_key} when elevenlabs_key != "" ->
-        voices = TTS.available_voices(elevenlabs_key)
-
-        conn |> put_status(:ok) |> render("voices.json", voices: voices)
-
-      _ ->
-        conn
-        |> put_status(:not_found)
-        |> render("error.json", error: "ElevenLabs not configured for streamer")
-    end
-  end
 end
