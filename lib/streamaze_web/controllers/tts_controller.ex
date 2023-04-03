@@ -50,7 +50,7 @@ defmodule StreamazeWeb.TTSController do
     S3.put_object("elevenlabsaudio", file_name, body)
     |> ExAws.request!()
 
-    s3_url =
+    {:ok, s3_url} =
       ExAws.Config.new(:s3)
       |> S3.presigned_url(
         :get,
