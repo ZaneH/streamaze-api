@@ -32,6 +32,7 @@ defmodule StreamazeWeb.TTSController do
     voice_id = streamer.donations_config["elevenlabs_voice"]
     elevenlabs_key = streamer.donations_config["elevenlabs_key"]
 
+    {voice_id, text} = get_voice_from_prefix(text, voice_id)
     audio = TTS.text_to_speech(text, voice_id, elevenlabs_key)
 
     case audio do
@@ -60,5 +61,15 @@ defmodule StreamazeWeb.TTSController do
       )
 
     s3_url
+  end
+
+  defp get_voice_from_prefix(text, voice_id) do
+    case String.downcase(text) do
+      "!sus" <> msg -> {"yr6Duy4g20vOOalAiZzF", msg}
+      "!ebz" <> msg -> {"cgZyzakA6d8LhJghycoW", msg}
+      "!ice" <> msg -> {"9FgctjpXeaMlm2WRPCFs", msg}
+      "!evan" <> msg -> {"409nTFdZtB7GNYnKzLQF", msg}
+      msg -> {voice_id, msg}
+    end
   end
 end
