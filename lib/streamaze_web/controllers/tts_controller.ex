@@ -32,7 +32,7 @@ defmodule StreamazeWeb.TTSController do
     voice_id = streamer.donations_config["elevenlabs_voice"]
     elevenlabs_key = streamer.donations_config["elevenlabs_key"]
 
-    {voice_id, text} = get_voice_from_prefix(text, voice_id)
+    {text, voice_id} = get_voice_from_prefix(text, voice_id)
     audio = TTS.text_to_speech(text, voice_id, elevenlabs_key)
 
     case audio do
@@ -64,12 +64,23 @@ defmodule StreamazeWeb.TTSController do
   end
 
   defp get_voice_from_prefix(text, voice_id) do
-    case String.downcase(text) do
-      "!sus" <> msg -> {"yr6Duy4g20vOOalAiZzF", msg}
-      "!ebz" <> msg -> {"cgZyzakA6d8LhJghycoW", msg}
-      "!ice" <> msg -> {"9FgctjpXeaMlm2WRPCFs", msg}
-      "!evan" <> msg -> {"409nTFdZtB7GNYnKzLQF", msg}
-      msg -> {voice_id, msg}
+    text = String.downcase(text)
+
+    cond do
+      String.contains?(text, "!sus ") ->
+        {String.replace(text, "!sus ", ""), "yr6Duy4g20vOOalAiZzF"}
+
+      String.contains?(text, "!evan ") ->
+        {String.replace(text, "!evan ", ""), "409nTFdZtB7GNYnKzLQF"}
+
+      String.contains?(text, "!ice ") ->
+        {String.replace(text, "!ice ", ""), "9FgctjpXeaMlm2WRPCFs"}
+
+      String.contains?(text, "!ebz ") ->
+        {String.replace(text, "!ebz ", ""), "cgZyzakA6d8LhJghycoW"}
+
+      true ->
+        {text, voice_id}
     end
   end
 end
