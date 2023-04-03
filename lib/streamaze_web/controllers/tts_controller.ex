@@ -32,21 +32,33 @@ defmodule StreamazeWeb.TTSController do
     voice_id = streamer.donations_config["elevenlabs_voice"]
     elevenlabs_key = streamer.donations_config["elevenlabs_key"]
 
-    {:ok, body} = TTS.text_to_speech(text, voice_id, elevenlabs_key)
+    audio = TTS.text_to_speech(text, voice_id, elevenlabs_key)
 
-    S3.put_object("elevenlabsaudio", "tts/clip_test.mp3", body)
-    |> ExAws.request!()
-
-    s3_url =
-      ExAws.Config.new(:s3)
-      |> S3.presigned_url(:get, "elevenlabsaudio", "tts/clip_test.mp3", expires_in: 14_400)
-
-    case s3_url do
-      {:ok, tts_url} ->
-        conn |> put_status(:ok) |> render("create.json", %{speak_url: tts_url})
+    case audio do
+      {:ok, body} ->
+        url = upload_to_s3(body, streamer_id, voice_id)
+        conn |> put_status(:ok) |> render("create.json", %{speak_url: url})
 
       {:error, error} ->
         conn |> put_status(:not_found) |> render("error.json", error: error)
     end
+  end
+
+  defp upload_to_s3(body, streamer_id, voice_id) do
+    file_name = "tts/clip_#{streamer_id}_#{voice_id}_#{System.os_time(:millisecond)}.mp3"
+
+    S3.put_object("elevenlabsaudio", file_name, body)
+    |> ExAws.request!()
+
+    s3_url =
+      ExAws.Config.new(:s3)
+      |> S3.presigned_url(
+        :get,
+        "elevenlabsaudio",
+        file_name,
+        expires_in: 14_400
+      )
+
+    s3_url
   end
 end
