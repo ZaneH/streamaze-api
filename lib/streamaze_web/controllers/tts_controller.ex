@@ -41,6 +41,7 @@ defmodule StreamazeWeb.TTSController do
         conn |> put_status(:ok) |> render("create.json", %{speak_url: url})
 
       {:error, error} ->
+        IO.inspect(error)
         conn |> put_status(:not_found) |> render("error.json", error: error)
     end
   end
@@ -57,7 +58,7 @@ defmodule StreamazeWeb.TTSController do
         :get,
         "elevenlabsaudio",
         file_name,
-        expires_in: 14_400
+        expires_in: 72 * 60 * 60
       )
 
     s3_url
@@ -78,6 +79,15 @@ defmodule StreamazeWeb.TTSController do
 
       String.contains?(text, "!ebz ") ->
         {String.replace(text, "!ebz ", ""), "cgZyzakA6d8LhJghycoW"}
+
+      String.contains?(text, "!blade") ->
+        {String.replace(text, "!blade", ""), "JSLeek4NxMXrwdx8iiZU"}
+
+      String.contains?(text, "!gary") ->
+        {String.replace(text, "!gary", ""), "1gE8msxAuJeZQhv3KuEy"}
+
+      String.contains?(text, "!cas") ->
+        {String.replace(text, "!cas", ""), "NxuFIYd0d676kT8kaykv"}
 
       true ->
         {text, voice_id}
