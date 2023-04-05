@@ -83,11 +83,14 @@ defmodule StreamazeWeb.TTSController do
       String.contains?(text, "!blade") ->
         {String.replace(text, "!blade", ""), "JSLeek4NxMXrwdx8iiZU"}
 
-      String.contains?(text, "!gary") ->
-        {String.replace(text, "!gary", ""), "1gE8msxAuJeZQhv3KuEy"}
+      String.contains?(text, "!gary ") ->
+        {String.replace(text, "!gary ", ""), "1gE8msxAuJeZQhv3KuEy"}
 
-      String.contains?(text, "!cas") ->
-        {String.replace(text, "!cas", ""), "NxuFIYd0d676kT8kaykv"}
+      String.contains?(text, "!cas ") ->
+        {String.replace(text, "!cas ", ""), "NxuFIYd0d676kT8kaykv"}
+
+      String.contains?(text, "!ttd ") ->
+        {String.replace(text, "!ttd ", ""), "iaQLOQPURshhG5sGOumZ"}
 
       true ->
         {text, voice_id}
