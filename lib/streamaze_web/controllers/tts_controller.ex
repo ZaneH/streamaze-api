@@ -80,8 +80,8 @@ defmodule StreamazeWeb.TTSController do
       String.contains?(text, "!ebz ") ->
         {String.replace(text, "!ebz ", ""), "cgZyzakA6d8LhJghycoW"}
 
-      String.contains?(text, "!blade") ->
-        {String.replace(text, "!blade", ""), "JSLeek4NxMXrwdx8iiZU"}
+      String.contains?(text, "!blade ") ->
+        {String.replace(text, "!blade ", ""), "JSLeek4NxMXrwdx8iiZU"}
 
       String.contains?(text, "!gary ") ->
         {String.replace(text, "!gary ", ""), "1gE8msxAuJeZQhv3KuEy"}
@@ -94,6 +94,9 @@ defmodule StreamazeWeb.TTSController do
 
       String.contains?(text, "!kim ") ->
         {String.replace(text, "!kim ", ""), "jJTBoKoKygVt4bRIQA8k"}
+
+      String.contains?(text, "!han ") ->
+        {String.replace(text, "!han ", ""), "yYCyUeig7CSTKzNKQpHr"}
 
       true ->
         {text, voice_id}

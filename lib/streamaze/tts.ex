@@ -8,8 +8,12 @@ defmodule Streamaze.TTS do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body}
 
-      _ ->
+      {_, %HTTPoison.Response{body: body}} ->
+        IO.inspect(body)
         {:error, "ElevenLabs error"}
+
+      _ ->
+        {:error, "ElevenLabs error (fallback)"}
     end
   end
 
