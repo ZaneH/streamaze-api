@@ -1,19 +1,29 @@
 defmodule Streamaze.TTS do
+  use Retry
+
   def text_to_speech(text, voice_id, api_key) do
     url = text_to_speech_url(voice_id)
     headers = [{"Content-Type", "application/json"}, {"xi-api-key", api_key}]
     {:ok, body} = Jason.encode(%{text: text})
 
-    case HTTPoison.post(url, body, headers) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, body}
+    retry with: exponential_backoff() |> randomize |> cap(1_000) |> expiry(10_000) do
+      IO.puts("Sending request to ElevenLabs")
 
-      {_, %HTTPoison.Response{body: body}} ->
-        IO.inspect(body)
-        {:error, "ElevenLabs error"}
+      case HTTPoison.post(url, body, headers) do
+        {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+          {:ok, body}
 
-      _ ->
-        {:error, "ElevenLabs error (fallback)"}
+        {_, %HTTPoison.Response{body: body}} ->
+          IO.inspect(body)
+          {:error, "ElevenLabs error. Contact support."}
+
+        _ ->
+          :error
+      end
+    after
+      result -> result
+    else
+      _ -> {:error, "ElevenLabs error"}
     end
   end
 
