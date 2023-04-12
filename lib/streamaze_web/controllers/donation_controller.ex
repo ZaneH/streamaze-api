@@ -43,7 +43,7 @@ defmodule StreamazeWeb.DonationController do
         end)
 
       _ ->
-        :no_subathons_to_update
+        :not_found
     end
   end
 
