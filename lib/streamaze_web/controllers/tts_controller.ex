@@ -58,8 +58,8 @@ defmodule StreamazeWeb.TTSController do
         :get,
         "elevenlabsaudio",
         file_name,
-        # 14 days
-        expires_in: 14 * 24 * 60 * 60
+        # 7 days (max)
+        expires_in: 7 * 24 * 60 * 60
       )
 
     s3_url
