@@ -6,7 +6,7 @@ defmodule Streamaze.Finances do
   import Ecto.Query, warn: false
   alias Streamaze.Repo
 
-  alias Streamaze.Finances.Expense
+  alias Streamaze.Finances.{Expense, Donation}
 
   def list_streamer_expenses(_streamer_id = nil) do
     []
@@ -40,6 +40,40 @@ defmodule Streamaze.Finances do
     Expense
     |> where([e], e.streamer_id == ^streamer_id)
     |> select([e], sum(e.amount_in_usd))
+    |> Repo.one()
+  end
+
+  def get_all_sub_count(streamer_id) do
+    Donation
+    |> where(
+      [e],
+      e.streamer_id == ^streamer_id and
+        (e.type == "subscription" or e.type == "kick_gifted_subscription" or
+           e.type == "kick_subscription")
+    )
+    |> select([e], count(e.id))
+    |> Repo.one()
+  end
+
+  def get_kick_sub_count(streamer_id) do
+    Donation
+    |> where(
+      [e],
+      e.streamer_id == ^streamer_id and
+        (e.type == "kick_subscription" or e.type == "kick_gifted_subscription")
+    )
+    |> select([e], count(e.id))
+    |> Repo.one()
+  end
+
+  def get_youtube_sub_count(streamer_id) do
+    Donation
+    |> where(
+      [e],
+      e.streamer_id == ^streamer_id and
+        e.type == "subscription"
+    )
+    |> select([e], count(e.id))
     |> Repo.one()
   end
 

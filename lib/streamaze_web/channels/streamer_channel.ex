@@ -147,6 +147,11 @@ defmodule StreamazeWeb.StreamerChannel do
           subathon_start_time: active_stream.subathon_start_time,
           subathon_ended_time: active_stream.subathon_ended_time
         },
+        stats: %{
+          all_subs: Finances.get_all_sub_count(streamer_id),
+          kick_subs: Finances.get_kick_sub_count(streamer_id),
+          youtube_subs: Finances.get_youtube_sub_count(streamer_id)
+        },
         last_10_donations:
           Enum.map(latest_donations, fn donation ->
             %{

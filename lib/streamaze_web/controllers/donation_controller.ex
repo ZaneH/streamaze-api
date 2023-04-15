@@ -73,5 +73,11 @@ defmodule StreamazeWeb.DonationController do
         }
       }
     })
+
+    StreamazeWeb.Endpoint.broadcast("streamer:#{donation.streamer_id}", "statistic", %{
+      all_subs: Finances.get_all_sub_count(donation.streamer_id),
+      kick_subs: Finances.get_kick_sub_count(donation.streamer_id),
+      youtube_subs: Finances.get_youtube_sub_count(donation.streamer_id)
+    })
   end
 end
