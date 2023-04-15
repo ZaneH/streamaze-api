@@ -129,6 +129,7 @@ defmodule StreamazeWeb.StreamerChannel do
     streamer_id = socket.assigns.streamer_id
     active_stream = Streams.get_live_stream_by_streamer_id(streamer_id)
     latest_donations = Finances.list_streamer_donations(streamer_id)
+    streamer = Streams.get_streamer!(streamer_id)
 
     if active_stream do
       push(socket, "initial_state", %{
@@ -152,6 +153,7 @@ defmodule StreamazeWeb.StreamerChannel do
           kick_subs: Finances.get_kick_sub_count(streamer_id),
           youtube_subs: Finances.get_youtube_sub_count(streamer_id)
         },
+        stats_offset: streamer.stats_offset,
         last_10_donations:
           Enum.map(latest_donations, fn donation ->
             %{

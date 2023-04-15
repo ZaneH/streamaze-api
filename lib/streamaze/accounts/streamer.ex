@@ -12,6 +12,7 @@ defmodule Streamaze.Accounts.Streamer do
     field :viewers_config, :map
     field :donations_config, :map, redact: true
     field :lanyard_config, :map, redact: true
+    field :stats_offset, :map
 
     has_one :user, Streamaze.Accounts.User
 
