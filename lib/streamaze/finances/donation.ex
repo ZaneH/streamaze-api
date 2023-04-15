@@ -9,6 +9,7 @@ defmodule Streamaze.Finances.Donation do
     field :metadata, :map
     field :sender, :string
     field :type, :string
+    field :months, :integer
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
@@ -25,7 +26,8 @@ defmodule Streamaze.Finances.Donation do
       :type,
       :streamer_id,
       :message,
-      :metadata
+      :metadata,
+      :months
     ])
     |> validate_required([:value, :amount_in_usd, :sender, :type, :streamer_id])
     |> validate_number(:amount_in_usd, greater_than: 0)

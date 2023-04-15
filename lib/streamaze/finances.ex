@@ -48,10 +48,9 @@ defmodule Streamaze.Finances do
     |> where(
       [e],
       e.streamer_id == ^streamer_id and
-        (e.type == "subscription" or e.type == "kick_gifted_subscription" or
-           e.type == "kick_subscription")
+        e.months > 0
     )
-    |> select([e], count(e.id))
+    |> select([e], sum(e.months))
     |> Repo.one()
   end
 
@@ -62,7 +61,7 @@ defmodule Streamaze.Finances do
       e.streamer_id == ^streamer_id and
         (e.type == "kick_subscription" or e.type == "kick_gifted_subscription")
     )
-    |> select([e], count(e.id))
+    |> select([e], sum(e.months))
     |> Repo.one()
   end
 
@@ -73,7 +72,7 @@ defmodule Streamaze.Finances do
       e.streamer_id == ^streamer_id and
         e.type == "subscription"
     )
-    |> select([e], count(e.id))
+    |> select([e], sum(e.months))
     |> Repo.one()
   end
 
