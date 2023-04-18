@@ -4,7 +4,7 @@ defmodule Streamaze.TTS do
   def text_to_speech(text, voice_id, api_key) do
     url = text_to_speech_url(voice_id)
     headers = [{"Content-Type", "application/json"}, {"xi-api-key", api_key}]
-    {:ok, body} = Jason.encode(%{text: text})
+    {:ok, body} = Jason.encode(%{text: strip_urls_from_text(text)})
 
     retry with: exponential_backoff() |> randomize |> cap(1_000) |> expiry(10_000) do
       IO.puts("Sending request to ElevenLabs")
@@ -40,5 +40,9 @@ defmodule Streamaze.TTS do
 
   defp list_voices_url do
     "https://api.elevenlabs.io/v1/voices"
+  end
+
+  defp strip_urls_from_text(text) do
+    Regex.replace(~r{https?://\S+}, text, "")
   end
 end
