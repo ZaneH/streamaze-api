@@ -3,6 +3,7 @@ defmodule StreamazeWeb.DonationController do
 
   alias Streamaze.Finances
   alias Streamaze.Streams
+  alias Streamaze.Connectivity
 
   def index(conn, _params) do
     donations = Finances.list_streamer_donations(conn.params["streamer_id"])
@@ -14,6 +15,19 @@ defmodule StreamazeWeb.DonationController do
       {:ok, donation} ->
         add_to_active_subathons(donation)
         broadcast_donation(donation)
+
+        try do
+          Connectivity.Lanyard.update_value(
+            conn.params["streamer_id"],
+            "net_profit",
+            Streams.get_streamers_net_profit(conn.params["streamer_id"])
+          )
+        rescue
+          _ in _ ->
+            IO.puts(
+              "Lanyard Error for donation: #{donation.id}. Perhaps the streamer_id: #{conn.params["streamer_id"]} is not configured for Lanyard."
+            )
+        end
 
         conn
         |> put_status(:created)

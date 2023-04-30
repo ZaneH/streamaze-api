@@ -3,6 +3,7 @@ defmodule StreamazeWeb.ExpenseController do
 
   alias Streamaze.Finances
   alias Streamaze.Streams
+  alias Streamaze.Connectivity
 
   def index(conn, _params) do
     expenses = Finances.list_streamer_expenses(conn.params["streamer_id"])
@@ -13,6 +14,19 @@ defmodule StreamazeWeb.ExpenseController do
     case Finances.create_expense(params) do
       {:ok, expense} ->
         broadcast_expense(expense)
+
+        try do
+          Connectivity.Lanyard.update_value(
+            conn.params["streamer_id"],
+            "net_profit",
+            Streams.get_streamers_net_profit(conn.params["streamer_id"])
+          )
+        rescue
+          _ in _ ->
+            IO.puts(
+              "Lanyard Error for expense: #{expense.id}. Perhaps the streamer_id: #{conn.params["streamer_id"]} is not configured for Lanyard."
+            )
+        end
 
         conn
         |> put_status(:created)
