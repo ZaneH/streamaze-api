@@ -23,10 +23,34 @@ defmodule StreamazeWeb.DonationController do
             Streams.get_streamers_net_profit(conn.params["streamer_id"])
           )
 
+          streamer = Streams.get_streamer!(conn.params["streamer_id"])
+
+          kick_gifted_offset =
+            if streamer.stats_offset["kick_gifted_subscription"] do
+              streamer.stats_offset["kick_gifted_subscription"]
+            else
+              0
+            end
+
+          kick_sub_offset =
+            if streamer.stats_offset["kick_subscription"] do
+              streamer.stats_offset["kick_subscription"]
+            else
+              0
+            end
+
+          youtube_offset =
+            if streamer.stats_offset["subscription"] do
+              streamer.stats_offset["subscription"]
+            else
+              0
+            end
+
           Connectivity.Lanyard.update_value(
             conn.params["streamer_id"],
             "total_subs",
-            Finances.get_all_sub_count(conn.params["streamer_id"])
+            Finances.get_all_sub_count(conn.params["streamer_id"]) + youtube_offset +
+              kick_gifted_offset + kick_sub_offset
           )
         rescue
           _ in _ ->
