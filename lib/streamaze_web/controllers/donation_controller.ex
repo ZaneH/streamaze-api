@@ -22,6 +22,12 @@ defmodule StreamazeWeb.DonationController do
             "net_profit",
             Streams.get_streamers_net_profit(conn.params["streamer_id"])
           )
+
+          Connectivity.Lanyard.update_value(
+            conn.params["streamer_id"],
+            "total_subs",
+            Finances.get_all_sub_count(conn.params["streamer_id"])
+          )
         rescue
           _ in _ ->
             IO.puts(
