@@ -1,6 +1,6 @@
 defmodule Streamaze.OBS do
   def switch_scene(streamer_key, scene) do
-    case HTTPoison.put(create_request_url("/streamers/#{streamer_key}/scenes/#{scene}")) do
+    case HTTPoison.put(create_request_url("/streamers/#{streamer_key}/scene/#{scene}")) do
       {:ok, %HTTPoison.Response{status_code: 204}} ->
         :ok
 
