@@ -29,7 +29,7 @@ defmodule Streamaze.Finances.Donation do
       :metadata,
       :months
     ])
-    |> validate_required([:value, :amount_in_usd, :sender, :type, :streamer_id])
+    |> validate_required([:value, :amount_in_usd, :type, :streamer_id])
     |> foreign_key_constraint(:streamer_id)
   end
 end
