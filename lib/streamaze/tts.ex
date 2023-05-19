@@ -9,15 +9,12 @@ defmodule Streamaze.TTS do
     retry with: exponential_backoff() |> randomize |> cap(1_000) |> expiry(10_000) do
       IO.puts("Sending request to ElevenLabs")
 
-      case HTTPoison.post(url, body, headers) do
+      case HTTPoison.post(url, body, headers, timeout: 25_000, recv_timeout: 25_000) do
         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
           {:ok, body}
 
-        {_, %HTTPoison.Response{body: body}} ->
-          IO.inspect(body)
-          {:error, "ElevenLabs error. Contact support."}
-
         _ ->
+          IO.inspect("Failed ElevenLabs Request: #{url} - #{body}")
           :error
       end
     after
