@@ -2,7 +2,6 @@ defmodule StreamazeWeb.StreamerController do
   use StreamazeWeb, :controller
 
   alias Streamaze.Streams
-  alias Streamaze.TTS
 
   def index(conn, %{"api_key" => api_key}) do
     try do

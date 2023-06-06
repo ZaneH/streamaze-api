@@ -19,6 +19,7 @@ defmodule Streamaze.Accounts.Streamer do
     has_many :live_streams, Streamaze.Streams.LiveStream
     has_many :expenses, Streamaze.Finances.Expense
     has_many :donations, Streamaze.Finances.Donation
+    has_many :giveaway_entries, Streamaze.Giveaways.GiveawayEntry
 
     has_many :streamer_managers, Streamaze.StreamerManager
     has_many :users, through: [:streamer_managers, :user]
