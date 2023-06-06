@@ -18,4 +18,18 @@ defmodule StreamazeWeb.GiveawayEntryView do
       entry_username: giveaway_entry.entry_username
     }
   end
+
+  def render("update.json", %{giveaway_entry: giveaway_entry}) do
+    %{
+      success: true,
+      data: render_one(giveaway_entry, StreamazeWeb.GiveawayEntryView, "show.json")
+    }
+  end
+
+  def render("error.json", %{changeset: changeset}) do
+    %{
+      success: false,
+      errors: changeset.errors
+    }
+  end
 end

@@ -16,4 +16,20 @@ defmodule StreamazeWeb.GiveawayController do
         |> render("error.json", error: "Giveaway not found")
     end
   end
+
+  def update(conn, params) do
+    giveaway_entry = Giveaways.get_giveaway_entry!(conn.params["id"])
+
+    case Giveaways.update_giveaway_entry(giveaway_entry, params) do
+      {:ok, giveaway_entry} ->
+        conn
+        |> put_status(:created)
+        |> render("update.json", giveaway_entry: giveaway_entry)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render("error.json", changeset: changeset)
+    end
+  end
 end
