@@ -12,4 +12,10 @@ defmodule Streamaze.Giveaways do
 
     Repo.all(query)
   end
+
+  def update_giveaway_entry(giveaway_entry, params) do
+    giveaway_entry
+    |> GiveawayEntry.changeset(params)
+    |> Repo.update()
+  end
 end

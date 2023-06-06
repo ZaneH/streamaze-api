@@ -13,6 +13,6 @@ defmodule Streamaze.Giveaways.GiveawayEntry do
   def changeset(giveaway_entry, attrs) do
     giveaway_entry
     |> cast(attrs, [:entry_username, :win_count, :last_win])
-    |> validate_required([:entry_username])
+    |> validate_number(:win_count, greater_than_or_equal_to: 0)
   end
 end
