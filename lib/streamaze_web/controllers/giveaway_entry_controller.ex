@@ -1,4 +1,4 @@
-defmodule StreamazeWeb.GiveawayController do
+defmodule StreamazeWeb.GiveawayEntryController do
   use StreamazeWeb, :controller
 
   alias Streamaze.Giveaways

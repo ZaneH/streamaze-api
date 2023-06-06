@@ -7,7 +7,7 @@ defmodule StreamazeWeb.Router do
     ExpenseController,
     LiveStreamController,
     TTSController,
-    GiveawayController
+    GiveawayEntryController
   }
 
   import StreamazeWeb.UserAuth
@@ -33,7 +33,7 @@ defmodule StreamazeWeb.Router do
     resources "/api/donations", DonationController, only: [:index, :create]
     resources "/api/expenses", ExpenseController, only: [:index, :create]
     resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
-    resources "/api/giveaway_entries", GiveawayController, only: [:index, :create, :update]
+    resources "/api/giveaway_entries", GiveawayEntryController, only: [:index, :create, :update]
   end
 
   scope "/", StreamazeWeb do
