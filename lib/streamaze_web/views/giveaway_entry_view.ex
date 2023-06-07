@@ -29,7 +29,16 @@ defmodule StreamazeWeb.GiveawayEntryView do
   def render("error.json", %{changeset: changeset}) do
     %{
       success: false,
-      errors: changeset.errors
+      errors:
+        Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+          Regex.replace(~r"%{(\w+)}", msg, fn _, key ->
+            opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
+          end)
+        end)
     }
+  end
+
+  def render("error.json", %{error: error}) do
+    %{success: false, error: error}
   end
 end
