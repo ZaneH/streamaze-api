@@ -34,6 +34,10 @@ defmodule StreamazeWeb.Router do
     resources "/api/expenses", ExpenseController, only: [:index, :create]
     resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
     resources "/api/giveaway_entries", GiveawayEntryController, only: [:index, :create, :update]
+
+    get "/api/giveaway_entry/:entry_username/:chat_username",
+        GiveawayEntryController,
+        :assign_chat_name
   end
 
   scope "/", StreamazeWeb do

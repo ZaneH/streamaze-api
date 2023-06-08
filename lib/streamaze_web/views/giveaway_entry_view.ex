@@ -41,4 +41,12 @@ defmodule StreamazeWeb.GiveawayEntryView do
   def render("error.json", %{error: error}) do
     %{success: false, error: error}
   end
+
+  def render("update.txt", %{giveaway_entry: giveaway_entry}) do
+    "Giveaway entry updated: #{giveaway_entry.entry_username} -> #{giveaway_entry.chat_username}"
+  end
+
+  def render("error.txt", %{error: error}) do
+    "Error: #{error}"
+  end
 end
