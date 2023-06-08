@@ -41,7 +41,7 @@ defmodule Streamaze.Giveaways do
           |> Repo.update()
 
         case result do
-          {:ok, _} ->
+          {:ok, giveaway_entry} ->
             {:ok, giveaway_entry}
 
           {:error, _} ->

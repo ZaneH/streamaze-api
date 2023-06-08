@@ -43,7 +43,7 @@ defmodule StreamazeWeb.GiveawayEntryView do
   end
 
   def render("update.txt", %{giveaway_entry: giveaway_entry}) do
-    "Giveaway entry updated: #{giveaway_entry.entry_username} -> #{giveaway_entry.chat_username}"
+    "Giveaway entry updated: @#{giveaway_entry.chat_username} -> #{giveaway_entry.entry_username}"
   end
 
   def render("error.txt", %{error: error}) do
