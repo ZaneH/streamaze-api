@@ -5,7 +5,7 @@ defmodule Streamaze.Connectivity.Viewers do
   # {:ok, session} = Wallaby.start_session()
 
   def start_link(config) do
-    {:ok, pid} =
+    link =
       Agent.start_link(
         fn ->
           %{
@@ -17,7 +17,13 @@ defmodule Streamaze.Connectivity.Viewers do
         name: String.to_atom(config["kick_channel_name"])
       )
 
-    pid
+    case link do
+      {:ok, pid} ->
+        pid
+
+      {:error, {:already_started, pid}} ->
+        pid
+    end
   end
 
   def fetch_kick_viewer_count(pid) do
