@@ -59,8 +59,7 @@ defmodule Streamaze.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
-      {:retry, "~> 0.17"},
-      {:wallaby, "~> 0.30.3"}
+      {:retry, "~> 0.17"}
     ]
   end
 
