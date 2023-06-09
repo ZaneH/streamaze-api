@@ -65,3 +65,11 @@ config :tailwind,
 
 config :money,
   default_currency: :USD
+
+config :wallaby,
+  chromedriver: [
+    headless: false,
+    path: "./chromedriver"
+  ]
+
+config :logger, truncate: :infinity

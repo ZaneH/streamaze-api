@@ -15,9 +15,10 @@ defmodule Streamaze.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Streamaze.PubSub},
       # Start the Endpoint (http/https)
-      StreamazeWeb.Endpoint
+      StreamazeWeb.Endpoint,
       # Start a worker by calling: Streamaze.Worker.start_link(arg)
       # {Streamaze.Worker, arg}
+      {ChannelWatcher, :streamer}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
