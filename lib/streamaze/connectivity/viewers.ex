@@ -27,35 +27,40 @@ defmodule Streamaze.Connectivity.Viewers do
   end
 
   def fetch_kick_viewer_count(pid) do
-    username =
-      Agent.get(pid, fn state ->
-        state["config"]["kick_channel_name"]
-      end)
+    try do
+      username =
+        Agent.get(pid, fn state ->
+          state["config"]["kick_channel_name"]
+        end)
 
-    response =
-      HTTPoison.get(
-        "https://hmmwhat.highstreaming.xyz/?url=https://kick.com/api/v2/channels/#{username}",
-        [],
-        hackney: [:insecure]
-      )
+      response =
+        HTTPoison.get(
+          "https://hmmwhat.highstreaming.xyz/?url=https://kick.com/api/v2/channels/#{username}",
+          [],
+          hackney: [:insecure]
+        )
 
-    case response do
-      {:ok, %{body: body}} ->
-        case Jason.decode(body) do
-          {:ok, decoded} ->
-            viewer_count = Map.get(decoded, "livestream") |> Map.get("viewer_count")
+      case response do
+        {:ok, %{body: body}} ->
+          case Jason.decode(body) do
+            {:ok, decoded} ->
+              viewer_count = Map.get(decoded, "livestream") |> Map.get("viewer_count")
 
-            case viewer_count do
-              nil -> nil
-              count -> count
-            end
+              case viewer_count do
+                nil -> nil
+                count -> count
+              end
 
-          {:error, _} ->
-            nil
-        end
+            {:error, _} ->
+              nil
+          end
 
-      {:error, _} ->
-        nil
+        {:error, _} ->
+          nil
+      end
+    rescue
+      e ->
+        IO.inspect(e, label: "Error fetching viewer count")
     end
   end
 
