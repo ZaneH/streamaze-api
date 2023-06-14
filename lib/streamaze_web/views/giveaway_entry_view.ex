@@ -15,7 +15,7 @@ defmodule StreamazeWeb.GiveawayEntryView do
   def render("show.json", %{giveaway_entry: giveaway_entry}) do
     %{
       id: giveaway_entry.id,
-      chat_username: giveaway_entry.chat_username
+      entry_username: giveaway_entry.entry_username
     }
   end
 
