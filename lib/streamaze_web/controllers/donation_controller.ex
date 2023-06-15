@@ -96,7 +96,8 @@ defmodule StreamazeWeb.DonationController do
       id: live_stream.id,
       subathon_seconds_added: seconds_added,
       subathon_start_time: live_stream.subathon_start_time,
-      subathon_start_minutes: live_stream.subathon_start_minutes
+      subathon_start_minutes: live_stream.subathon_start_minutes,
+      subathon_ended_time: live_stream.subathon_ended_time
     })
   end
 
