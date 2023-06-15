@@ -44,11 +44,22 @@ defmodule Streamaze.Connectivity.Viewers do
         {:ok, %{body: body}} ->
           case Jason.decode(body) do
             {:ok, decoded} ->
-              viewer_count = Map.get(decoded, "livestream") |> Map.get("viewer_count")
+              livestream = Map.get(decoded, "livestream")
 
-              case viewer_count do
-                nil -> nil
-                count -> count
+              case livestream do
+                nil ->
+                  nil
+
+                livestream ->
+                  viewer_count = Map.get(livestream, "viewer_count")
+
+                  case viewer_count do
+                    nil ->
+                      nil
+
+                    viewer_count ->
+                      viewer_count
+                  end
               end
 
             {:error, _} ->
