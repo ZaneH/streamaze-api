@@ -33,7 +33,10 @@ defmodule StreamazeWeb.Router do
     resources "/api/donations", DonationController, only: [:index, :create]
     resources "/api/expenses", ExpenseController, only: [:index, :create]
     resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
+
     resources "/api/giveaway_entries", GiveawayEntryController, only: [:index, :create, :update]
+
+    post "/api/giveaway_entries/reset", GiveawayEntryController, :reset
 
     get "/api/giveaway_entry/:entry_username/:chat_username",
         GiveawayEntryController,

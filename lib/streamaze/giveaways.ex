@@ -52,4 +52,20 @@ defmodule Streamaze.Giveaways do
         {:error, "This entry name has been claimed already."}
     end
   end
+
+  def reset_giveaway(streamer_id) do
+    query =
+      from g in GiveawayEntry,
+        where: g.streamer_id == ^streamer_id,
+        order_by: [desc: g.inserted_at]
+
+    giveaway_entries = Repo.all(query)
+
+    giveaway_entries
+    |> Enum.map(fn giveaway_entry ->
+      giveaway_entry
+      |> GiveawayEntry.changeset(%{win_count: 0, chat_username: nil})
+      |> Repo.update()
+    end)
+  end
 end

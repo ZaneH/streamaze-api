@@ -57,4 +57,21 @@ defmodule StreamazeWeb.GiveawayEntryController do
         end
     end
   end
+
+  def reset(conn, %{"api_key" => api_key}) do
+    try do
+      detected_streamer_id = Streamaze.Streams.get_streamer_id_for_api_key(api_key)
+
+      Giveaways.reset_giveaway(detected_streamer_id)
+
+      conn
+      |> put_status(:ok)
+      |> render("reset.json", success: true)
+    rescue
+      _ ->
+        conn
+        |> put_status(:not_found)
+        |> render("error.json", error: "Giveaway not found")
+    end
+  end
 end

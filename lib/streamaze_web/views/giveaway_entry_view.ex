@@ -49,4 +49,8 @@ defmodule StreamazeWeb.GiveawayEntryView do
   def render("error.txt", %{error: error}) do
     "Error: #{error}"
   end
+
+  def render("reset.json", %{success: success}) do
+    %{success: success}
+  end
 end
