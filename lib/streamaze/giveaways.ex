@@ -8,7 +8,8 @@ defmodule Streamaze.Giveaways do
     query =
       from g in GiveawayEntry,
         where: g.streamer_id == ^streamer_id,
-        where: g.win_count <= 0,
+        where: g.win_count < 1,
+        where: not is_nil(g.chat_username),
         order_by: [desc: g.inserted_at]
 
     Repo.all(query)
