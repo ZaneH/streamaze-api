@@ -40,8 +40,9 @@ defmodule StreamazeWeb.GiveawayEntryController do
     case Giveaways.get_giveaway_entry_by_entry_username(entry_username) do
       nil ->
         conn
-        |> put_status(:not_found)
-        |> render("error.txt", error: "Giveaway entry not found")
+        # Botrix expects a 2xx response
+        |> put_status(:created)
+        |> render("error.txt", error: "Giveaway entry not found.")
 
       giveaway_entry ->
         case Giveaways.assign_chat_name_to_giveaway_entry(giveaway_entry, chat_username) do
@@ -50,9 +51,16 @@ defmodule StreamazeWeb.GiveawayEntryController do
             |> put_status(:created)
             |> render("update.txt", giveaway_entry: giveaway_entry)
 
+          {:error, %{changeset: changeset}} ->
+            conn
+            # Botrix expects a 2xx response
+            |> put_status(:created)
+            |> render("error.txt", changeset: changeset)
+
           {:error, error} ->
             conn
-            |> put_status(:unprocessable_entity)
+            # Botrix expects a 2xx response
+            |> put_status(:created)
             |> render("error.txt", error: error)
         end
     end

@@ -45,8 +45,8 @@ defmodule Streamaze.Giveaways do
           {:ok, giveaway_entry} ->
             {:ok, giveaway_entry}
 
-          {:error, _} ->
-            {:error, "Something went wrong. Try again?"}
+          {:error, changeset} ->
+            {:error, %{changeset: changeset}}
         end
 
       _ ->

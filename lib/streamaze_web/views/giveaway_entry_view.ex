@@ -46,6 +46,16 @@ defmodule StreamazeWeb.GiveawayEntryView do
     "Giveaway entry updated: @#{giveaway_entry.chat_username} -> #{giveaway_entry.entry_username}"
   end
 
+  def render("error.txt", %{changeset: changeset}) do
+    errorMsg =
+      Enum.map(changeset.errors, fn {field, error} ->
+        Atom.to_string(field) <> " " <> translate_error(error)
+      end)
+
+    errorMsg = String.replace(to_string(errorMsg), "chat_username", "Chat username")
+    "Error: #{errorMsg}"
+  end
+
   def render("error.txt", %{error: error}) do
     "Error: #{error}"
   end

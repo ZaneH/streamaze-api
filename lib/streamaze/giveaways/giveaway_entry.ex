@@ -15,5 +15,6 @@ defmodule Streamaze.Giveaways.GiveawayEntry do
     giveaway_entry
     |> cast(attrs, [:entry_username, :win_count, :last_win, :chat_username])
     |> validate_number(:win_count, greater_than_or_equal_to: 0)
+    |> unique_constraint(:chat_username)
   end
 end
