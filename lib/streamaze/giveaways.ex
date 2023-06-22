@@ -4,6 +4,19 @@ defmodule Streamaze.Giveaways do
 
   alias Streamaze.Giveaways.GiveawayEntry
 
+  def list_giveaway_entries(streamer_id, limit) do
+    limit = max(1, min(100, limit))
+
+    query =
+      from g in GiveawayEntry,
+        where: g.streamer_id == ^streamer_id,
+        where: g.win_count < 1,
+        order_by: [desc: g.id],
+        limit: ^limit
+
+    Repo.all(query)
+  end
+
   def list_giveaways(streamer_id) do
     query =
       from g in GiveawayEntry,
@@ -13,6 +26,19 @@ defmodule Streamaze.Giveaways do
         order_by: [desc: g.inserted_at]
 
     Repo.all(query)
+  end
+
+  def insert_giveaway_entry(streamer_id, entry_username) do
+    giveaway_entry =
+      %GiveawayEntry{
+        streamer_id: streamer_id,
+        entry_username: entry_username,
+        win_count: 0
+      }
+
+    giveaway_entry
+    |> GiveawayEntry.changeset()
+    |> Repo.insert()
   end
 
   def get_giveaway_entry!(id) do

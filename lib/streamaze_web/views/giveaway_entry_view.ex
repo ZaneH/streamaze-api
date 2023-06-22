@@ -5,6 +5,10 @@ defmodule StreamazeWeb.GiveawayEntryView do
     %{data: render_many(giveaway_entry, StreamazeWeb.GiveawayEntryView, "show.json")}
   end
 
+  def render("index.json", %{giveaway_entries: giveaway_entries}) do
+    %{data: render_many(giveaway_entries, StreamazeWeb.GiveawayEntryView, "show.json")}
+  end
+
   def render("create.json", %{giveaway_entry: giveaway_entry}) do
     %{
       success: true,
@@ -12,10 +16,18 @@ defmodule StreamazeWeb.GiveawayEntryView do
     }
   end
 
+  def render("create.json", %{giveaway_entries: giveaway_entries}) do
+    %{
+      success: true,
+      data: render_many(giveaway_entries, StreamazeWeb.GiveawayEntryView, "show.json")
+    }
+  end
+
   def render("show.json", %{giveaway_entry: giveaway_entry}) do
     %{
       id: giveaway_entry.id,
-      entry_username: giveaway_entry.entry_username
+      entry_username: giveaway_entry.entry_username,
+      chat_username: giveaway_entry.chat_username
     }
   end
 

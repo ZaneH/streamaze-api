@@ -3,6 +3,21 @@ defmodule StreamazeWeb.GiveawayEntryController do
 
   alias Streamaze.Giveaways
 
+  def index(conn, %{"api_key" => api_key, "filter" => "last_10"}) do
+    try do
+      detected_streamer_id = Streamaze.Streams.get_streamer_id_for_api_key(api_key)
+      streamer = Streamaze.Streams.get_streamer!(detected_streamer_id)
+
+      entries = Giveaways.list_giveaway_entries(streamer.id, 10)
+      render(conn, "index.json", giveaway_entries: entries)
+    rescue
+      _ ->
+        conn
+        |> put_status(:not_found)
+        |> render("error.json", error: "Giveaway not found")
+    end
+  end
+
   def index(conn, %{"api_key" => api_key}) do
     try do
       detected_streamer_id = Streamaze.Streams.get_streamer_id_for_api_key(api_key)
@@ -64,6 +79,31 @@ defmodule StreamazeWeb.GiveawayEntryController do
             |> render("error.txt", error: error)
         end
     end
+  end
+
+  def create(conn, %{
+        "api_key" => api_key,
+        "entry_usernames" => entry_usernames
+      }) do
+    detected_streamer_id = Streamaze.Streams.get_streamer_id_for_api_key(api_key)
+    _streamer = Streamaze.Streams.get_streamer!(detected_streamer_id)
+
+    new_entries =
+      Enum.map(entry_usernames, fn entry_username ->
+        case Giveaways.insert_giveaway_entry(detected_streamer_id, entry_username) do
+          {:ok, giveaway_entry} ->
+            giveaway_entry
+
+          {:error, err} ->
+            IO.inspect(err)
+            nil
+        end
+      end)
+      |> Enum.filter(&(&1 != nil))
+
+    conn
+    |> put_status(:created)
+    |> render("create.json", giveaway_entries: new_entries)
   end
 
   def reset(conn, %{"api_key" => api_key}) do
