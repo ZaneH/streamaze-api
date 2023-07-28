@@ -7,7 +7,8 @@ defmodule StreamazeWeb.Router do
     ExpenseController,
     LiveStreamController,
     TTSController,
-    GiveawayEntryController
+    GiveawayEntryController,
+    StripeWebhookController
   }
 
   import StreamazeWeb.UserAuth
@@ -24,6 +25,8 @@ defmodule StreamazeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    post "/stripe/webhook", StripeWebhookController, :index
 
     get "/api/streamers/current", StreamerController, :current
     get "/api/live_streams/current", LiveStreamController, :current
@@ -134,6 +137,10 @@ defmodule StreamazeWeb.Router do
 
   scope "/", StreamazeWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    get "/payment", PaymentController, :index
+    get "/payment/stripe/subscriber", PaymentController, :subscriber
+    get "/payment/stripe/premium", PaymentController, :premium
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

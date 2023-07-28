@@ -17,6 +17,8 @@ config :streamaze, StreamazeWeb.Endpoint,
   pubsub_server: Streamaze.PubSub,
   live_view: [signing_salt: "HDPLFeqY"]
 
+config :stripity_stripe, api_key: System.get_env("STRIPE_SECRET")
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

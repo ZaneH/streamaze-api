@@ -1,5 +1,8 @@
 import Config
 
+# Configure Stripe for development
+config :stripity_stripe, api_key: System.get_env("STRIPE_DEV_SECRET")
+
 # Configure your database
 config :streamaze, Streamaze.Repo,
   username: "postgres",
