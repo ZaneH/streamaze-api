@@ -148,6 +148,45 @@
     </section> --%>
 
     <%= if @selected_streamer do %>
+        <h2 class="text-2xl font-semibold">Latest Donations</h2>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Amount
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Donor
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Message
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= for donation <- @latest_donations do %>
+                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <td class="px-6 py-4"><%= donation.inserted_at %></td>
+                            <td class="px-6 py-4"><%= Money.to_string(donation.value) %></td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2">
+                                    <%= if donation.metadata["pfp"] do %>
+                                        <img class="w-7 h-7 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
+                                    <% end %>
+                                    <%= donation.sender %>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4"><%= donation.message %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+        
         <h2 class="text-2xl font-semibold">Latest Expenses</h2>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
