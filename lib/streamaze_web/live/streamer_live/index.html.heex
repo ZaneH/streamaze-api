@@ -1,33 +1,58 @@
-<h1>All Streamers</h1>
+<div class="flex flex-col gap-4">
+  <h1 class="text-4xl font-bold">All Streamers</h1>
 
-<section class="mb-6">
-  <%= if @live_action in [:new, :edit] do %>
-    <.modal return_to={Routes.streamer_index_path(@socket, :index)}>
-      <.live_component
-        module={StreamazeWeb.StreamerLive.FormComponent}
-        id={@streamer.id || :new}
-        title={@page_title}
-        action={@live_action}
-        streamer={@streamer}
-        return_to={Routes.streamer_index_path(@socket, :index)}
-      />
-    </.modal>
-  <% end %>
+  <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div class="flex items-center justify-between mb-4">
+          <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest</h5>
+          <%!-- <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+              View all
+          </a> --%>
+    </div>
+    <div class="flow-root">
+          <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+              <%= for streamer <- @streamers do %>
+                <li id={"streamer-#{streamer.id}"}>
+                  <li class="py-3 sm:py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                <span class="font-medium text-gray-600 dark:text-gray-300"><%= String.at(streamer.name, 0) %></span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                <%= streamer.name %>
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                <%= link streamer.youtube_url, to: streamer.youtube_url, target: "_blank" %>
+                            </p>
+                        </div>
+                    </div>
+                  </li>
 
-  <ul>
-    <%= for streamer <- @streamers do %>
-      <li id={"streamer-#{streamer.id}"}>
-        <%= streamer.name %> -
-        <%= link streamer.youtube_url, to: streamer.youtube_url, target: "_blank" %>
+                  <%!-- <td>
+                    <span><%= live_redirect "Show", to: Routes.streamer_show_path(@socket, :show, streamer) %></span>
+                    <span><%= live_patch "Edit", to: Routes.streamer_index_path(@socket, :edit, streamer) %></span>
+                    <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: streamer.id, data: [confirm: "Are you sure?"] %></span>
+                  </td> --%>
+                </li>
+              <% end %>
+          </ul>
+    </div>
+  </div>
 
-        <%!-- <td>
-          <span><%= live_redirect "Show", to: Routes.streamer_show_path(@socket, :show, streamer) %></span>
-          <span><%= live_patch "Edit", to: Routes.streamer_index_path(@socket, :edit, streamer) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: streamer.id, data: [confirm: "Are you sure?"] %></span>
-        </td> --%>
-      </li>
+  <section class="mb-6">
+    <%= if @live_action in [:new, :edit] do %>
+      <.modal return_to={Routes.streamer_index_path(@socket, :index)}>
+        <.live_component
+          module={StreamazeWeb.StreamerLive.FormComponent}
+          id={@streamer.id || :new}
+          title={@page_title}
+          action={@live_action}
+          streamer={@streamer}
+          return_to={Routes.streamer_index_path(@socket, :index)}
+        />
+      </.modal>
     <% end %>
-  </ul>
-</section>
-
-<span><%= live_patch "New Streamer", to: Routes.streamer_index_path(@socket, :new) %></span>
+  </section>
+</div>
