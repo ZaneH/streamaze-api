@@ -11,40 +11,6 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body class="h-screen px-6 max-w-4xl mx-auto bg-gray-900 text-white">
-    <%!-- <header>
-      <div class="py-6 justify-between flex items-center">
-        <span>
-          <%= link "Streamaze", to: Routes.page_path(@conn, :index), class: "text-2xl font-bold text-white" %>
-        </span>
-        <div class="gap-4 flex flex-row">
-          <%= if @current_user do %>
-            <div class="flex flex-col text-right">
-              <span>
-                Signed in as <%= @current_user.email %>
-              </span>
-              <div>
-                <span>
-                  <%= link "My account", to: Routes.user_settings_path(@conn, :edit) %>
-                </span>
-                ·
-                <span>
-                  <%= link "Sign out", to: Routes.user_session_path(@conn, :delete), method: :delete %>
-                </span>
-              </div>
-            </div>
-          <% else %>
-            <span>
-              <%= link "Sign in", to: Routes.user_session_path(@conn, :new) %>
-            </span>
-            ·
-            <span>
-              <%= link "Sign up", to: Routes.user_registration_path(@conn, :new) %>
-            </span>
-          <% end %>
-        </div>
-      </div>
-    </header>
-    <%= @inner_content %> --%>
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
     <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
       <div class="flex flex-wrap justify-between items-center">
@@ -237,11 +203,6 @@
                 <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
               </svg>
               <span class="flex-1 ml-3 whitespace-nowrap">Streamers</span>
-              <span
-                class="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"
-              >
-                4
-              </span>
             <% end %>
           </li>
           <li>
@@ -292,10 +253,9 @@
             </button>
             <ul id="dropdown-pages" class="hidden py-2 space-y-2">
               <li>
-                <a
-                  href="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Managers</a>
+                <%= link to: "/invite/managers", class: "flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" do %>
+                  Managers
+                <% end %>
               </li>
               <li>
                 <a
@@ -357,15 +317,12 @@
           class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
         >
           <li>
-            <a
-              href="#"
-              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
-            >
+            <%= link to: "https://docs.streamaze.live/", target: "_blank", class: "flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group" do %>
               <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                 <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z"/>
               </svg>
               <span class="ml-3">Guide</span>
-            </a>
+            <% end %>
           </li>
           <li>
             <%= link to: "https://discord.gg/c3RetD5r5Y", target: "_blank", class: "flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group" do %>
