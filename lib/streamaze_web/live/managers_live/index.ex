@@ -52,6 +52,6 @@ defmodule StreamazeWeb.ManagersLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "New Streamer")
+    |> assign(:page_title, "Invite Managers")
   end
 end

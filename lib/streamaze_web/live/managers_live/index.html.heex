@@ -1,30 +1,30 @@
-<h1>Invite Managers</h1>
+<div class="flex flex-col gap-4">
+    <h1 class="text-4xl font-bold">Invite Managers</h1>
 
-<p>Invite managers to your stream dashboard.</p>
+    <p class="mb-6 font-medium text-gray-400">Invite managers to help out.</p>
 
-<br />
+    <.form let={f} for={@form} phx-submit="save">
+        <div class="mb-6">
+            <%= label f, "Invite code", class: "text-white", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+            <%= text_input f, :invite_code, placeholder: "stmz-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+            <%= error_tag f, :invite_code %>
+        </div>
 
-<b>Managers can:</b>
-<ul>
-    <li>View donations and expenses</li>
-    <li>View your previous streams</li>
-    <li>Modify expenses</li>
-    <li>Modify subathon settings</li>
-</ul>
+        <%= submit "Invite", class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
+    </.form>
 
-<br />
+    <h2 class="mt-4 mb-2 text-lg font-semibold text-gray-900 dark:text-white">Managers can:</h2>
+    <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+        <li>View donations and expenses</li>
+        <li>View your subathon settings</li>
+        <li><s>Modify expenses</s> (Coming soon)</li>
+        <li><s>Modify subathon settings</s> (Coming soon)</li>
+    </ul>
 
-<b>Managers cannot:</b>
-<ul>
-    <li>Modify donations</li>
-</ul>
-
-<br />
-
-<.form let={f} for={@form} phx-submit="save">
-    <%= label f, "Invite code", class: "text-white" %>
-    <%= text_input f, :invite_code, placeholder: "stmz-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" %>
-    <%= error_tag f, :invite_code %>
-
-    <%= submit "Invite", class: "btn btn-primary" %>
-</.form>
+    <h2 class="mt-4 mb-2 text-lg font-semibold text-gray-900 dark:text-white">Managers cannot:</h2>
+    <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+        <li>Modify donations</li>
+        <li>Access private keys</li>
+        <li>Change chat settings</li>
+    </ul>
+</div>
