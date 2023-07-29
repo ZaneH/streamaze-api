@@ -125,14 +125,14 @@ defmodule StreamazeWeb.Router do
   scope "/", StreamazeWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
+    get "/account/register", UserRegistrationController, :new
+    post "/account/register", UserRegistrationController, :create
+    get "/account/login", UserSessionController, :new
+    post "/account/login", UserSessionController, :create
+    get "/account/reset_password", UserResetPasswordController, :new
+    post "/account/reset_password", UserResetPasswordController, :create
+    get "/account/reset_password/:token", UserResetPasswordController, :edit
+    put "/account/reset_password/:token", UserResetPasswordController, :update
   end
 
   scope "/", StreamazeWeb do
@@ -142,18 +142,18 @@ defmodule StreamazeWeb.Router do
     get "/payment/stripe/subscriber", PaymentController, :subscriber
     get "/payment/stripe/premium", PaymentController, :premium
 
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    get "/account/settings", UserSettingsController, :edit
+    put "/account/settings", UserSettingsController, :update
+    get "/account/settings/confirm_email/:token", UserSettingsController, :confirm_email
   end
 
   scope "/", StreamazeWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
+    delete "/account/log_out", UserSessionController, :delete
+    get "/account/confirm", UserConfirmationController, :new
+    post "/account/confirm", UserConfirmationController, :create
+    get "/account/confirm/:token", UserConfirmationController, :edit
+    post "/account/confirm/:token", UserConfirmationController, :update
   end
 end
