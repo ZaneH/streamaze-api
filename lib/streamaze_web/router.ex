@@ -51,7 +51,7 @@ defmodule StreamazeWeb.Router do
 
     get "/", PageController, :index
 
-    live "/dashboard", DashboardLive.Index, :index
+    live "/overview", DashboardLive.Index, :index
     live "/dashboard/donations", DashboardLive.Donations, :index
     live "/dashboard/expenses", DashboardLive.Expenses, :index
 
@@ -138,7 +138,7 @@ defmodule StreamazeWeb.Router do
   scope "/", StreamazeWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/payment", PaymentController, :index
+    get "/account/upgrade", PaymentController, :index
     get "/payment/stripe/subscriber", PaymentController, :subscriber
     get "/payment/stripe/premium", PaymentController, :premium
 

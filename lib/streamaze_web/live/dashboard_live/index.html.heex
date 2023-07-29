@@ -1,15 +1,15 @@
-<h1>My Dashboard</h1>
+<div class="flex justify-between gap-8">
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white whitespace-nowrap">My Dashboard</h1>
 
-<section>
-    <.form let={f} for={@form} phx-change="update_selected_streamer">
-        <%= label f, :selected_streamer_id, "Select a streamer", class: "text-white" %>
+    <.form let={f} for={@form} phx-change="update_selected_streamer" class="w-full">
+        <%= label f, :selected_streamer_id, "Select a streamer", class: "sr-only" %>
         <%= if length(@managed_streamers) > 0 do %>
-            <%= select f, :selected_streamer_id, Enum.map(@managed_streamers, & {&1.name, &1.id}), prompt: "Select a streamer..." %>
+            <%= select f, :selected_streamer_id, Enum.map(@managed_streamers, & {&1.name, &1.id}), prompt: "Select a streamer...", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
         <% else %>
-            <%= select f, :selected_streamer_id, [], prompt: "You are not managing any streamers", disabled: true %>
+            <%= select f, :selected_streamer_id, [], prompt: "You are not managing any streamers", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
         <% end %>
     </.form>
-</section>
+</div>
 
 <section class="mt-4">
     <%= if @selected_streamer do %>

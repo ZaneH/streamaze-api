@@ -357,10 +357,7 @@
                 aria-labelledby="dropdown"
               >
                 <li>
-                  <a
-                    href="#"
-                    class="flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
+                  <%= link to: "/account/upgrade", class: "flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" do %>
                     <span class="flex items-center">
                       <svg
                         aria-hidden="true"
@@ -390,7 +387,7 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                  </a>
+                    <% end %>
                 </li>
               </ul>
               <ul
@@ -417,10 +414,7 @@
       <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
         <ul class="space-y-2">
           <li>
-            <a
-              href="#"
-              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
+            <%= link to: "/overview", class: "flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" do %>
               <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
               </svg>
@@ -430,7 +424,7 @@
               >
                 4
               </span>
-            </a>
+            <% end %>
           </li>
           <li>
             <a
@@ -773,7 +767,7 @@
       </div>
     </aside>
 
-    <main class="p-4 md:ml-64 h-auto pt-20">
+    <main class="p-4 md:ml-64 h-auto pt-32">
       <%= @inner_content %>
     </main>
   </div>

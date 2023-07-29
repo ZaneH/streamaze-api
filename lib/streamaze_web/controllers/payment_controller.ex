@@ -2,10 +2,7 @@ defmodule StreamazeWeb.PaymentController do
   use StreamazeWeb, :controller
 
   def index(conn, _params) do
-    {:ok, setup_intent} =
-      Stripe.SetupIntent.create(%{automatic_payment_methods: %{enabled: true}})
-
-    render(conn, "index.html", setup_intent: setup_intent)
+    render(conn, "index.html")
   end
 
   def subscriber(conn, _params) do
