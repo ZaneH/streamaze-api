@@ -56,6 +56,7 @@ defmodule StreamazeWeb.Router do
     live "/dashboard/expenses", DashboardLive.Expenses, :index
 
     live "/invite/managers", ManagersLive.Index, :index
+    live "/invite/codes", CodesLive.Index, :index
 
     live "/streamers", StreamerLive.Index, :index
     live "/streamers/new", StreamerLive.Index, :new
