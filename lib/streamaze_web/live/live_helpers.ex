@@ -57,4 +57,17 @@ defmodule StreamazeWeb.LiveHelpers do
     |> JS.hide(to: "#modal", transition: "fade-out")
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
   end
+
+  def donation_type_to_string(donation_type) do
+    case donation_type do
+      "kick_host" -> "Kick Host"
+      "kick_gifted_subscription" -> "Kick Gifted Subscription"
+      "kick_subscription" -> "Kick Subscription"
+      "superchat" -> "Superchat"
+      "tiktok_gift" -> "Tiktok Gift"
+      "subscription" -> "YouTube Subscription"
+      "streamlabs_media" -> "Streamlabs Media"
+      _ -> donation_type
+    end
+  end
 end

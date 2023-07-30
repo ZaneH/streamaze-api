@@ -12,207 +12,74 @@
         </.form>
     </div>
 
-    <%!-- <section class="mt-4">
-        <%= if @selected_streamer do %>
-            <h2>Overview</h2>
-            <ul>
-                <li>
-                    <b>Net profit:</b> <%= Money.to_string(@net_profit) %>
-                </li>
-                <li>
-                    <b>Total donations:</b> <%= Money.to_string(@total_donations) %>
-                </li>
-                <li>
-                    <b>Total expenses:</b> <%= Money.to_string(@total_expenses) %>
-                </li>
-                <li>
-                    <b>YouTube Channel:</b> <%= link @selected_streamer.youtube_url, to: @selected_streamer.youtube_url, target: "_blank" %>
-                </li>
-            </ul>
-
-            <h2>Active Streams for <%= @selected_streamer.name %></h2>
-
-            <%= if length(@live_streams) > 0 do %>
-                <div class="rounded-md border border-gray-700">
-                    <table class="table-auto w-full">
-                        <thead>
-                            <tr>
-                                <th>Start Time</th>
-                                <th>Subathon</th>
-                                <th>Minutes per Dollar</th>
-                                <th class="text-right pr-8">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-gray-800">
-                            <%= for stream <- @live_streams do %>
-                                <tr>
-                                    <td><%= stream.inserted_at %></td>
-                                    <td><%= if stream.is_subathon, do: "✓ • 4h 32m 12s" %></td>
-                                    <td><%= stream.subathon_minutes_per_dollar %></td>
-                                    <td class="text-right pr-8">
-                                        <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </tbody>
-                    </table>
-                    <p class="text-right py-4 px-8 cursor-pointer">View all</p>
-                </div>
-            <% else %>
-                <p class="text-gray-400">No active streams</p>
-            <% end %>
-
-            <h2>Last 10 Expenses</h2>
-            <div class="rounded-md border border-gray-700">
-                <table class="table-fixed w-full">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th class="text-right pr-8">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-gray-800">
-                        <%= for expense <- @streamer_expenses do %>
-                            <tr>
-                                <td><%= expense.inserted_at %></td>
-                                <td><%= Money.to_string(expense.value) %></td>
-                                <td class="text-right pr-8">
-                                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Edit</button>
-                                    <button class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
-                                </td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-                <p class="text-right py-4 px-8 cursor-pointer" phx-click="view_all_expenses">View all</p>
-            </div>
-
-            <h2>Last 10 Donations</h2>
-            <div class="rounded-md border border-gray-700">
-                <table class="table-fixed w-full">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Donor</th>
-                            <th>Message</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-gray-800">
-                        <%= for donation <- @latest_donations do %>
-                            <tr>
-                                <td><%= donation.inserted_at %></td>
-                                <td><%= Money.to_string(donation.value) %></td>
-                                <td>
-                                    <div class="flex items-center gap-2">
-                                        <%= if donation.metadata["pfp"] do %>
-                                            <img class="w-7 h-7 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
-                                        <% end %>
-                                        <%= donation.sender %>
-                                    </div>
-                                </td>
-                                <td><%= donation.message %></td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-                <p class="text-right py-4 px-8 cursor-pointer" phx-click="view_all_donations">View all</p>
-            </div>
-
-            <%= if length(@latest_inactive_streams) > 0 do %>
-                <h2>Past Streams</h2>
-                <div class="rounded-md border border-gray-700">
-                    <table class="table-fixed w-full">
-                        <thead>
-                            <tr>
-                                <th>Start Time</th>
-                                <th>Subathon</th>
-                                <th>Minutes per Dollar</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-gray-800">
-                            <%= for stream <- @latest_inactive_streams do %>
-                                <tr>
-                                    <td><%= stream.inserted_at %></td>
-                                    <td><%= if stream.is_subathon, do: "✓" %></td>
-                                    <td><%= stream.subathon_minutes_per_dollar %></td>
-                                </tr>
-                            <% end %>
-                        </tbody>
-                    </table>
-                    <p class="text-right py-4 px-8 cursor-pointer">View all</p>
-                </div>
-            <% end %>
-        <% end %>
-    </section> --%>
-
     <%= if @selected_streamer do %>
-        <h2 class="text-2xl font-semibold">Latest Donations</h2>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Date
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Amount
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Donor
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Message
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%= for donation <- @latest_donations do %>
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td class="px-6 py-4"><time phx-hook="LocalTime" id="my-local-time"><%= donation.inserted_at %></time></td>
-                            <td class="px-6 py-4"><%= Money.to_string(donation.value) %></td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <%= if donation.metadata["pfp"] do %>
-                                        <img class="w-7 h-7 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
-                                    <% end %>
-                                    <%= donation.sender %>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4"><%= donation.message %></td>
-                        </tr>
+            <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex items-center justify-between mb-4">
+                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Donations</h5>
+                    <%= link to: Routes.donation_index_path(@socket, :index), class: "text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" do %>
+                        View all
                     <% end %>
-                </tbody>
-            </table>
+                </div>
+                <div class="flow-root">
+                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <%= for donation <- @latest_donations do %>
+                            <li class="py-3 sm:py-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0 relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                        <%= if donation.metadata["pfp"] do %>
+                                            <img class="w-8 h-8 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
+                                        <% else %>
+                                            <span class="font-medium text-gray-600 dark:text-gray-300"><%= String.at(@selected_streamer.name, 0) %></span>
+                                        <% end %>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                            <%= donation.sender %>
+                                        </p>
+                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                            <%= donation_type_to_string(donation.type) %>
+                                        </p>
+                                    </div>
+                                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                        <%= Money.to_string(donation.value) %>
+                                    </div>
+                                </div>
+                                <%= if donation.message do %>
+                                    <div class="mt-3 text-gray-500 dark:text-gray-400"><%= donation.message %></div>
+                                <% end %>
+                            </li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <h2 class="text-2xl font-semibold">Latest Expenses</h2>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Date
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Amount
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Expenses</h5>
+                <%= link to: Routes.expense_index_path(@socket, :index), class: "text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" do %>
+                    View all
+                <% end %>
+            </div>
+            <div class="flow-root">
+                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                     <%= for expense <- @streamer_expenses do %>
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td class="px-6 py-4">
-                                <time phx-hook="LocalTime" id="my-local-time"><%= expense.inserted_at %></time>
-                            </td>
-                            <td class="px-6 py-4">
-                                <%= Money.to_string(expense.value) %>
-                            </td>
-                        </tr>
+                        <li class="py-3 sm:py-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                        <%= Money.to_string(expense.value, code: true) %>
+                                    </p>
+                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                        <time phx-hook="LocalTime" id="my-local-time"><%= expense.inserted_at %></time>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
                     <% end %>
-                </tbody>
-            </table>
+                </ul>
+            </div>
         </div>
     <% end %>
 </div>
