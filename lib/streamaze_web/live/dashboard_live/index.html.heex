@@ -170,7 +170,7 @@
                 <tbody>
                     <%= for donation <- @latest_donations do %>
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td class="px-6 py-4"><%= donation.inserted_at %></td>
+                            <td class="px-6 py-4"><time phx-hook="LocalTime" id="my-local-time"><%= donation.inserted_at %></time></td>
                             <td class="px-6 py-4"><%= Money.to_string(donation.value) %></td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-2">
@@ -204,7 +204,7 @@
                     <%= for expense <- @streamer_expenses do %>
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <td class="px-6 py-4">
-                                <%= expense.inserted_at %>
+                                <time phx-hook="LocalTime" id="my-local-time"><%= expense.inserted_at %></time>
                             </td>
                             <td class="px-6 py-4">
                                 <%= Money.to_string(expense.value) %>

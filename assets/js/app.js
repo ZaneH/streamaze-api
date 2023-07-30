@@ -18,6 +18,17 @@
 //     import "some-package"
 //
 
+let Hooks = {};
+Hooks.LocalTime = {
+    mounted() {
+        this.updated();
+    },
+    updated() {
+        let dt = new Date(this.el.textContent);
+        this.el.textContent = dt.toLocaleString();
+    },
+};
+
 import "flowbite/dist/flowbite.phoenix.js";
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
@@ -32,6 +43,7 @@ let csrfToken = document
     .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
+    hooks: Hooks,
 });
 
 // Show progress bar on live navigation and form submits
