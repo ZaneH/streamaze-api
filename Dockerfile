@@ -52,6 +52,18 @@ COPY lib lib
 
 COPY assets assets
 
+RUN apt-get update && \
+    apt-get install -yq --no-install-recommends \
+    libssl-dev \
+    curl \ 
+    wget \
+    git \
+    gnupg
+
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
+    apt-get install -y nodejs \
+    build-essential
+
 WORKDIR /app/assets
 RUN npm ci
 WORKDIR /app
