@@ -1,49 +1,42 @@
-<h1>Listing Donations</h1>
-
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.donation_index_path(@socket, :index)}>
-    <.live_component
-      module={StreamazeWeb.DonationLive.FormComponent}
-      id={@donation.id || :new}
-      title={@page_title}
-      action={@live_action}
-      donation={@donation}
-      return_to={Routes.donation_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Amount</th>
-      <th>Currency</th>
-      <th>Sender</th>
-      <th>Message</th>
-      <th>Metadata</th>
-      <th>Type</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="donations">
-    <%= for donation <- @donations do %>
-      <tr id={"donation-#{donation.id}"}>
-        <td><%= donation.amount %></td>
-        <td><%= donation.currency %></td>
-        <td><%= donation.sender %></td>
-        <td><%= donation.message %></td>
-        <td><%= donation.metadata %></td>
-        <td><%= donation.type %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.donation_show_path(@socket, :show, donation) %></span>
-          <span><%= live_patch "Edit", to: Routes.donation_index_path(@socket, :edit, donation) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: donation.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch "New Donation", to: Routes.donation_index_path(@socket, :new) %></span>
+<div class="flex flex-col gap-6">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <div class="flex items-center justify-between mb-4">
+              <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Donations</h5>
+          </div>
+          <div class="flow-root">
+              <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                  <%= for donation <- @donations do %>
+                      <li class="py-3 sm:py-4">
+                          <div class="flex items-center space-x-4">
+                              <div class="flex-shrink-0 relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                  <%= if donation.metadata["pfp"] do %>
+                                      <img class="w-8 h-8 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
+                                  <% else %>
+                                      <span class="font-medium text-gray-600 dark:text-gray-300"><%= String.at(donation.sender, 0) %></span>
+                                  <% end %>
+                              </div>
+                              <div class="flex-1 min-w-0">
+                                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                      <%= donation.sender %>
+                                  </p>
+                                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                      <%= donation_type_to_string(donation.type) %>
+                                  </p>
+                              </div>
+                              <%= if not Money.zero?(donation.value) do %>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <%= Money.to_string(donation.value) %>
+                                </div>
+                              <% end %>
+                          </div>
+                          <%= if donation.message do %>
+                              <div class="mt-3 text-gray-500 dark:text-gray-400"><%= donation.message %></div>
+                          <% end %>
+                      </li>
+                  <% end %>
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
