@@ -7,7 +7,7 @@ defmodule StreamazeWeb.StreamerChannel do
   alias Streamaze.Streams
   alias Streamaze.Finances
 
-  alias Streamaze.Connectivity.Viewers
+  # alias Streamaze.Connectivity.Viewers
 
   defp authorized?(streamer_id, given_token) do
     found_user = Accounts.get_user_by_api_key(streamer_id, given_token)
@@ -21,11 +21,11 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def start_viewer_agent(viewers_config) do
-    Viewers.start_link(%{
-      "kick_channel_name" => viewers_config["kick_channel_name"]
-    })
-  end
+  # def start_viewer_agent(viewers_config) do
+  #   Viewers.start_link(%{
+  #     "kick_channel_name" => viewers_config["kick_channel_name"]
+  #   })
+  # end
 
   def join("streamer:" <> streamer_id, payload, socket) do
     if authorized?(streamer_id, payload["userToken"]) do
@@ -134,32 +134,32 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("fetch_viewer_count", payload, socket) do
-    viewers_pid = socket.assigns.viewers_pid
+  # def handle_in("fetch_viewer_count", payload, socket) do
+  #   viewers_pid = socket.assigns.viewers_pid
 
-    case Viewers.fetch_kick_viewer_count(viewers_pid) do
-      nil ->
-        payload = Map.put(payload, "reason", "Error fetching viewer count")
-        {:reply, {:error, payload}, socket}
+  #   case Viewers.fetch_kick_viewer_count(viewers_pid) do
+  #     nil ->
+  #       payload = Map.put(payload, "reason", "Error fetching viewer count")
+  #       {:reply, {:error, payload}, socket}
 
-      viewer_count ->
-        {:reply, {:ok, %{kick_viewer_count: viewer_count}}, socket}
-    end
-  end
+  #     viewer_count ->
+  #       {:reply, {:ok, %{kick_viewer_count: viewer_count}}, socket}
+  #   end
+  # end
 
   def handle_info(:after_join, socket) do
     streamer_id = socket.assigns.streamer_id
     active_stream = Streams.get_live_stream_by_streamer_id(streamer_id)
     latest_donations = Finances.list_streamer_donations(streamer_id)
     streamer = Streams.get_streamer!(streamer_id)
-    viewers_pid = start_viewer_agent(streamer.viewers_config)
+    # viewers_pid = start_viewer_agent(streamer.viewers_config)
 
-    :ok =
-      ChannelWatcher.monitor(:streamer, self(), {
-        __MODULE__,
-        :leave,
-        [streamer_id]
-      })
+    # :ok =
+    #   ChannelWatcher.monitor(:streamer, self(), {
+    #     __MODULE__,
+    #     :leave,
+    #     [streamer_id]
+    #   })
 
     if active_stream do
       push(socket, "initial_state", %{
@@ -184,9 +184,6 @@ defmodule StreamazeWeb.StreamerChannel do
           youtube_subs: Finances.get_youtube_sub_count(streamer_id)
         },
         stats_offset: streamer.stats_offset,
-        viewers: %{
-          kick_count: Viewers.fetch_kick_viewer_count(viewers_pid)
-        },
         last_10_donations:
           Enum.map(latest_donations, fn donation ->
             %{
@@ -207,11 +204,15 @@ defmodule StreamazeWeb.StreamerChannel do
       })
     end
 
-    {:noreply, socket |> assign(viewers_pid: viewers_pid)}
+    {
+      :noreply,
+      socket
+      # |> assign(viewers_pid: viewers_pid)
+    }
   end
 
   def leave(streamer_id) do
-    :ok = ChannelWatcher.demonitor(:streamer, self())
+    # :ok = ChannelWatcher.demonitor(:streamer, self())
 
     Logger.info("Streamer #{streamer_id} disconnected")
   end

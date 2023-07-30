@@ -1,38 +1,48 @@
-<section class="text-center my-8">
-  <h1 class="text-3xl font-bold leading-snug"><%= gettext "Welcome to %{name}", name: "Streamaze" %></h1>
-  <p class="text-lg">Your favorite stream companion</p>
-</section>
-
-<div class="flex flex-col gap-3">
-  <section>
-    <h2>Active Live Streams</h2>
-    <%= if length(@live_list) == 0 do %>
-      <p class="text-gray-400">No streams are currently live</p>
-    <% else %>
-      <ul class="flex flex-col gap-3">
-        <%= for stream <- @live_list do %>
-          <li>
-            <%= stream.streamer.name %> <%= link "(YouTube)", to: stream.streamer.youtube_url, target: "_blank" %>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
-  </section>
-  <section>
-    <h2>Quick Links</h2>
-    <ul class="flex flex-col gap-3">
-      <li>
-        <%= link "Invite Managers", to: Routes.managers_index_path(@conn, :index) %>
-      </li>
-      <li>
-        <%= link "Manager Dashboard", to: Routes.dashboard_index_path(@conn, :index) %>
-      </li>
-      <li>
-        <%= link "All Streamers", to: Routes.streamer_index_path(@conn, :index) %>
-      </li>
-      <li>
-        <%= link "Streamaze Discord", to: "https://discord.gg/c3RetD5r5Y", target: "_blank" %>
-      </li>
-    </ul>
-  </section>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+    <div
+        class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+    ></div>
+</div>
+<div
+    class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
+></div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+</div>
+<div
+    class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
+></div>
+<div class="grid grid-cols-2 gap-4">
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
+    <div
+        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+    ></div>
 </div>

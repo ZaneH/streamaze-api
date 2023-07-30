@@ -14,7 +14,7 @@ defmodule Streamaze.Accounts.Streamer do
     field :lanyard_config, :map, redact: true
     field :stats_offset, :map
 
-    has_one :user, Streamaze.Accounts.User
+    belongs_to :user, Streamaze.Accounts.User
 
     has_many :live_streams, Streamaze.Streams.LiveStream
     has_many :expenses, Streamaze.Finances.Expense

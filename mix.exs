@@ -59,7 +59,10 @@ defmodule Streamaze.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
-      {:retry, "~> 0.17"}
+      {:retry, "~> 0.17"},
+      {:stripity_stripe,
+       git: "https://github.com/beam-community/stripity_stripe",
+       ref: "d0d7ffd5066f8751bb86a9588c81693c889ce7d2"}
     ]
   end
 

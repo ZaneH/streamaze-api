@@ -4,6 +4,7 @@ defmodule Streamaze.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Streamaze.Accounts.Streamer
   alias Streamaze.Repo
 
   alias Streamaze.Accounts.{User, UserToken, UserNotifier}
@@ -82,6 +83,14 @@ defmodule Streamaze.Accounts do
       from u in User,
         where: u.id == ^user_id,
         select: u.invite_code
+    )
+  end
+
+  def get_discord_id_for_user(user_id) do
+    Repo.one(
+      from s in Streamer,
+        where: s.user_id == ^user_id,
+        select: s.lanyard_config["discord_user_id"]
     )
   end
 
