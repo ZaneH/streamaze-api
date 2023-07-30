@@ -30,7 +30,7 @@ defmodule StreamazeWeb.ManagersLive.Index do
       {:noreply,
        socket
        |> put_flash(:error, "You must have a streamer account to add managers")
-       |> push_redirect(to: "/managers/invite")}
+       |> push_redirect(to: "/invite/managers")}
     else
       case Streams.add_manager_to_streamer(invite_code, streamer.id) do
         {:ok, _manager} ->
@@ -41,7 +41,7 @@ defmodule StreamazeWeb.ManagersLive.Index do
           {:noreply,
            socket
            |> put_flash(:error, "Invite code not found")
-           |> push_redirect(to: "/managers/invite")}
+           |> push_redirect(to: "/invite/managers")}
 
           # TODO: Implement :already_added
           # {:error, :already_added} ->
