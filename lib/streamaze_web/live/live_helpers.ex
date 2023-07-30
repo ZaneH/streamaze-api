@@ -67,6 +67,7 @@ defmodule StreamazeWeb.LiveHelpers do
       "tiktok_gift" -> "Tiktok Gift"
       "subscription" -> "YouTube Subscription"
       "streamlabs_media" -> "Streamlabs Media"
+      "donation" -> "Streamlabs Donation"
       _ -> donation_type
     end
   end
