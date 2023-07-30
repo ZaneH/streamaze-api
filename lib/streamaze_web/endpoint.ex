@@ -15,8 +15,7 @@ defmodule StreamazeWeb.Endpoint do
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   socket "/socket", StreamazeWeb.StreamerSocket,
-    # TODO: Restrict this
-    websocket: [check_origin: false],
+    websocket: [check_origin: ["//*.streamaze.live", "//localhost:4000"]],
     longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
