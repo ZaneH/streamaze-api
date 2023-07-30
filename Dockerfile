@@ -52,6 +52,10 @@ COPY lib lib
 
 COPY assets assets
 
+WORKDIR /app/assets
+RUN npm ci
+WORKDIR /app
+
 # compile assets
 RUN mix assets.deploy
 
