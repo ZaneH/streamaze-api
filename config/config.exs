@@ -16,7 +16,7 @@ config :streamaze, StreamazeWeb.Endpoint,
   render_errors: [view: StreamazeWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Streamaze.PubSub,
   live_view: [signing_salt: "HDPLFeqY"],
-  check_origin: ["//*.streamaze.live", "//localhost:4000", "//localhost:3000"]
+  check_origin: :conn
 
 config :stripity_stripe, api_key: System.get_env("STRIPE_SECRET")
 
