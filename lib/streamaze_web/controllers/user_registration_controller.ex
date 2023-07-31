@@ -1,4 +1,5 @@
 defmodule StreamazeWeb.UserRegistrationController do
+  alias Streamaze.Streams
   use StreamazeWeb, :controller
 
   alias Streamaze.Accounts
@@ -18,6 +19,18 @@ defmodule StreamazeWeb.UserRegistrationController do
             user,
             &Routes.user_confirmation_url(conn, :edit, &1)
           )
+
+        {:ok, streamer} =
+          Streams.create_streamer(%{
+            user_id: user.id
+          })
+
+        {:ok, _} =
+          Streams.create_live_stream(%{
+            streamer_id: streamer.id,
+            is_live: true,
+            is_subathon: false
+          })
 
         conn
         |> put_flash(:info, "User created successfully.")

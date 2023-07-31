@@ -38,10 +38,10 @@ defmodule Streamaze.Accounts.Streamer do
       :obs_config,
       :viewers_config,
       :donations_config,
-      :lanyard_config
+      :lanyard_config,
+      :user_id
     ])
     |> cast_assoc(:streamer_managers, required: false)
-    |> validate_required([:name, :youtube_url])
     |> unique_constraint(:youtube_url)
   end
 end

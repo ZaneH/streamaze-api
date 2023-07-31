@@ -40,7 +40,7 @@ defmodule Streamaze.Accounts.User do
       Defaults to `true`.
   """
   def registration_changeset(user, attrs, opts \\ []) do
-    attrs = Map.put_new(attrs, "invite_code", "stmz-#{Ecto.UUID.generate()}")
+    attrs = Map.put_new(attrs, "invite_code", "invite-#{Ecto.UUID.generate()}")
     attrs = Map.put_new(attrs, "api_key", "api-#{Ecto.UUID.generate()}")
 
     user

@@ -37,5 +37,6 @@ defmodule Streamaze.Streams.LiveStream do
     ])
     |> validate_required([:streamer_id])
     |> foreign_key_constraint(:streamer_id)
+    |> unique_constraint(:streamer_id)
   end
 end
