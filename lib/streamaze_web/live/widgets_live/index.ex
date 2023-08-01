@@ -8,11 +8,20 @@ defmodule StreamazeWeb.WidgetsLive.Index do
     discord_id = Accounts.get_discord_id_for_user(socket.assigns.current_user.id)
 
     form = %{
-      "subathon_clock_url" => "https://streamaze.live/subathon/clock?api_key=#{api_key}",
-      "chat_overlay_url" => "https://streamaze.live/chat?api_key=#{api_key}",
-      "ticker_url" => "https://streamaze.live/widget/ticker/#{discord_id}"
+      "subathon_clock_url" =>
+        form_field_url("https://streamaze.live/subathon/clock?api_key=", "#{api_key}"),
+      "chat_overlay_url" => form_field_url("https://streamaze.live/chat?api_key=", "#{api_key}"),
+      "ticker_url" => form_field_url("https://streamaze.live/widget/ticker/", "#{discord_id}")
     }
 
     {:ok, socket |> assign(:form, form)}
+  end
+
+  defp form_field_url(base_url, api_key) do
+    if String.length(api_key) > 0 do
+      "#{base_url}#{api_key}"
+    else
+      "Not configured (Check your Lanyard settings)"
+    end
   end
 end

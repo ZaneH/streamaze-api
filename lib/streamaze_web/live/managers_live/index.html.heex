@@ -1,12 +1,12 @@
 <div class="flex flex-col gap-4">
     <h1 class="text-4xl font-bold">Invite Managers</h1>
 
-    <p class="mb-6 font-medium text-gray-400">Invite managers to help out.</p>
+    <p class="mb-6 font-medium text-gray-400">Invite managers to help you out.</p>
 
     <.form let={f} for={@form} phx-submit="save">
         <div class="mb-6">
             <%= label f, "Invite code", class: "text-white", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-            <%= text_input f, :invite_code, placeholder: "stmz-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+            <%= text_input f, :invite_code, placeholder: "invite-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
             <%= error_tag f, :invite_code %>
         </div>
 
@@ -24,7 +24,7 @@
     <h2 class="mt-4 mb-2 text-lg font-semibold text-gray-900 dark:text-white">Managers cannot:</h2>
     <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
         <li>Modify donations</li>
-        <li>Access private keys</li>
         <li>Change chat settings</li>
+        <li>Access API keys or other sensitive data</li>
     </ul>
 </div>
