@@ -61,6 +61,12 @@ defmodule Streamaze.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def update_user!(id, attrs) do
+    get_user!(id)
+    |> User.changeset(attrs)
+    |> Repo.update!()
+  end
+
   def get_user_by_invite_code(invite_code) do
     Repo.one(
       from u in User,

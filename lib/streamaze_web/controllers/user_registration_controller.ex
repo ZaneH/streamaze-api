@@ -32,6 +32,8 @@ defmodule StreamazeWeb.UserRegistrationController do
             is_subathon: false
           })
 
+        Accounts.update_user!(user.id, %{streamer_id: streamer.id})
+
         conn
         |> put_flash(:info, "User created successfully.")
         |> UserAuth.log_in_user(user)

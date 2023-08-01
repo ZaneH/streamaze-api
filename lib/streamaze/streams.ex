@@ -18,7 +18,7 @@ defmodule Streamaze.Streams do
 
   """
   def list_streamers do
-    Repo.all(Streamer)
+    Repo.all(from s in Streamer, where: not is_nil(s.name))
   end
 
   @doc """

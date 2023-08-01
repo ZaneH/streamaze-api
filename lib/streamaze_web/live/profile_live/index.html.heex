@@ -1,0 +1,186 @@
+<div class="flex flex-col gap-4">
+    <h1 class="text-4xl font-bold">My Profile</h1>
+
+    <p class="mb-2 font-medium text-gray-400">Overview of your Streamaze profile.</p>
+
+    <h2 class="mt-4 text-2xl font-semibold text-gray-900 dark:text-white">
+        Streamer Page
+    </h2>
+    <p class="mb-4 font-medium text-gray-400">
+        This is what your profile will show on the <%= link to: "/streamers", class: "text-blue-500" do %>All streamers page<% end %>. No sensitive information will be visible to others.
+    </p>
+
+    <.form let={f} for={@profile} phx-submit="save" class="flex flex-col gap-4">
+        <div>
+            <%= label f, "Streamer name", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+            <%= text_input f, "name", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+            <%= error_tag f, :name %>
+        </div>
+
+        <div>
+            <%= label f, "youtube_url", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>YouTube URL<% end %>
+            <%= text_input f, "youtube_url", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+            <%= error_tag f, :youtube_url %>
+        </div>
+
+        <div>
+            <%= submit "Save", class: "mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
+        </div>
+    </.form>
+
+    <h2 class="mt-4 text-2xl font-semibold text-gray-900 dark:text-white">
+        Dashboard Settings
+    </h2>
+    <p class="mb-4 font-medium text-gray-400">
+        Summary of your dashboard settings. Sensitive information is truncated.
+    </p>
+
+    <%!-- Chat Settings --%>
+    <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Chat Settings</h5>
+        </div>
+        <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    Kick
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Channel ID: <%= @dashboard_config.chat_config["kick_channel_id"] || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Chatroom ID: <%= @dashboard_config.chat_config["kick_chatroom_id"] || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Kick Username: <%= @dashboard_config.chat_config["kick_channel_name"] || "Not set" %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <%!-- Clip Settings --%>
+    <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Clip Settings</h5>
+        </div>
+        <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Discord Channel ID: <%= @dashboard_config.clip_config["discord_channel_id"] || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    YouTube Channel URL: <%= @dashboard_config.clip_config["youtube_channel_url"] || "Not set" %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <%!-- Stats Settings --%>
+    <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Stats Settings</h5>
+        </div>
+        <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    TikTok Username: <%= @dashboard_config.viewers_config["tiktok_username"] || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    YouTube Channel: <%= @dashboard_config.viewers_config["youtube_channel"] || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Kick Channel Name: <%= @dashboard_config.viewers_config["kick_channel_name"] || "Not set" %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <%!-- Donation Settings --%>
+    <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Donation Settings</h5>
+        </div>
+        <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    TTS Service: <%= Map.get(@dashboard_config.donations_config, "tts_service") || "Not set" %>
+                                </p>
+                                
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Streamlabs Token: <%= Map.get(@dashboard_config.donations_config, "streamlabs_token") || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    ElevenLabs Key: <%= Map.get(@dashboard_config.donations_config, "elevenlabs_key") || "Not set" %>
+                                </p>
+
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Streamlabs voice: <%= Map.get(@dashboard_config.donations_config, "streamlabs_voice") || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    ElevenLabs voice: <%= Map.get(@dashboard_config.donations_config, "elevenlabs_voice") || "Not set" %>
+                                </p>
+
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Silent audio interval (minutes): <%= Map.get(@dashboard_config.donations_config, "silent_audio_interval") || "Not set" %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <%!-- Lanyard Settings --%>
+    <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Lanyard Settings</h5>
+        </div>
+        <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li>
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Discord User ID: <%= Map.get(@dashboard_config.lanyard_config, "discord_user_id") || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    API Key: <%= Map.get(@dashboard_config.lanyard_config, "api_key") || "Not set" %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

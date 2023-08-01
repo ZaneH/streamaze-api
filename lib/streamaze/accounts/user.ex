@@ -17,8 +17,9 @@ defmodule Streamaze.Accounts.User do
     timestamps()
   end
 
-  def changeset(struct, _params \\ %{}) do
+  def changeset(struct, params \\ %{}) do
     struct
+    |> cast(params, [:streamer_id])
     |> cast_assoc(:streamer, required: false)
   end
 

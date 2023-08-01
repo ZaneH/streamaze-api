@@ -145,6 +145,7 @@ defmodule StreamazeWeb.Router do
     get "/payment/stripe/subscriber", PaymentController, :subscriber
     get "/payment/stripe/premium", PaymentController, :premium
 
+    live "/account/profile", ProfileLive.Index, :index
     get "/account/settings", UserSettingsController, :edit
     put "/account/settings", UserSettingsController, :update
     get "/account/settings/confirm_email/:token", UserSettingsController, :confirm_email
