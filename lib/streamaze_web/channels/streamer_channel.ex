@@ -11,9 +11,6 @@ defmodule StreamazeWeb.StreamerChannel do
 
   defp authorized?(streamer_id, given_token) do
     found_user = Accounts.get_user_by_api_key(streamer_id, given_token)
-    IO.puts(streamer_id)
-    IO.inspect(given_token)
-    IO.inspect(found_user)
 
     case found_user do
       %Accounts.User{} ->
