@@ -1,32 +1,28 @@
-<div class="flex flex-col gap-4">
-  <h1 class="text-4xl font-bold">Register</h1>
-
-  <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
+<div class="mr-auto ml-auto w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+  <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)} class="space-y-6">
     <%= if @changeset.action do %>
       <div class="alert alert-danger">
         <p>Oops, something went wrong! Please check the errors below.</p>
       </div>
     <% end %>
 
-    <div class="mb-6">
-      <%= label f, :email, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= email_input f, :email, required: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
-      <%= error_tag f, :email %>
-    </div>
-
-    <div class="mb-6">
-      <%= label f, :password, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= password_input f, :password, required: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
-      <%= error_tag f, :password %>
-    </div>
-
-    <div>
-      <%= submit "Register", class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
-    </div>
-  </.form>
-
-  <p class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-    <%= link "Log in", to: Routes.user_session_path(@conn, :new) %> |
-    <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-  </p>
+    <h5 class="text-xl font-medium text-gray-900 dark:text-white">Register</h5>
+        <div>
+            <%= label f, :email, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>Your email<% end %>
+            <%= email_input f, :email, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white", placeholder: "me@example.com", required: true %>
+            <%= error_tag f, :email %>
+        </div>
+        <div>
+            <%= label f, :password, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>Your password<% end %>
+            <%= password_input f, :password, placeholder: "••••••••", class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white", required: true %>
+            <%= error_tag f, :password %>
+        </div>
+        <%= submit "Register", class: "w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+            Already registered? <%= link to: Routes.user_session_path(@conn, :new), class: "text-blue-700 hover:underline dark:text-blue-500" do %>Sign in<% end %>
+            <div class="mt-2">
+              Forgot your password? <%= link to: Routes.user_reset_password_path(@conn, :new), class: "text-blue-700 hover:underline dark:text-blue-500" do %>Reset password<% end %>
+            </div>
+        </div>
+    </.form>
 </div>
