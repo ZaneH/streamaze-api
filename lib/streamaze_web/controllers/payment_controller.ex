@@ -5,29 +5,63 @@ defmodule StreamazeWeb.PaymentController do
     render(conn, "index.html")
   end
 
-  def subscriber(conn, _params) do
+  defp create_checkout_session(conn, price_id, trial_period_days, metadata) do
+    Stripe.Checkout.Session.create(%{
+      mode: :subscription,
+      line_items: [
+        %{
+          price: price_id,
+          quantity: 1
+        }
+      ],
+      subscription_data: %{
+        trial_period_days: trial_period_days
+      },
+      metadata: metadata,
+      success_url: StreamazeWeb.Router.Helpers.url(conn) <> "/account/upgrade",
+      cancel_url: StreamazeWeb.Router.Helpers.url(conn) <> "/account/upgrade"
+    })
+  end
+
+  defp create_checkout_url(conn, :subscriber) do
     current_user = conn.assigns.current_user
 
     {:ok, session} =
-      Stripe.Checkout.Session.create(%{
-        mode: :subscription,
-        line_items: [
-          %{
-            price: "price_1NYk5LJZWxrZVRBH202hsxkA",
-            quantity: 1
-          }
-        ],
-        subscription_data: %{
-          trial_period_days: 10
-        },
-        metadata: %{
+      create_checkout_session(
+        conn,
+        "price_1NYk5LJZWxrZVRBH202hsxkA",
+        10,
+        %{
           "user_id" => current_user.id,
           "plan" => "subscriber"
-        },
-        success_url: StreamazeWeb.Router.Helpers.url(conn) <> "/payment",
-        cancel_url: StreamazeWeb.Router.Helpers.url(conn) <> "/payment"
-      })
+        }
+      )
 
     redirect(conn, external: session.url)
+  end
+
+  defp create_checkout_url(conn, :premium) do
+    current_user = conn.assigns.current_user
+
+    {:ok, session} =
+      create_checkout_session(
+        conn,
+        "price_1Nam4jJZWxrZVRBHf7WYadab",
+        10,
+        %{
+          "user_id" => current_user.id,
+          "plan" => "premium"
+        }
+      )
+
+    redirect(conn, external: session.url)
+  end
+
+  def subscriber(conn, _params) do
+    create_checkout_url(conn, :subscriber)
+  end
+
+  def premium(conn, _params) do
+    create_checkout_url(conn, :premium)
   end
 end
