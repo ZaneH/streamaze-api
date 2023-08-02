@@ -25,7 +25,9 @@ Hooks.LocalTime = {
     },
     updated() {
         let dt = new Date(this.el.textContent);
-        this.el.textContent = dt.toLocaleString();
+        let offset = dt.getTimezoneOffset();
+        var localDt = new Date(dt.getTime() - offset * 60 * 1000);
+        this.el.textContent = localDt.toLocaleString();
     },
 };
 
