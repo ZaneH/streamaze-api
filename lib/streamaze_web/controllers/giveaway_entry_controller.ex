@@ -57,7 +57,7 @@ defmodule StreamazeWeb.GiveawayEntryController do
         conn
         # Botrix expects a 2xx response
         |> put_status(:created)
-        |> render("error.txt", error: "Giveaway entry not found.")
+        |> render("error.txt", error: "Stake.com name not found.")
 
       giveaway_entry ->
         case Giveaways.assign_chat_name_to_giveaway_entry(giveaway_entry, chat_username) do

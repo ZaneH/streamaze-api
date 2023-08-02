@@ -76,7 +76,7 @@ defmodule Streamaze.Giveaways do
         end
 
       _ ->
-        {:error, "This entry name has been claimed already."}
+        {:error, "Already entered."}
     end
   end
 

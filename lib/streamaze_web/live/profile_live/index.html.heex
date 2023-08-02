@@ -7,7 +7,7 @@
         Streamer Page
     </h2>
     <p class="mb-4 font-medium text-gray-400">
-        This is what your profile will show on the <%= link to: "/streamers", class: "text-blue-500" do %>All streamers page<% end %>. No sensitive information will be visible to others.
+        This is how your profile will be shown on the <%= link to: "/streamers", class: "text-blue-500" do %>All streamers page<% end %>. No sensitive information will be visible to others.
     </p>
 
     <.form let={f} for={@profile} phx-submit="save" class="flex flex-col gap-4">
@@ -32,7 +32,8 @@
         Dashboard Settings
     </h2>
     <p class="mb-4 font-medium text-gray-400">
-        Summary of your dashboard settings. Sensitive information is truncated.
+        Summary of your dashboard settings. Only managers will be able to see this info.
+        Sensitive information will be truncated.
     </p>
 
     <%!-- Chat Settings --%>
