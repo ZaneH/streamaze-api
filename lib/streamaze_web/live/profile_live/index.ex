@@ -34,16 +34,15 @@ defmodule StreamazeWeb.ProfileLive.Index do
     end
   end
 
-  def handle_event("save", unsigned_params, socket) do
-    params = Map.from_struct(unsigned_params)
-    streamer = socket.assigns.streamer
+  def handle_event("save", params, socket) do
+    streamer = Streams.get_streamer_for_user(socket.assigns.current_user.id)
 
     case Streams.update_streamer(streamer, params) do
       {:ok, _streamer} ->
-        {:noreply, socket |> assign(profile: params)}
+        {:noreply, socket |> assign(:profile, params)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, socket |> assign(profile: params, changeset: changeset)}
+      {:error, changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 end

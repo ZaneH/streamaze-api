@@ -4,6 +4,7 @@ defmodule Streamaze.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Streamaze.Streams
   alias Streamaze.Accounts.Streamer
   alias Streamaze.Repo
 
@@ -109,6 +110,8 @@ defmodule Streamaze.Accounts do
   end
 
   def list_streamers_for_manager(manager_id) do
+    manager_streamer = Streams.get_streamer_for_user(manager_id)
+
     case Repo.get(User, manager_id) do
       %User{} = user ->
         Ecto.assoc(user, :streamer_managers)
@@ -118,7 +121,7 @@ defmodule Streamaze.Accounts do
 
       nil ->
         []
-    end
+    end ++ [manager_streamer]
   end
 
   ## User registration

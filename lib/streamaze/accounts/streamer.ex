@@ -3,7 +3,7 @@ defmodule Streamaze.Accounts.Streamer do
   import Ecto.Changeset
 
   schema "streamers" do
-    field :name, :string
+    field :name, :string, default: "Not set"
     field :youtube_url, :string
 
     field :chat_config, :map
