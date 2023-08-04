@@ -28,6 +28,7 @@ defmodule StreamazeWeb.ProfileLive.Index do
     if not is_nil(config) do
       Map.update(config, "streamlabs_token", nil, &(String.slice(&1, 0..11) <> "..."))
       |> Map.update("elevenlabs_key", nil, &(String.slice(&1, 0..4) <> "..."))
+      # lanyard
       |> Map.update("api_key", nil, &(String.slice(&1, 0..4) <> "..."))
     else
       %{}

@@ -6,7 +6,10 @@ defmodule StreamazeWeb.PaymentController do
   end
 
   defp create_checkout_session(conn, price_id, trial_period_days, metadata) do
-    Stripe.Checkout.Session.create(%{
+    current_user = conn.assigns.current_user
+    has_trialed = current_user.has_trialed
+
+    session_data = %{
       mode: :subscription,
       line_items: [
         %{
@@ -14,13 +17,21 @@ defmodule StreamazeWeb.PaymentController do
           quantity: 1
         }
       ],
-      subscription_data: %{
-        trial_period_days: trial_period_days
-      },
       metadata: metadata,
       success_url: StreamazeWeb.Router.Helpers.url(conn) <> "/account/upgrade",
       cancel_url: StreamazeWeb.Router.Helpers.url(conn) <> "/account/upgrade"
-    })
+    }
+
+    session_data =
+      if has_trialed do
+        session_data
+      else
+        Map.put(session_data, :subscription_data, %{
+          trial_period_days: trial_period_days
+        })
+      end
+
+    Stripe.Checkout.Session.create(session_data)
   end
 
   defp create_checkout_url(conn, :subscriber) do

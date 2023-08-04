@@ -7,6 +7,10 @@ defmodule Streamaze.Payments do
     Repo.get_by(StripeCustomer, stripe_id: stripe_id)
   end
 
+  def get_stripe_subscription!(stripe_id) do
+    Repo.get_by!(StripeSubscription, stripe_id: stripe_id)
+  end
+
   def create_customer(%{
         email: email,
         name: name,
@@ -56,5 +60,17 @@ defmodule Streamaze.Payments do
       current_period_end: current_period_end
     })
     |> Repo.update()
+  end
+
+  def update_customer(customer, attrs) do
+    customer
+    |> StripeCustomer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_subscription(id) do
+    subscription = Repo.get!(StripeSubscription, id)
+
+    Repo.delete(subscription)
   end
 end

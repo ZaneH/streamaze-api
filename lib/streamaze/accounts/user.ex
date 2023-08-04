@@ -9,6 +9,7 @@ defmodule Streamaze.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :invite_code, :string, redact: true
     field :api_key, :string, redact: true
+    field :has_trialed, :boolean, default: false
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
