@@ -1,4 +1,5 @@
 defmodule Streamaze.Payments do
+  alias Streamaze.Payments.StripeInvoice
   alias Streamaze.Repo
   alias Streamaze.Payments.StripeCustomer
   alias Streamaze.Payments.StripeSubscription
@@ -9,6 +10,10 @@ defmodule Streamaze.Payments do
 
   def get_stripe_subscription!(stripe_id) do
     Repo.get_by!(StripeSubscription, stripe_id: stripe_id)
+  end
+
+  def get_invoice_by_stripe_id(stripe_id) do
+    Repo.get_by(StripeInvoice, stripe_id: stripe_id)
   end
 
   def create_customer(%{
@@ -72,5 +77,17 @@ defmodule Streamaze.Payments do
     subscription = Repo.get!(StripeSubscription, id)
 
     Repo.delete(subscription)
+  end
+
+  def create_invoice(attrs) do
+    %StripeInvoice{}
+    |> StripeInvoice.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_invoice(invoice, attrs) do
+    invoice
+    |> StripeInvoice.changeset(attrs)
+    |> Repo.update()
   end
 end

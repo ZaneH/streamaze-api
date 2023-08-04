@@ -7,6 +7,37 @@ defmodule StreamazeWeb.StripeWebhookController do
     type = params["type"]
 
     case type do
+      "invoice.created" ->
+        customer = Payments.get_customer_by_stripe_id(params["data"]["object"]["customer"])
+
+        {:ok, _} =
+          Payments.create_invoice(%{
+            stripe_id: params["data"]["object"]["id"],
+            customer_id: customer.id,
+            amount_due: params["data"]["object"]["amount_due"],
+            amount_paid: params["data"]["object"]["amount_paid"],
+            amount_remaining: params["data"]["object"]["amount_remaining"],
+            currency: params["data"]["object"]["currency"],
+            date: params["data"]["object"]["created"],
+            period_start: params["data"]["object"]["period_start"],
+            period_end: params["data"]["object"]["period_end"],
+            status: status
+          })
+
+      "invoice.updated" ->
+        invoice = Payments.get_invoice_by_stripe_id(params["data"]["object"]["id"])
+
+        {:ok, _} =
+          Payments.update_invoice(invoice, %{
+            amount_due: params["data"]["object"]["amount_due"],
+            amount_paid: params["data"]["object"]["amount_paid"],
+            amount_remaining: params["data"]["object"]["amount_remaining"],
+            currency: params["data"]["object"]["currency"],
+            period_start: params["data"]["object"]["period_start"],
+            period_end: params["data"]["object"]["period_end"],
+            status: status
+          })
+
       "customer.subscription.updated" ->
         customer = Payments.get_customer_by_stripe_id(params["data"]["object"]["customer"])
 
