@@ -8,7 +8,8 @@ defmodule StreamazeWeb.Router do
     LiveStreamController,
     TTSController,
     GiveawayEntryController,
-    StripeWebhookController
+    StripeWebhookController,
+    UploadController
   }
 
   import StreamazeWeb.UserAuth
@@ -44,6 +45,8 @@ defmodule StreamazeWeb.Router do
     get "/api/giveaway_entry/:entry_username/:chat_username",
         GiveawayEntryController,
         :assign_chat_name
+
+    post "/api/upload/:type", UploadController, :upload
   end
 
   scope "/", StreamazeWeb do

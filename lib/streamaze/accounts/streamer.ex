@@ -14,6 +14,8 @@ defmodule Streamaze.Accounts.Streamer do
     field :lanyard_config, :map, redact: true
     field :stats_offset, :map
 
+    field :donation_audio_s3, :string
+
     belongs_to :user, Streamaze.Accounts.User
 
     has_many :live_streams, Streamaze.Streams.LiveStream
@@ -39,6 +41,7 @@ defmodule Streamaze.Accounts.Streamer do
       :viewers_config,
       :donations_config,
       :lanyard_config,
+      :donation_audio_s3,
       :user_id
     ])
     |> cast_assoc(:streamer_managers, required: false)

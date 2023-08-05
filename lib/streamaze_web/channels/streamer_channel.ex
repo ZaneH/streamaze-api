@@ -2,6 +2,7 @@ defmodule StreamazeWeb.StreamerChannel do
   require Logger
   use Phoenix.Channel
 
+  alias StreamazeWeb.AlertAudioController
   alias Streamaze.Accounts
   alias Streamaze.OBS
   alias Streamaze.Streams
@@ -153,6 +154,8 @@ defmodule StreamazeWeb.StreamerChannel do
     latest_donations = Finances.list_streamer_donations(streamer_id)
     streamer = Streams.get_streamer!(streamer_id)
     # viewers_pid = start_viewer_agent(streamer.viewers_config)
+    donation_alert_url =
+      AlertAudioController.get_signed_alert_audio_url(streamer.donation_audio_s3)
 
     # :ok =
     #   ChannelWatcher.monitor(:streamer, self(), {
@@ -164,6 +167,7 @@ defmodule StreamazeWeb.StreamerChannel do
     if active_stream do
       push(socket, "initial_state", %{
         net_profit: Streams.get_streamers_net_profit(streamer_id),
+        donation_alert_url: donation_alert_url,
         active_stream: %{
           id: active_stream.id,
           streamer_id: active_stream.streamer_id,
