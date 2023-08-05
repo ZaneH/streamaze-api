@@ -18,22 +18,22 @@
                     Showing <span class="font-semibold text-gray-900 dark:text-white"><%= length(@donations) %></span> of <span class="font-semibold text-gray-900 dark:text-white"><%= @total_count %></span> Entries
                 </span>
                 <div class="inline-flex mt-2 xs:mt-0">
-                    <%= link to: "/donations?before=#{@prev}" do %>
+                    <ConditionalLink.render to={"/donations?before=#{@prev}"} condition={not is_nil(@prev) and String.length(@prev) > 0}>
                         <button disabled={is_nil(@prev)} class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
                             </svg>
                             Prev
                         </button>
-                    <% end %>
-                    <%= link to: "/donations?after=#{@next}" do %>
-                        <button disabled={is_nil(@next)} class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    </ConditionalLink.render>
+                    <ConditionalLink.render to={"/donations?after=#{@next}"} condition={not is_nil(@next) and String.length(@next) > 0}>
+                        <button disabled={is_nil(@next)} class="flex items-center justify-center px-4 h-10 -ml-px text-base font-medium text-white bg-gray-800 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                             Next
                             <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0-4 4m4-4-4-4"/>
                             </svg>
                         </button>
-                    <% end %>
+                    </ConditionalLink.render>
                 </div>
             </div>
         </div>
