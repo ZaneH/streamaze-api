@@ -143,17 +143,27 @@ defmodule Streamaze.Finances do
 
   alias Streamaze.Finances.Donation
 
-  @doc """
-  Returns the list of donations.
+  def paginate_donations(
+        streamer_id,
+        cursors \\ %{
+          before: nil,
+          after: nil
+        }
+      ) do
+    query =
+      from(d in Donation,
+        where: d.streamer_id == ^streamer_id,
+        order_by: [desc: d.inserted_at, desc: d.id]
+      )
 
-  ## Examples
-
-      iex> list_donations()
-      [%Donation{}, ...]
-
-  """
-  def list_donations do
-    Repo.all(Donation)
+    Repo.paginate(query,
+      limit: 15,
+      include_total_count: true,
+      cursor_fields: [:inserted_at, :id],
+      after: cursors.after,
+      before: cursors.before,
+      sort_direction: :desc
+    )
   end
 
   def list_streamer_donations(_streamer_id = nil) do

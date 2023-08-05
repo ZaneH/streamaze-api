@@ -1,12 +1,36 @@
 defmodule StreamazeWeb.DonationLive.Index do
+  alias Streamaze.Streams
   use StreamazeWeb, :live_view
+  on_mount(Streamaze.UserLiveAuth)
 
   alias Streamaze.Finances
   alias Streamaze.Finances.Donation
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :donations, list_donations())}
+  def mount(params, _session, socket) do
+    streamer =
+      if is_nil(params["streamer_id"]) do
+        Streams.get_streamer_for_user(socket.assigns.current_user.id)
+      else
+        Streams.get_streamer!(params["streamer_id"])
+      end
+
+    %{entries: entries, metadata: metadata} =
+      list_donations(streamer.id, %{
+        before: params["before"],
+        after: params["after"]
+      })
+
+    {:ok,
+     socket
+     |> assign(:streamer, streamer)
+     |> assign(:next, metadata.after)
+     |> assign(:prev, metadata.before)
+     |> assign(:total_count, metadata.total_count)
+     |> assign(
+       :donations,
+       entries
+     )}
   end
 
   @impl true
@@ -37,10 +61,10 @@ defmodule StreamazeWeb.DonationLive.Index do
     donation = Finances.get_donation!(id)
     {:ok, _} = Finances.delete_donation(donation)
 
-    {:noreply, assign(socket, :donations, list_donations())}
+    {:noreply, assign(socket, :donations, list_donations(socket.assigns.streamer.id))}
   end
 
-  defp list_donations do
-    Finances.list_donations()
+  defp list_donations(streamer_id, cursors \\ nil) do
+    Finances.paginate_donations(streamer_id, cursors)
   end
 end
