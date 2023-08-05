@@ -166,6 +166,29 @@ defmodule Streamaze.Finances do
     )
   end
 
+  def pagination_expenses(
+        streamer_id,
+        cursors \\ %{
+          before: nil,
+          after: nil
+        }
+      ) do
+    query =
+      from(e in Expense,
+        where: e.streamer_id == ^streamer_id,
+        order_by: [desc: e.inserted_at, desc: e.id]
+      )
+
+    Repo.paginate(query,
+      limit: 15,
+      include_total_count: true,
+      cursor_fields: [:inserted_at, :id],
+      after: cursors.after,
+      before: cursors.before,
+      sort_direction: :desc
+    )
+  end
+
   def list_streamer_donations(_streamer_id = nil) do
     []
   end

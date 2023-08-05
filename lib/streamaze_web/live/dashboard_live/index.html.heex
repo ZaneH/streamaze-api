@@ -24,36 +24,7 @@
                 <div class="flow-root">
                     <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                         <%= for donation <- @latest_donations do %>
-                            <li class="py-3 sm:py-4">
-                                <div class="flex items-center space-x-4">
-                                    <div class="flex-shrink-0 relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                        <%= if donation.metadata["pfp"] do %>
-                                            <img class="w-8 h-8 rounded-full" src={donation.metadata["pfp"]} alt="Rounded avatar">
-                                        <% else %>
-                                            <span class="font-medium text-gray-600 dark:text-gray-300"><%= String.at(donation.sender, 0) %></span>
-                                        <% end %>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                            <%= donation.sender %>
-                                        </p>
-                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            <%= donation_type_to_string(donation.type) %>
-                                        </p>
-                                    </div>
-                                    <%= if not Money.zero?(donation.value) do %>
-                                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                            <%= Money.to_string(donation.value) %>
-                                        </div>
-                                    <% end %>
-                                </div>
-                                <%= if donation.message do %>
-                                    <div class="mt-3 text-gray-700 dark:text-gray-200 break-all"><%= donation.message %></div>
-                                <% end %>
-                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                    <time phx-hook="LocalTime" id="my-local-time"><%= donation.inserted_at %></time>
-                                </p>
-                            </li>
+                            <.live_component module={DonationCard} donation={donation} id={donation.id} />
                         <% end %>
                     </ul>
                 </div>
@@ -63,25 +34,14 @@
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div class="flex items-center justify-between mb-4">
                 <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Expenses</h5>
-                <%= link to: Routes.expense_index_path(@socket, :index), class: "text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" do %>
+                <%= link to: Routes.expense_index_path(@socket, :index, streamer_id: @selected_streamer_id), class: "text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" do %>
                     View all
                 <% end %>
             </div>
             <div class="flow-root">
                 <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                     <%= for expense <- @streamer_expenses do %>
-                        <li class="py-3 sm:py-4">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                        <%= Money.to_string(expense.value, code: true) %>
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        <time phx-hook="LocalTime" id="my-local-time"><%= expense.inserted_at %></time>
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
+                        <.live_component module={ExpenseCard} expense={expense} id={expense.id} />
                     <% end %>
                 </ul>
             </div>
