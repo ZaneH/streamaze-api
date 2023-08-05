@@ -35,7 +35,9 @@ defmodule StreamazeWeb.ManagersLive.Index do
       case Streams.add_manager_to_streamer(invite_code, streamer.id) do
         {:ok, _manager} ->
           {:noreply,
-           socket |> put_flash(:info, "Added manager") |> push_redirect(to: "/managers/invite")}
+           socket
+           |> put_flash(:info, "Added manager")
+           |> push_redirect(to: "/invite/managers")}
 
         {:error, :not_found} ->
           {:noreply,
