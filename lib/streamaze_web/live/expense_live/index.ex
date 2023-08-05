@@ -64,7 +64,18 @@ defmodule StreamazeWeb.ExpenseLive.Index do
     {:noreply, assign(socket, :donations, list_expenses(socket.assigns.streamer.id))}
   end
 
-  defp list_expenses(streamer_id, cursors \\ nil) do
+  defp list_expenses(
+         streamer_id,
+         cursors \\ %{
+           before: nil,
+           after: nil
+         }
+       ) do
+    cursors = %{
+      before: replace_empty_string_with_nil(cursors.before),
+      after: replace_empty_string_with_nil(cursors.after)
+    }
+
     Finances.pagination_expenses(streamer_id, cursors)
   end
 end

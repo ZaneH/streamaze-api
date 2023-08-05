@@ -71,4 +71,7 @@ defmodule StreamazeWeb.LiveHelpers do
       _ -> donation_type
     end
   end
+
+  def replace_empty_string_with_nil(value) when value === "", do: nil
+  def replace_empty_string_with_nil(value), do: value
 end

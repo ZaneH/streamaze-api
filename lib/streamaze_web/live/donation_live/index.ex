@@ -64,7 +64,18 @@ defmodule StreamazeWeb.DonationLive.Index do
     {:noreply, assign(socket, :donations, list_donations(socket.assigns.streamer.id))}
   end
 
-  defp list_donations(streamer_id, cursors \\ nil) do
+  defp list_donations(
+         streamer_id,
+         cursors \\ %{
+           before: nil,
+           after: nil
+         }
+       ) do
+    cursors = %{
+      before: replace_empty_string_with_nil(cursors.before),
+      after: replace_empty_string_with_nil(cursors.after)
+    }
+
     Finances.paginate_donations(streamer_id, cursors)
   end
 end

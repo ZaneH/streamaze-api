@@ -51,16 +51,16 @@
                                     Kick
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Channel ID: <%= @dashboard_config.chat_config["kick_channel_id"] || "Not set" %>
+                                    Channel ID: <%= replace_empty_string_with_nil(@dashboard_config.chat_config["kick_channel_id"]) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Chatroom ID: <%= @dashboard_config.chat_config["kick_chatroom_id"] || "Not set" %>
+                                    Chatroom ID: <%= replace_empty_string_with_nil(@dashboard_config.chat_config["kick_chatroom_id"]) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Kick Username: <%= @dashboard_config.chat_config["kick_channel_name"] || "Not set" %>
+                                    Kick Username: <%= replace_empty_string_with_nil(@dashboard_config.chat_config["kick_channel_name"]) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Kick Username: <%= @dashboard_config.chat_config["twitch_channel_name"] || "Not set" %>
+                                    Kick Username: <%= replace_empty_string_with_nil(@dashboard_config.chat_config["twitch_channel_name"]) || "Not set" %>
                                 </p>
                             </div>
                         </div>
@@ -82,10 +82,10 @@
                         <div class="flex items-center space-x-4">
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Discord Channel ID: <%= @dashboard_config.clip_config["discord_channel_id"] || "Not set" %>
+                                    Discord Channel ID: <%= replace_empty_string_with_nil(@dashboard_config.clip_config["discord_channel_id"]) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    YouTube Channel URL: <%= @dashboard_config.clip_config["youtube_channel_url"] || "Not set" %>
+                                    YouTube Channel URL: <%= replace_empty_string_with_nil(@dashboard_config.clip_config["youtube_channel_url"]) || "Not set" %>
                                 </p>
                             </div>
                         </div>
@@ -107,13 +107,13 @@
                         <div class="flex items-center space-x-4">
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    TikTok Username: <%= @dashboard_config.viewers_config["tiktok_username"] || "Not set" %>
+                                    TikTok Username: <%= replace_empty_string_with_nil(@dashboard_config.viewers_config["tiktok_username"]) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    YouTube Channel: <%= @dashboard_config.viewers_config["youtube_channel"] || "Not set" %>
+                                    YouTube Channel: <%= replace_empty_string_with_nil(@dashboard_config.viewers_config["youtube_channel"]) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Kick Channel Name: <%= @dashboard_config.viewers_config["kick_channel_name"] || "Not set" %>
+                                    Kick Channel Name: <%= replace_empty_string_with_nil(@dashboard_config.viewers_config["kick_channel_name"]) || "Not set" %>
                                 </p>
                             </div>
                         </div>
@@ -135,25 +135,25 @@
                         <div class="flex items-center space-x-4">
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    TTS Service: <%= Map.get(@dashboard_config.donations_config, "tts_service") || "Not set" %>
+                                    TTS Service: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.donations_config, "tts_service")) || "Not set" %>
                                 </p>
                                 
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Streamlabs Token: <%= Map.get(@dashboard_config.donations_config, "streamlabs_token") || "Not set" %>
+                                    Streamlabs Token: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.donations_config, "streamlabs_token")) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    ElevenLabs Key: <%= Map.get(@dashboard_config.donations_config, "elevenlabs_key") || "Not set" %>
-                                </p>
-
-                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Streamlabs voice: <%= Map.get(@dashboard_config.donations_config, "streamlabs_voice") || "Not set" %>
-                                </p>
-                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    ElevenLabs voice ID: <%= Map.get(@dashboard_config.donations_config, "elevenlabs_voice") || "Not set" %>
+                                    ElevenLabs Key: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.donations_config, "elevenlabs_key")) || "Not set" %>
                                 </p>
 
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Silent audio interval (minutes): <%= Map.get(@dashboard_config.donations_config, "silent_audio_interval") || "Not set" %>
+                                    Streamlabs voice: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.donations_config, "streamlabs_voice")) || "Not set" %>
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    ElevenLabs voice ID: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.donations_config, "elevenlabs_voice")) || "Not set" %>
+                                </p>
+
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    Silent audio interval (minutes): <%= replace_empty_string_with_nil(Map.get(@dashboard_config.donations_config, "silent_audio_interval")) || "Not set" %>
                                 </p>
                             </div>
                         </div>
@@ -175,10 +175,10 @@
                         <div class="flex items-center space-x-4">
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    Discord User ID: <%= Map.get(@dashboard_config.lanyard_config, "discord_user_id") || "Not set" %>
+                                    Discord User ID: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.lanyard_config, "discord_user_id")) || "Not set" %>
                                 </p>
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    API Key: <%= Map.get(@dashboard_config.lanyard_config, "api_key") || "Not set" %>
+                                    API Key: <%= replace_empty_string_with_nil(Map.get(@dashboard_config.lanyard_config, "api_key")) || "Not set" %>
                                 </p>
                             </div>
                         </div>

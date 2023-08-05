@@ -150,11 +150,6 @@ defmodule Streamaze.Finances do
           after: nil
         }
       ) do
-    cursors = %{
-      before: replace_empty_string_with_nil(cursors.before),
-      after: replace_empty_string_with_nil(cursors.after)
-    }
-
     query =
       from(d in Donation,
         where: d.streamer_id == ^streamer_id,
@@ -178,11 +173,6 @@ defmodule Streamaze.Finances do
           after: nil
         }
       ) do
-    cursors = %{
-      before: replace_empty_string_with_nil(cursors.before),
-      after: replace_empty_string_with_nil(cursors.after)
-    }
-
     query =
       from(e in Expense,
         where: e.streamer_id == ^streamer_id,
@@ -198,9 +188,6 @@ defmodule Streamaze.Finances do
       sort_direction: :desc
     )
   end
-
-  defp replace_empty_string_with_nil(value) when value === "", do: nil
-  defp replace_empty_string_with_nil(value), do: value
 
   def list_streamer_donations(_streamer_id = nil) do
     []
