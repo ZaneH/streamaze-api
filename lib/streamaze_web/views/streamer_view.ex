@@ -1,4 +1,6 @@
 defmodule StreamazeWeb.StreamerView do
+  alias Streamaze.Accounts
+  alias Streamaze.Streams
   use StreamazeWeb, :view
 
   def render("index.json", %{streamers: streamers}) do
@@ -18,6 +20,8 @@ defmodule StreamazeWeb.StreamerView do
   end
 
   def render("show_private.json", %{streamer: streamer}) do
+    admin_accounts = get_admin_accounts(streamer)
+
     %{
       id: streamer.id,
       name: streamer.name,
@@ -27,7 +31,11 @@ defmodule StreamazeWeb.StreamerView do
       obs_config: streamer.obs_config,
       viewers_config: streamer.viewers_config,
       donations_config: streamer.donations_config,
-      lanyard_config: streamer.lanyard_config
+      lanyard_config: streamer.lanyard_config,
+      admin_config: %{
+        streamers: admin_accounts,
+        role: streamer.admin_config["role"]
+      }
     }
   end
 
@@ -49,5 +57,30 @@ defmodule StreamazeWeb.StreamerView do
           end)
         end)
     }
+  end
+
+  defp get_admin_accounts(streamer) do
+    try do
+      if not is_nil(streamer.admin_config["streamer_ids"]) do
+        streamer_ids = streamer.admin_config["streamer_ids"]
+
+        for s <- streamer_ids ++ [streamer.id] do
+          admin_owned_streamer = Streams.get_streamer!(s)
+          api_key = Accounts.get_api_key_for_user(admin_owned_streamer.user_id)
+
+          %{
+            id: admin_owned_streamer.id,
+            name: admin_owned_streamer.name,
+            api_key: api_key
+          }
+        end
+      else
+        %{}
+      end
+    rescue
+      _ ->
+        IO.inspect("Error loading admin accounts for streamer #{streamer.id}")
+        %{}
+    end
   end
 end

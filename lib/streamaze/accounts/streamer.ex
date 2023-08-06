@@ -13,6 +13,7 @@ defmodule Streamaze.Accounts.Streamer do
     field :donations_config, :map, redact: true
     field :lanyard_config, :map, redact: true
     field :stats_offset, :map
+    field :admin_config, :map, redact: true
 
     field :donation_audio_s3, :string
 
