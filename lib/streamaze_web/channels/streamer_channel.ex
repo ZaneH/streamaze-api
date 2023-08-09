@@ -66,6 +66,20 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
+  def handle_in("switch_profile", %{"profile" => profile} = payload, socket) do
+    # TODO: Figure out how this should be dynamic
+    streamer_key = "sam"
+
+    case OBS.switch_profile(streamer_key, %{"profile" => profile}) do
+      :ok ->
+        {:reply, {:ok, payload}, socket}
+
+      {:error, _} ->
+        payload = Map.put(payload, "reason", "Error switching to #{profile} profile")
+        {:reply, {:error, payload}, socket}
+    end
+  end
+
   def handle_in("stop_server", payload, socket) do
     # TODO: Figure out how this should be dynamic
     streamer_key = "sam"

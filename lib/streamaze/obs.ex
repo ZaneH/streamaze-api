@@ -24,6 +24,25 @@ defmodule Streamaze.OBS do
     end
   end
 
+  def switch_profile(streamer_key, %{"profile" => profile}) do
+    switch_url = create_request_url("/streamers/#{streamer_key}/profiles")
+
+    case HTTPoison.patch(
+           switch_url,
+           Jason.encode!(%{
+             currentProfileName: profile
+           }),
+           [{"Content-Type", "application/json"}]
+         ) do
+      {:ok, %HTTPoison.Response{status_code: 204}} ->
+        :ok
+
+      e ->
+        IO.inspect(e)
+        {:error, "Bad response code"}
+    end
+  end
+
   def stop_server(streamer_key) do
     stop_url = create_request_url("/streamers/#{streamer_key}/server/stop")
 
