@@ -38,11 +38,15 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("switch_scene", %{"scene" => scene} = payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.switch_scene(streamer_key, scene) do
+  def handle_in(
+        "switch_scene",
+        %{
+          "obs_key" => obs_key,
+          "scene" => scene
+        } = payload,
+        socket
+      ) do
+    case OBS.switch_scene(obs_key, scene) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
@@ -52,11 +56,15 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("start_server", %{"service" => service} = payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.start_server(streamer_key, %{"service" => service}) do
+  def handle_in(
+        "start_server",
+        %{
+          "obs_key" => obs_key,
+          "service" => service
+        } = payload,
+        socket
+      ) do
+    case OBS.start_server(obs_key, %{"service" => service}) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
@@ -66,11 +74,15 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("switch_profile", %{"profile" => profile} = payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.switch_profile(streamer_key, %{"profile" => profile}) do
+  def handle_in(
+        "switch_profile",
+        %{
+          "obs_key" => obs_key,
+          "profile" => profile
+        } = payload,
+        socket
+      ) do
+    case OBS.switch_profile(obs_key, %{"profile" => profile}) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
@@ -80,11 +92,8 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("stop_server", payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.stop_server(streamer_key) do
+  def handle_in("stop_server", %{"obs_key" => obs_key} = payload, socket) do
+    case OBS.stop_server(obs_key) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
@@ -94,11 +103,8 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("start_broadcast", payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.start_broadcast(streamer_key) do
+  def handle_in("start_broadcast", %{"obs_key" => obs_key} = payload, socket) do
+    case OBS.start_broadcast(obs_key) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
@@ -108,11 +114,8 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("stop_broadcast", payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.stop_broadcast(streamer_key) do
+  def handle_in("stop_broadcast", %{"obs_key" => obs_key} = payload, socket) do
+    case OBS.stop_broadcast(obs_key) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
@@ -122,11 +125,8 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
-  def handle_in("stop_pi", payload, socket) do
-    # TODO: Figure out how this should be dynamic
-    streamer_key = "sam"
-
-    case OBS.stop_pi(streamer_key) do
+  def handle_in("stop_pi", %{"obs_key" => obs_key} = payload, socket) do
+    case OBS.stop_pi(obs_key) do
       :ok ->
         {:reply, {:ok, payload}, socket}
 
