@@ -34,7 +34,8 @@ defmodule StreamazeWeb.StreamerView do
       lanyard_config: streamer.lanyard_config,
       admin_config: %{
         streamers: admin_accounts,
-        role: streamer.admin_config["role"]
+        role: streamer.admin_config["role"],
+        obs_key: streamer.admin_config["obs_key"]
       }
     }
   end
