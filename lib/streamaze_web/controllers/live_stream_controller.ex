@@ -71,7 +71,8 @@ defmodule StreamazeWeb.LiveStreamController do
       subathon_seconds_added: live_stream.subathon_seconds_added,
       subathon_start_time: live_stream.subathon_start_time,
       subathon_start_minutes: live_stream.subathon_start_minutes,
-      subathon_ended_time: live_stream.subathon_ended_time
+      subathon_ended_time: live_stream.subathon_ended_time,
+      subathon_minutes_per_dollar: live_stream.subathon_minutes_per_dollar
     })
   end
 end
