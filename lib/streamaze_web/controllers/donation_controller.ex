@@ -17,11 +17,13 @@ defmodule StreamazeWeb.DonationController do
         broadcast_donation(donation)
 
         try do
-          Connectivity.Lanyard.update_value(
-            conn.params["streamer_id"],
-            "net_profit",
-            Streams.get_streamers_net_profit(conn.params["streamer_id"])
-          )
+          if not donation.exclude_from_profit do
+            Connectivity.Lanyard.update_value(
+              conn.params["streamer_id"],
+              "net_profit",
+              Streams.get_streamers_net_profit(conn.params["streamer_id"])
+            )
+          end
 
           streamer = Streams.get_streamer!(conn.params["streamer_id"])
 

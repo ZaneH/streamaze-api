@@ -10,6 +10,7 @@ defmodule Streamaze.Finances.Donation do
     field :sender, :string
     field :type, :string
     field :months, :integer
+    field :exclude_from_profit, :boolean, default: false
 
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
@@ -27,7 +28,8 @@ defmodule Streamaze.Finances.Donation do
       :streamer_id,
       :message,
       :metadata,
-      :months
+      :months,
+      :exclude_from_profit
     ])
     |> validate_required([:value, :amount_in_usd, :type, :streamer_id])
     |> foreign_key_constraint(:streamer_id)

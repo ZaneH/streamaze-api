@@ -218,10 +218,15 @@ defmodule Streamaze.Finances do
   def get_donation!(id), do: Repo.get!(Donation, id)
 
   def get_streamers_total_donations(streamer_id) do
-    Donation
-    |> where([d], d.streamer_id == ^streamer_id)
-    |> select([d], sum(d.amount_in_usd))
-    |> Repo.one()
+    query =
+      from(d in Donation,
+        where:
+          d.streamer_id == ^streamer_id and
+            d.exclude_from_profits != true,
+        select: sum(d.amount_in_usd)
+      )
+
+    Repo.one(query)
   end
 
   @doc """
