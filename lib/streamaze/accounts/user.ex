@@ -22,6 +22,7 @@ defmodule Streamaze.Accounts.User do
     struct
     |> cast(params, [:streamer_id])
     |> cast_assoc(:streamer, required: false)
+    |> unique_constraint(:streamer_id)
   end
 
   @doc """
