@@ -26,14 +26,17 @@ defmodule StreamazeWeb.TTSController do
         "text" => text,
         "api_key" => api_key
       }) do
+    text =
+      "!sam Duane Davis was the shot-caller for this group of individuals that committed this crime and he orchestrated the plan that was carried out to commit this crime"
+
     streamer_id = Streams.get_streamer_id_for_api_key(api_key)
     streamer = Streams.get_streamer!(streamer_id)
 
     voice_id = streamer.donations_config["elevenlabs_voice"]
     elevenlabs_key = streamer.donations_config["elevenlabs_key"]
 
-    {text, voice_id} = get_voice_from_prefix(text, voice_id)
-    audio = TTS.text_to_speech(text, voice_id, elevenlabs_key)
+    {text, voice_id, model_id} = get_voice_from_prefix(text, voice_id)
+    audio = TTS.text_to_speech(text, voice_id, elevenlabs_key, model_id)
 
     case audio do
       {:ok, body} ->
@@ -70,67 +73,67 @@ defmodule StreamazeWeb.TTSController do
 
     cond do
       String.contains?(text, "!sus ") ->
-        {String.replace(text, "!sus ", ""), "yr6Duy4g20vOOalAiZzF"}
+        {String.replace(text, "!sus ", ""), "yr6Duy4g20vOOalAiZzF", "eleven_multilingual_v2"}
 
       String.contains?(text, "!evan ") ->
-        {String.replace(text, "!evan ", ""), "409nTFdZtB7GNYnKzLQF"}
+        {String.replace(text, "!evan ", ""), "409nTFdZtB7GNYnKzLQF", "eleven_multilingual_v2"}
 
       String.contains?(text, "!ice ") ->
-        {String.replace(text, "!ice ", ""), "9FgctjpXeaMlm2WRPCFs"}
+        {String.replace(text, "!ice ", ""), "9FgctjpXeaMlm2WRPCFs", "eleven_multilingual_v2"}
 
       String.contains?(text, "!ebz ") ->
-        {String.replace(text, "!ebz ", ""), "cgZyzakA6d8LhJghycoW"}
+        {String.replace(text, "!ebz ", ""), "cgZyzakA6d8LhJghycoW", "eleven_multilingual_v2"}
 
       String.contains?(text, "!blade ") ->
-        {String.replace(text, "!blade ", ""), "JSLeek4NxMXrwdx8iiZU"}
+        {String.replace(text, "!blade ", ""), "JSLeek4NxMXrwdx8iiZU", "eleven_multilingual_v2"}
 
       String.contains?(text, "!gary ") ->
-        {String.replace(text, "!gary ", ""), "1gE8msxAuJeZQhv3KuEy"}
+        {String.replace(text, "!gary ", ""), "1gE8msxAuJeZQhv3KuEy", "eleven_multilingual_v2"}
 
       String.contains?(text, "!cas ") ->
-        {String.replace(text, "!cas ", ""), "NxuFIYd0d676kT8kaykv"}
+        {String.replace(text, "!cas ", ""), "NxuFIYd0d676kT8kaykv", "eleven_multilingual_v2"}
 
       String.contains?(text, "!ttd ") ->
-        {String.replace(text, "!ttd ", ""), "iaQLOQPURshhG5sGOumZ"}
+        {String.replace(text, "!ttd ", ""), "iaQLOQPURshhG5sGOumZ", "eleven_multilingual_v2"}
 
       String.contains?(text, "!kim ") ->
-        {String.replace(text, "!kim ", ""), "jJTBoKoKygVt4bRIQA8k"}
+        {String.replace(text, "!kim ", ""), "jJTBoKoKygVt4bRIQA8k", "eleven_multilingual_v2"}
 
       String.contains?(text, "!dj ") ->
-        {String.replace(text, "!dj ", ""), "467fqHddUbHJSMSeqkFQ"}
+        {String.replace(text, "!dj ", ""), "467fqHddUbHJSMSeqkFQ", "eleven_multilingual_v2"}
 
       String.contains?(text, "!vex ") ->
-        {String.replace(text, "!vex ", ""), "OBlAO31r8mqoq6oFbzfC"}
+        {String.replace(text, "!vex ", ""), "OBlAO31r8mqoq6oFbzfC", "eleven_multilingual_v2"}
 
       String.contains?(text, "!homeless ") ->
-        {String.replace(text, "!homeless ", ""), "3rdEbNPQ6QBUw2CANaS6"}
+        {String.replace(text, "!homeless ", ""), "3rdEbNPQ6QBUw2CANaS6", "eleven_multilingual_v2"}
 
       String.contains?(text, "!burger ") ->
-        {String.replace(text, "!burger ", ""), "eJOPXaMje32O83uRnlJs"}
+        {String.replace(text, "!burger ", ""), "eJOPXaMje32O83uRnlJs", "eleven_multilingual_v2"}
 
       String.contains?(text, "!hannah ") ->
-        {String.replace(text, "!hannah ", ""), "UaTnig4RhXPukPPDrJER"}
+        {String.replace(text, "!hannah ", ""), "UaTnig4RhXPukPPDrJER", "eleven_multilingual_v2"}
 
       String.contains?(text, "!han ") ->
-        {String.replace(text, "!han ", ""), "UaTnig4RhXPukPPDrJER"}
+        {String.replace(text, "!han ", ""), "UaTnig4RhXPukPPDrJER", "eleven_multilingual_v2"}
 
       String.contains?(text, "!sam ") ->
-        {String.replace(text, "!sam ", ""), "ZaDkJaUmYx7hAPprgvbs"}
+        {String.replace(text, "!sam ", ""), "ZaDkJaUmYx7hAPprgvbs", "eleven_monolingual_v1"}
 
       String.contains?(text, "!nick ") ->
-        {String.replace(text, "!nick ", ""), "Udsiw1idqPiHsFy03Vlh"}
+        {String.replace(text, "!nick ", ""), "Udsiw1idqPiHsFy03Vlh", "eleven_multilingual_v2"}
 
       String.contains?(text, "!andy ") ->
-        {String.replace(text, "!andy ", ""), "vaG8X2CXD9oSgzNpAhIX"}
+        {String.replace(text, "!andy ", ""), "vaG8X2CXD9oSgzNpAhIX", "eleven_multilingual_v2"}
 
       String.contains?(text, "!hyub ") ->
-        {String.replace(text, "!hyub ", ""), "bgTipB1D3n0ZIWusviO7"}
+        {String.replace(text, "!hyub ", ""), "bgTipB1D3n0ZIWusviO7", "eleven_multilingual_v2"}
 
       String.contains?(text, "!fousey ") ->
-        {String.replace(text, "!fousey ", ""), "Go7tpwAeHFfEgicxUIMT"}
+        {String.replace(text, "!fousey ", ""), "Go7tpwAeHFfEgicxUIMT", "eleven_multilingual_v2"}
 
       true ->
-        {text, voice_id}
+        {text, voice_id, "eleven_multilingual_v2"}
     end
   end
 end

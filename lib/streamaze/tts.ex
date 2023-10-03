@@ -1,10 +1,10 @@
 defmodule Streamaze.TTS do
   use Retry
 
-  def text_to_speech(text, voice_id, api_key) do
+  def text_to_speech(text, voice_id, api_key, model_id \\ "eleven_multilingual_v1") do
     url = text_to_speech_url(voice_id)
     headers = [{"Content-Type", "application/json"}, {"xi-api-key", api_key}]
-    {:ok, body} = Jason.encode(%{text: strip_urls_from_text(text)})
+    {:ok, body} = Jason.encode(%{text: strip_urls_from_text(text), model_id: model_id})
 
     retry with: exponential_backoff() |> randomize |> cap(1_000) |> expiry(10_000) do
       IO.puts("Sending request to ElevenLabs")
