@@ -7,6 +7,7 @@ defmodule Streamaze.Streams do
   alias Streamaze.Repo
   alias Streamaze.Accounts.Streamer
   alias Streamaze.StreamerManager
+  alias Streamaze.Streams.ChatMonitor
 
   @doc """
   Returns the list of streamers.
@@ -274,5 +275,85 @@ defmodule Streamaze.Streams do
   """
   def change_live_stream(%LiveStream{} = live_stream, attrs \\ %{}) do
     LiveStream.changeset(live_stream, attrs)
+  end
+
+  @doc """
+  Returns the last 10 chat monitors for a streamer.
+
+  ## Examples
+
+      iex> list_chat_monitors(streamer_id)
+      [%ChatMonitor{}, ...]
+
+  """
+  def list_chat_monitors(streamer_id) do
+    Repo.all(
+      from c in ChatMonitor,
+        where: c.streamer_id == ^streamer_id,
+        order_by: [desc: c.monitor_start],
+        limit: 10
+    )
+  end
+
+  @doc """
+  Creates a chat_monitor for a streamer.
+
+  ## Examples
+
+      iex> create_chat_monitor(%{field: value})
+      {:ok, %ChatMonitor{}}
+
+      iex> create_chat_monitor(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_chat_monitor(attrs \\ %{}) do
+    %ChatMonitor{}
+    |> ChatMonitor.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Gets a chat_monitor by id. If it's older than 24hrs, a new one will be returned.
+
+  ## Examples
+
+      iex> get_chat_monitor(id)
+      %ChatMonitor{}
+  """
+  def get_chat_monitor(id) do
+    chat_monitor = Repo.get(ChatMonitor, id)
+
+    monitor_start_date = DateTime.to_date(chat_monitor.monitor_start)
+    today_date = DateTime.to_date(DateTime.utc_now())
+
+    if monitor_start_date == today_date do
+      chat_monitor
+    else
+      %ChatMonitor{}
+      |> ChatMonitor.changeset(%{
+        "streamer_id" => chat_monitor.streamer_id,
+        "live_stream_id" => chat_monitor.live_stream_id,
+        "monitor_start" => DateTime.utc_now(),
+        "chat_activity" => %{}
+      })
+      |> Repo.insert()
+    end
+  end
+
+  @doc """
+  Updates a chat_monitor for a streamer.
+
+  ## Examples
+
+      iex> update_chat_monitor(chat_monitor, %{field: new_value})
+      {:ok, %ChatMonitor{}}
+
+      iex> update_chat_monitor(chat_monitor, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_chat_monitor(%ChatMonitor{} = chat_monitor, attrs) do
+    chat_monitor
+    |> ChatMonitor.changeset(attrs)
+    |> Repo.update()
   end
 end
