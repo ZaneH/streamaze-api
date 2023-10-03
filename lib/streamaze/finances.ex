@@ -222,7 +222,7 @@ defmodule Streamaze.Finances do
       from(d in Donation,
         where:
           d.streamer_id == ^streamer_id and
-            d.exclude_from_profits != true,
+            d.exclude_from_profit != true,
         select: sum(d.amount_in_usd)
       )
 

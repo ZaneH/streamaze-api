@@ -129,6 +129,9 @@ defmodule StreamazeWeb.TTSController do
       String.contains?(text, "!fousey ") ->
         {String.replace(text, "!fousey ", ""), "Go7tpwAeHFfEgicxUIMT", "eleven_multilingual_v2"}
 
+      String.contains?(text, "!tawn ") ->
+        {String.replace(text, "!tawn ", ""), "7Crvwf5CJHFOFoLlMVMM", "eleven_multilingual_v2"}
+
       true ->
         {text, voice_id, "eleven_multilingual_v2"}
     end
