@@ -85,7 +85,7 @@ defmodule StreamazeWeb.TTSController do
         {String.replace(text, "!ebz ", ""), "cgZyzakA6d8LhJghycoW", "eleven_multilingual_v2"}
 
       String.contains?(text, "!blade ") ->
-        {String.replace(text, "!blade ", ""), "JSLeek4NxMXrwdx8iiZU", "eleven_multilingual_v2"}
+        {String.replace(text, "!blade ", ""), "JSLeek4NxMXrwdx8iiZU", "eleven_monolingual_v1"}
 
       String.contains?(text, "!gary ") ->
         {String.replace(text, "!gary ", ""), "1gE8msxAuJeZQhv3KuEy", "eleven_multilingual_v2"}
@@ -100,7 +100,7 @@ defmodule StreamazeWeb.TTSController do
         {String.replace(text, "!kim ", ""), "jJTBoKoKygVt4bRIQA8k", "eleven_multilingual_v2"}
 
       String.contains?(text, "!dj ") ->
-        {String.replace(text, "!dj ", ""), "467fqHddUbHJSMSeqkFQ", "eleven_multilingual_v2"}
+        {String.replace(text, "!dj ", ""), "467fqHddUbHJSMSeqkFQ", "eleven_monolingual_v1"}
 
       String.contains?(text, "!vex ") ->
         {String.replace(text, "!vex ", ""), "OBlAO31r8mqoq6oFbzfC", "eleven_multilingual_v2"}
