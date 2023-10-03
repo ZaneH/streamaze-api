@@ -26,9 +26,6 @@ defmodule StreamazeWeb.TTSController do
         "text" => text,
         "api_key" => api_key
       }) do
-    text =
-      "!sam Duane Davis was the shot-caller for this group of individuals that committed this crime and he orchestrated the plan that was carried out to commit this crime"
-
     streamer_id = Streams.get_streamer_id_for_api_key(api_key)
     streamer = Streams.get_streamer!(streamer_id)
 
