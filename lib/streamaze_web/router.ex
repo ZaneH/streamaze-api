@@ -92,6 +92,8 @@ defmodule StreamazeWeb.Router do
 
     live "/donations/:id", DonationLive.Show, :show
     live "/donations/:id/show/edit", DonationLive.Show, :edit
+
+    live "/analytics/chat", ChatAnalyticsLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

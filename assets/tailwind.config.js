@@ -15,7 +15,9 @@ module.exports = {
         extend: {},
     },
     plugins: [
-        require("flowbite/plugin"),
+        require("flowbite/plugin")({
+            charts: true,
+        }),
         require("@tailwindcss/forms"),
         plugin(({ addVariant }) =>
             addVariant("phx-no-feedback", [

@@ -286,7 +286,7 @@ defmodule Streamaze.Streams do
       [%ChatMonitor{}, ...]
 
   """
-  def list_chat_monitors(streamer_id) do
+  def list_chat_monitors(streamer_id) when not is_nil(streamer_id) do
     Repo.all(
       from c in ChatMonitor,
         where: c.streamer_id == ^streamer_id,
@@ -313,31 +313,20 @@ defmodule Streamaze.Streams do
   end
 
   @doc """
-  Gets a chat_monitor by id. If it's older than 24hrs, a new one will be returned.
+  Gets the latest chat_monitor for a streamer id.
 
   ## Examples
 
-      iex> get_chat_monitor(id)
+      iex> get_latest_chat_monitor(streamer_id)
       %ChatMonitor{}
   """
-  def get_chat_monitor(id) do
-    chat_monitor = Repo.get(ChatMonitor, id)
-
-    monitor_start_date = DateTime.to_date(chat_monitor.monitor_start)
-    today_date = DateTime.to_date(DateTime.utc_now())
-
-    if monitor_start_date == today_date do
-      chat_monitor
-    else
-      %ChatMonitor{}
-      |> ChatMonitor.changeset(%{
-        "streamer_id" => chat_monitor.streamer_id,
-        "live_stream_id" => chat_monitor.live_stream_id,
-        "monitor_start" => DateTime.utc_now(),
-        "chat_activity" => %{}
-      })
-      |> Repo.insert()
-    end
+  def get_latest_chat_monitor(streamer_id) do
+    Repo.one(
+      from c in ChatMonitor,
+        where: c.streamer_id == ^streamer_id,
+        order_by: [desc: c.monitor_start],
+        limit: 1
+    )
   end
 
   @doc """
