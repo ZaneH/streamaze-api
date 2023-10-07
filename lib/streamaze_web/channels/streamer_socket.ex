@@ -10,7 +10,8 @@ defmodule StreamazeWeb.StreamerSocket do
   # Uncomment the following line to define a "room:*" topic
   # pointing to the `StreamazeWeb.RoomChannel`:
   #
-  channel "streamer:*", StreamazeWeb.StreamerChannel
+  channel("streamer:*", StreamazeWeb.StreamerChannel)
+  channel("maze:*", StreamazeWeb.StreamerChannel)
   #
   # To create a channel file, use the mix task:
   #

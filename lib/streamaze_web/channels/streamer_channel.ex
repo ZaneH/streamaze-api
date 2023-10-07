@@ -38,6 +38,37 @@ defmodule StreamazeWeb.StreamerChannel do
     end
   end
 
+  def join("maze:" <> streamer_id, payload, socket) do
+    if authorized?(streamer_id, payload["userToken"]) do
+      send(self(), :after_join_maze)
+
+      {:ok,
+       socket
+       |> assign(:streamer_id, streamer_id)
+       |> assign(:maze_state, %{
+         "cursor_idx" => 0
+       })}
+    else
+      {:error, %{reason: "unauthorized"}}
+    end
+  end
+
+  def handle_in(
+        "update_cursor",
+        %{"cursor_idx" => cursor_idx},
+        socket
+      ) do
+    streamer_id = socket.assigns.streamer_id
+    maze_state = socket.assigns.maze_state
+    Map.put(maze_state, "cursor_idx", cursor_idx)
+
+    StreamazeWeb.Endpoint.broadcast("maze:#{streamer_id}", "cursor", %{
+      "cursor_idx" => cursor_idx
+    })
+
+    {:noreply, socket |> assign(:maze_state, maze_state)}
+  end
+
   def handle_in(
         "switch_scene",
         %{
@@ -226,6 +257,15 @@ defmodule StreamazeWeb.StreamerChannel do
       :noreply,
       socket
       # |> assign(viewers_pid: viewers_pid)
+    }
+  end
+
+  def handle_info(:after_join_maze, socket) do
+    push(socket, "initial_state_maze", %{})
+
+    {
+      :noreply,
+      socket
     }
   end
 
