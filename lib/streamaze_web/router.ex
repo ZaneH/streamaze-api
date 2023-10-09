@@ -9,7 +9,8 @@ defmodule StreamazeWeb.Router do
     TTSController,
     GiveawayEntryController,
     StripeWebhookController,
-    UploadController
+    UploadController,
+    ChatMonitorController
   }
 
   import StreamazeWeb.UserAuth
@@ -37,6 +38,7 @@ defmodule StreamazeWeb.Router do
     resources "/api/donations", DonationController, only: [:index, :create]
     resources "/api/expenses", ExpenseController, only: [:index, :create]
     resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
+    resources "/api/chat-monitor", ChatMonitorController, only: [:index, :create, :update, :show]
 
     resources "/api/giveaway_entries", GiveawayEntryController, only: [:index, :create, :update]
 
@@ -90,6 +92,8 @@ defmodule StreamazeWeb.Router do
 
     live "/donations/:id", DonationLive.Show, :show
     live "/donations/:id/show/edit", DonationLive.Show, :edit
+
+    live "/analytics/chat", ChatAnalyticsLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

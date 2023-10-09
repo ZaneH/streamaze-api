@@ -18,6 +18,8 @@
 //     import "some-package"
 //
 
+import ApexCharts from "apexcharts";
+
 let Hooks = {};
 Hooks.LocalTime = {
     mounted() {
@@ -28,6 +30,117 @@ Hooks.LocalTime = {
         let offset = dt.getTimezoneOffset();
         var localDt = new Date(dt.getTime() - offset * 60 * 1000);
         this.el.textContent = localDt.toLocaleString();
+    },
+};
+
+Hooks.ApexChart = {
+    mounted() {
+        this.updated();
+    },
+    updated() {
+        const xAxisAttr = this.el.getAttribute("xaxis");
+        const yAxisAttr = this.el.getAttribute("yaxis");
+        let xAxis;
+        let yAxis;
+
+        try {
+            xAxis = JSON.parse(xAxisAttr);
+            xAxis = xAxis.map((x) => {
+                date = new Date(parseInt(x));
+                return date.toLocaleString();
+            });
+
+            yAxis = JSON.parse(yAxisAttr);
+        } catch (e) {
+            console.error(e);
+        }
+
+        // ApexCharts options and config
+        let options = {
+            dataLabels: {
+                enabled: true,
+                // offsetX: 10,
+                style: {
+                    cssClass: "text-xs text-white font-medium",
+                },
+            },
+            grid: {
+                show: false,
+                strokeDashArray: 4,
+                padding: {
+                    left: 16,
+                    right: 16,
+                    top: -26,
+                },
+            },
+            series: [
+                {
+                    name: "Chat messages",
+                    data: yAxis,
+                    color: "#1A56DB",
+                },
+            ],
+            chart: {
+                height: "100%",
+                maxWidth: "100%",
+                type: "area",
+                fontFamily: "Inter, sans-serif",
+                dropShadow: {
+                    enabled: false,
+                },
+                toolbar: {
+                    show: false,
+                },
+            },
+            tooltip: {
+                theme: "dark",
+                enabled: true,
+                x: {
+                    show: false,
+                },
+            },
+            legend: {
+                show: true,
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    opacityFrom: 0.55,
+                    opacityTo: 0,
+                    shade: "#1C64F2",
+                    gradientToColors: ["#1C64F2"],
+                },
+            },
+            stroke: {
+                width: 6,
+            },
+            xaxis: {
+                categories: xAxis,
+                labels: {
+                    show: false,
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                show: false,
+                labels: {
+                    formatter: function (value) {
+                        return value;
+                    },
+                },
+            },
+        };
+
+        if (this.el) {
+            const chart = new ApexCharts(this.el, options);
+
+            chart.render();
+        }
     },
 };
 

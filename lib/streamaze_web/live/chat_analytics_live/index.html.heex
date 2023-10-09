@@ -1,0 +1,32 @@
+<div class="flex flex-col gap-4">
+    <h1 class="text-4xl font-bold">Chat Analytics</h1>
+
+    <p class="mb-6 font-medium text-gray-400">
+        View the highlights from previous live streams.
+    </p>
+    
+    <div class="mb-6">
+        <%= for {_, i} <- Enum.with_index(@monitors) do %>
+            <div class="mb-6 max-w-lg w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                <div class="flex justify-between mb-5">
+                    <div>
+                        <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
+                            <%= Enum.sum(Enum.at(@yaxis, i)) %>
+                        </h5>
+                        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                            Total messages
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div
+                        phx-hook="ApexChart"
+                        id={"data-labels-chart-#{i}"}
+                        xaxis={Jason.encode!(Enum.at(@xaxis, i))}
+                        yaxis={Jason.encode!(Enum.at(@yaxis, i))}
+                    ></div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

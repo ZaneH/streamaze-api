@@ -7,6 +7,7 @@ defmodule Streamaze.Streams do
   alias Streamaze.Repo
   alias Streamaze.Accounts.Streamer
   alias Streamaze.StreamerManager
+  alias Streamaze.Streams.ChatMonitor
 
   @doc """
   Returns the list of streamers.
@@ -274,5 +275,74 @@ defmodule Streamaze.Streams do
   """
   def change_live_stream(%LiveStream{} = live_stream, attrs \\ %{}) do
     LiveStream.changeset(live_stream, attrs)
+  end
+
+  @doc """
+  Returns the last 10 chat monitors for a streamer.
+
+  ## Examples
+
+      iex> list_chat_monitors(streamer_id)
+      [%ChatMonitor{}, ...]
+
+  """
+  def list_chat_monitors(streamer_id) when not is_nil(streamer_id) do
+    Repo.all(
+      from c in ChatMonitor,
+        where: c.streamer_id == ^streamer_id,
+        order_by: [desc: c.monitor_start],
+        limit: 10
+    )
+  end
+
+  @doc """
+  Creates a chat_monitor for a streamer.
+
+  ## Examples
+
+      iex> create_chat_monitor(%{field: value})
+      {:ok, %ChatMonitor{}}
+
+      iex> create_chat_monitor(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_chat_monitor(attrs \\ %{}) do
+    %ChatMonitor{}
+    |> ChatMonitor.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Gets the latest chat_monitor for a streamer id.
+
+  ## Examples
+
+      iex> get_latest_chat_monitor(streamer_id)
+      %ChatMonitor{}
+  """
+  def get_latest_chat_monitor(streamer_id) do
+    Repo.one(
+      from c in ChatMonitor,
+        where: c.streamer_id == ^streamer_id,
+        order_by: [desc: c.monitor_start],
+        limit: 1
+    )
+  end
+
+  @doc """
+  Updates a chat_monitor for a streamer.
+
+  ## Examples
+
+      iex> update_chat_monitor(chat_monitor, %{field: new_value})
+      {:ok, %ChatMonitor{}}
+
+      iex> update_chat_monitor(chat_monitor, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_chat_monitor(%ChatMonitor{} = chat_monitor, attrs) do
+    chat_monitor
+    |> ChatMonitor.changeset(attrs)
+    |> Repo.update()
   end
 end
