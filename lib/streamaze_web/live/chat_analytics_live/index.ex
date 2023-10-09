@@ -10,21 +10,19 @@ defmodule StreamazeWeb.ChatAnalyticsLive.Index do
     chat_monitors = Streams.list_chat_monitors(current_user.streamer_id)
 
     xaxis_attrs =
-      Enum.each(chat_monitors, fn cm ->
+      Enum.map(chat_monitors, fn cm ->
         Enum.map(cm.chat_activity, fn {k, _v} -> k end)
       end)
 
     yaxis_attrs =
-      Enum.each(chat_monitors, fn cm ->
+      Enum.map(chat_monitors, fn cm ->
         Enum.map(cm.chat_activity, fn {_k, v} -> v end)
       end)
-
-    IO.puts(yaxis_attrs)
 
     {:ok,
      socket
      |> assign(:monitors, chat_monitors)
-     |> assign(:xaxis_attr, xaxis_attrs)
-     |> assign(:yaxis_attr, yaxis_attrs)}
+     |> assign(:xaxis, xaxis_attrs)
+     |> assign(:yaxis, yaxis_attrs)}
   end
 end

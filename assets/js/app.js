@@ -38,9 +38,25 @@ Hooks.ApexChart = {
         this.updated();
     },
     updated() {
+        const xAxisAttr = this.el.getAttribute("xaxis");
+        const yAxisAttr = this.el.getAttribute("yaxis");
+        let xAxis;
+        let yAxis;
+
+        try {
+            xAxis = JSON.parse(xAxisAttr);
+            xAxis = xAxis.map((x) => {
+                date = new Date(parseInt(x));
+                return date.toLocaleString();
+            });
+
+            yAxis = JSON.parse(yAxisAttr);
+        } catch (e) {
+            console.error(e);
+        }
+
         // ApexCharts options and config
         let options = {
-            // enable and customize data labels using the following example, learn more from here: https://apexcharts.com/docs/datalabels/
             dataLabels: {
                 enabled: true,
                 // offsetX: 10,
@@ -59,14 +75,9 @@ Hooks.ApexChart = {
             },
             series: [
                 {
-                    name: "Developer Edition",
-                    data: [150, 141, 145, 152, 135, 125],
+                    name: "Chat messages",
+                    data: yAxis,
                     color: "#1A56DB",
-                },
-                {
-                    name: "Designer Edition",
-                    data: [64, 41, 76, 41, 113, 173],
-                    color: "#7E3BF2",
                 },
             ],
             chart: {
@@ -82,6 +93,7 @@ Hooks.ApexChart = {
                 },
             },
             tooltip: {
+                theme: "dark",
                 enabled: true,
                 x: {
                     show: false,
@@ -103,15 +115,7 @@ Hooks.ApexChart = {
                 width: 6,
             },
             xaxis: {
-                categories: [
-                    "01 February",
-                    "02 February",
-                    "03 February",
-                    "04 February",
-                    "05 February",
-                    "06 February",
-                    "07 February",
-                ],
+                categories: xAxis,
                 labels: {
                     show: false,
                 },
@@ -126,7 +130,7 @@ Hooks.ApexChart = {
                 show: false,
                 labels: {
                     formatter: function (value) {
-                        return "$" + value;
+                        return value;
                     },
                 },
             },
