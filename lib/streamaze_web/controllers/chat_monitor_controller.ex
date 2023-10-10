@@ -1,6 +1,7 @@
 defmodule StreamazeWeb.ChatMonitorController do
   alias Streamaze.Streams
   use StreamazeWeb, :controller
+  require Logger
 
   def index(conn, _params) do
     chats = Streams.list_chat_monitors(conn.params["streamer_id"])
@@ -38,12 +39,29 @@ defmodule StreamazeWeb.ChatMonitorController do
   end
 
   defp update_chat_monitor(chat_monitor, chat_activity) do
-    new_activity =
-      Map.merge(chat_monitor.chat_activity, chat_activity)
+    new_activity = Map.merge(chat_monitor.chat_activity, chat_activity)
 
     Streams.update_chat_monitor(chat_monitor, %{
       "chat_activity" => new_activity
     })
+  end
+
+  defp create_or_get_chat_monitor(streamer_id, live_stream_id, chat_monitor \\ %{}) do
+    if Map.get(chat_monitor, :monitor_start) < DateTime.utc_now() |> DateTime.add(-24, :hour) do
+      case create_chat_monitor(streamer_id, live_stream_id) do
+        {:ok, monitor} ->
+          monitor
+
+        {:error, _} ->
+          Logger.warning(
+            "Couldn't create new chat monitor. Using existing chat monitor #{inspect(chat_monitor)}"
+          )
+
+          chat_monitor
+      end
+    else
+      chat_monitor
+    end
   end
 
   # Update will be used to update chat_activity and add "segments"
@@ -58,30 +76,7 @@ defmodule StreamazeWeb.ChatMonitorController do
 
     case Streams.get_latest_chat_monitor(streamer_id) do
       nil ->
-        conn
-        |> put_status(:not_found)
-        |> render(StreamazeWeb.ChatMonitorView, "error.json", changeset: nil)
-
-      chat_monitor ->
-        new_chat_monitor =
-          if chat_monitor.monitor_start < DateTime.utc_now() |> DateTime.add(-24, :hour) do
-            IO.puts("Creating new chat monitor from update")
-
-            case create_chat_monitor(streamer_id, live_stream_id) do
-              {:ok, monitor} ->
-                monitor
-
-              {:error, _} ->
-                IO.puts(
-                  "Error creating new chat monitor from update. Using existing chat monitor #{inspect(chat_monitor)}"
-                )
-
-                chat_monitor
-            end
-          else
-            IO.puts("Using existing chat monitor #{inspect(chat_monitor)}")
-            chat_monitor
-          end
+        new_chat_monitor = create_or_get_chat_monitor(streamer_id, live_stream_id)
 
         case update_chat_monitor(new_chat_monitor, chat_activity) do
           {:ok, chat_monitor} ->
@@ -92,7 +87,22 @@ defmodule StreamazeWeb.ChatMonitorController do
           {:error, %Ecto.Changeset{} = changeset} ->
             conn
             |> put_status(:unprocessable_entity)
-            |> render(StreamazeWeb.ChatMonitorView, "error.json", changeset: changeset)
+            |> render("error.json", changeset: changeset)
+        end
+
+      chat_monitor ->
+        new_chat_monitor = create_or_get_chat_monitor(streamer_id, live_stream_id, chat_monitor)
+
+        case update_chat_monitor(new_chat_monitor, chat_activity) do
+          {:ok, chat_monitor} ->
+            conn
+            |> put_status(:ok)
+            |> render("show.json", chat_monitor: chat_monitor)
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> render("error.json", changeset: changeset)
         end
     end
   end

@@ -33,4 +33,8 @@ defmodule StreamazeWeb.ChatMonitorView do
         end)
     }
   end
+
+  def render("error.json", %{error: error}) do
+    %{success: false, error: error}
+  end
 end
