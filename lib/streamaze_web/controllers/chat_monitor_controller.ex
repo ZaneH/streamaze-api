@@ -21,7 +21,7 @@ defmodule StreamazeWeb.ChatMonitorController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(StreamazeWeb.ChatMonitorView, "error.json", changeset: changeset)
+        |> render("error.json", changeset: changeset)
     end
   end
 
