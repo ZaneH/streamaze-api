@@ -76,7 +76,11 @@ defmodule StreamazeWeb.PaypalWebhookController do
 
     case get_auth_token() do
       {:ok, access_token} ->
-        case verify_event(conn, access_token, params["raw_body"]) do
+        case verify_event(
+               conn,
+               access_token,
+               StreamazeWeb.Plugs.CachingBodyReader.get_raw_body(conn)
+             ) do
           :ok ->
             send_resp(conn, 200, "Webhook Verified")
 
