@@ -303,7 +303,11 @@ defmodule Streamaze.Finances do
     paypal_events =
       PaypalEvent
       |> where([ps], ps.user_id == ^user_id)
-      |> where([ps], ps.event_type == "BILLING.SUBSCRIPTION.CREATED")
+      |> where(
+        [ps],
+        ps.event_type == "BILLING.SUBSCRIPTION.CREATED" or
+          ps.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"
+      )
       |> order_by(desc: :inserted_at)
       |> limit(1)
       |> Repo.one()
