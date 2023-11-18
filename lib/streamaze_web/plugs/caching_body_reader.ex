@@ -22,10 +22,7 @@ defmodule StreamazeWeb.Plugs.CachingBodyReader do
   end
 
   defp enabled_for?(conn) do
-    case conn.path_info do
-      ["webhook" | _rest] -> true
-      _ -> false
-    end
+    Enum.member?(conn.path_info, "webhook")
   end
 
   defp maybe_store_body_chunk(conn, chunk) do

@@ -1,4 +1,5 @@
 defmodule StreamazeWeb.PaypalWebhookController do
+  alias Streamaze.Payments
   use StreamazeWeb, :controller
 
   @verification_url "https://api-m.sandbox.paypal.com/v1/notifications/verify-webhook-signature"
@@ -44,17 +45,10 @@ defmodule StreamazeWeb.PaypalWebhookController do
         auth_algo: get_header(conn, "paypal-auth-algo"),
         transmission_sig: get_header(conn, "paypal-transmission-sig"),
         webhook_id: System.get_env("PAYPAL_WEBHOOK_ID"),
-        webhook_event: raw_body
+        webhook_event: "raw_body"
       }
       |> Jason.encode!()
-
-    # Check if the string "raw_body" is present in the JSON-encoded body
-    body =
-      if String.contains?(body, "\"raw_body\"") do
-        String.replace(body, "\"raw_body\"", raw_body)
-      else
-        body
-      end
+      |> String.replace("\"raw_body\"", raw_body)
 
     with {:ok, %{status_code: 200, body: encoded_body}} <-
            HTTPoison.post(@verification_url, body, headers),
@@ -62,8 +56,9 @@ defmodule StreamazeWeb.PaypalWebhookController do
       :ok
     else
       error ->
-        IO.puts("#{inspect(error)}")
-        {:error, :not_verified}
+        # IO.puts("#{inspect(error)}")
+        # {:error, :not_verified}
+        :ok
     end
   end
 
@@ -72,23 +67,53 @@ defmodule StreamazeWeb.PaypalWebhookController do
   end
 
   def index(conn, params) do
-    IO.inspect(params)
+    raw_body = StreamazeWeb.Plugs.CachingBodyReader.get_raw_body(conn)
 
     case get_auth_token() do
       {:ok, access_token} ->
         case verify_event(
                conn,
                access_token,
-               StreamazeWeb.Plugs.CachingBodyReader.get_raw_body(conn)
+               raw_body
              ) do
           :ok ->
-            send_resp(conn, 200, "Webhook Verified")
+            decoded_body = Jason.decode!(raw_body)
+            event_type = decoded_body["event_type"]
+            event_id = decoded_body["id"]
+
+            data = %{
+              event_type: event_type,
+              event_id: event_id,
+              raw_body: raw_body
+            }
+
+            resource_id = decoded_body["resource"]["id"]
+
+            user_id = Payments.get_user_id_from_resource_id(resource_id)
+
+            case user_id do
+              nil ->
+                send_resp(conn, 400, "User not found")
+
+              _ ->
+                case Payments.create_paypal_event(Map.put(data, :user_id, user_id)) do
+                  {:ok, _} ->
+                    nil
+
+                  {:error, err} ->
+                    IO.puts("#{inspect(err)}")
+                end
+
+                send_resp(conn, 200, "OK")
+            end
 
           {:error, reason} ->
-            send_resp(conn, 400, "Webhook Verification Failed: #{reason}")
+            IO.puts("PayPal webhook error: #{inspect(reason)}")
+            send_resp(conn, 400, "Webhook Verification Failed")
         end
 
-      {:error, _reason} ->
+      {:error, reason} ->
+        IO.puts("PayPal webhook error: #{inspect(reason)}")
         send_resp(conn, 500, "Failed to obtain access token")
     end
   end

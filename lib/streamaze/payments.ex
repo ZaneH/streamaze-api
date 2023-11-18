@@ -1,4 +1,6 @@
 defmodule Streamaze.Payments do
+  alias Streamaze.PaypalSubscription
+  alias Streamaze.Payments.PaypalEvent
   alias Streamaze.Payments.StripeInvoice
   alias Streamaze.Repo
   alias Streamaze.Payments.StripeCustomer
@@ -14,6 +16,40 @@ defmodule Streamaze.Payments do
 
   def get_invoice_by_stripe_id(stripe_id) do
     Repo.get_by(StripeInvoice, stripe_id: stripe_id)
+  end
+
+  def get_user_id_from_resource_id(resource_id) do
+    Repo.get_by(PaypalSubscription, subscription_id: resource_id).user_id
+  end
+
+  def create_paypal_event(%{
+        event_type: event_type,
+        event_id: event_id,
+        raw_body: raw_body,
+        user_id: user_id
+      }) do
+    %PaypalEvent{}
+    |> PaypalEvent.changeset(%{
+      event_type: event_type,
+      event_id: event_id,
+      raw_body: raw_body,
+      user_id: user_id
+    })
+    |> Repo.insert()
+  end
+
+  def create_pending_paypal_subscription(%{
+        subscription_id: subscription_id,
+        user_id: user_id,
+        item_id: item_id
+      }) do
+    %PaypalSubscription{}
+    |> PaypalSubscription.changeset(%{
+      subscription_id: subscription_id,
+      user_id: user_id,
+      item_id: item_id
+    })
+    |> Repo.insert()
   end
 
   def create_customer(%{

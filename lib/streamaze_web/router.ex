@@ -11,7 +11,8 @@ defmodule StreamazeWeb.Router do
     StripeWebhookController,
     UploadController,
     ChatMonitorController,
-    PaypalWebhookController
+    PaypalWebhookController,
+    PaypalController
   }
 
   import StreamazeWeb.UserAuth
@@ -31,6 +32,7 @@ defmodule StreamazeWeb.Router do
 
     post "/stripe/webhook", StripeWebhookController, :index
     post "/payment/paypal/webhook", PaypalWebhookController, :index
+    post "/payment/paypal/subscription", PaypalController, :subscription
 
     get "/api/streamers/current", StreamerController, :current
     get "/api/live_streams/current", LiveStreamController, :current

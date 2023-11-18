@@ -2,7 +2,7 @@ defmodule StreamazeWeb.PaymentController do
   use StreamazeWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    render(conn, "index.html", user_id: conn.assigns.current_user.id)
   end
 
   defp create_checkout_session(conn, price_id, trial_period_days, metadata) do

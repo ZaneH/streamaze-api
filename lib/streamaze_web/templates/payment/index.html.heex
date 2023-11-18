@@ -9,6 +9,22 @@
         <div id="paypal-button-container-P-56P275508W927784JMVKOI6A"></div>
         <script src="https://www.paypal.com/sdk/js?client-id=AScPfcfQQ9LR5QQ9P36mrxgOgngfC1kcvuJQvvohu8w9uuB_vdFavTplkbU9KXGiD9q1oHmj9ye3eziI&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
         <script>
+        function savePendingSubscription(method, url, body, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    callback();
+                } else {
+                    console.log('Error: ' + xhr.status);
+                    alert("Something went wrong. Please try again later or contact us.")
+                }
+            };
+
+            xhr.send(JSON.stringify(body));
+        }
+
         paypal.Buttons({
             style: {
                 shape: 'pill',
@@ -18,13 +34,19 @@
             },
             createSubscription: function(data, actions) {
                 return actions.subscription.create({
-                    /* Creates the subscription */
                     plan_id: 'P-56P275508W927784JMVKOI6A'
+                }).then(function(subscriptionId) {
+                    const userId = <%= @user_id %>;
+                    return new Promise(function(res, rej) {
+                        const body = { subscriptionId, userId, itemId: "member" };
+                        savePendingSubscription('POST', '/payment/paypal/subscription', body, function() {
+                            // return subscriptionId to paypal
+                            res(subscriptionId); 
+                        })
+                    });
                 });
             },
-            onApprove: function(data, actions) {
-                alert(data.subscriptionID); // You can add optional success message for the subscriber here
-            }
+            onApprove: function(_data, _actions) {}
         }).render('#paypal-button-container-P-56P275508W927784JMVKOI6A'); // Renders the PayPal button
         </script>
     </div>
