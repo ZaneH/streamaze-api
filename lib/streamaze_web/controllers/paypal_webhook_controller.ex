@@ -98,13 +98,12 @@ defmodule StreamazeWeb.PaypalWebhookController do
               _ ->
                 case Payments.create_paypal_event(Map.put(data, :user_id, user_id)) do
                   {:ok, _} ->
-                    nil
+                    send_resp(conn, 200, "OK")
 
                   {:error, err} ->
-                    IO.puts("#{inspect(err)}")
+                    IO.puts("PayPal webhook error: #{inspect(err)}")
+                    send_resp(conn, 400, "Error creating PayPal event")
                 end
-
-                send_resp(conn, 200, "OK")
             end
 
           {:error, reason} ->

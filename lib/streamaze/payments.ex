@@ -19,7 +19,13 @@ defmodule Streamaze.Payments do
   end
 
   def get_user_id_from_resource_id(resource_id) do
-    Repo.get_by(PaypalSubscription, subscription_id: resource_id).user_id
+    case Repo.get_by(PaypalSubscription, subscription_id: resource_id) do
+      nil ->
+        nil
+
+      subscription ->
+        subscription.user_id
+    end
   end
 
   def create_paypal_event(%{
