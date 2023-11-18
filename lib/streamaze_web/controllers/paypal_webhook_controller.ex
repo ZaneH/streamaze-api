@@ -56,9 +56,8 @@ defmodule StreamazeWeb.PaypalWebhookController do
       :ok
     else
       error ->
-        # IO.puts("#{inspect(error)}")
-        # {:error, :not_verified}
-        :ok
+        IO.puts("#{inspect(error)}")
+        {:error, :not_verified}
     end
   end
 

@@ -4,6 +4,8 @@ defmodule Streamaze.Finances do
   """
 
   import Ecto.Query, warn: false
+  alias Streamaze.Payments.PaypalEvent
+  alias Streamaze.PaypalSubscription
   alias Streamaze.Repo
 
   alias Streamaze.Finances.{Expense, Donation}
@@ -292,5 +294,30 @@ defmodule Streamaze.Finances do
   """
   def change_donation(%Donation{} = donation, attrs \\ %{}) do
     Donation.changeset(donation, attrs)
+  end
+
+  @doc """
+
+  """
+  def has_valid_subscription?(user_id) do
+    paypal_events =
+      PaypalEvent
+      |> where([ps], ps.user_id == ^user_id)
+      |> where([ps], ps.event_type == "BILLING.SUBSCRIPTION.CREATED")
+      |> order_by(desc: :inserted_at)
+      |> limit(1)
+      |> Repo.one()
+
+    case paypal_events do
+      nil ->
+        false
+
+      _ ->
+        inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
+        now = DateTime.utc_now()
+        diff = DateTime.diff(now, inserted_at, :day)
+
+        diff < 31
+    end
   end
 end

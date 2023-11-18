@@ -1,8 +1,12 @@
 defmodule StreamazeWeb.PaymentController do
+  alias Streamaze.Finances
   use StreamazeWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html", user_id: conn.assigns.current_user.id)
+    user_id = conn.assigns.current_user.id
+    is_subscribed = Finances.has_valid_subscription?(user_id)
+
+    render(conn, "index.html", user_id: user_id, is_subscribed: is_subscribed)
   end
 
   defp create_checkout_session(conn, price_id, trial_period_days, metadata) do
