@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Giveaways do
   import Ecto.Query, warn: false
   alias Streamaze.Repo

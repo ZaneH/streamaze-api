@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 import Config
 
 # config/runtime.exs is executed for all environments, including

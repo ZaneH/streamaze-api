@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :streamaze
 

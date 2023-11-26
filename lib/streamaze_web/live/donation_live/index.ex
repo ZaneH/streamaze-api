@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.DonationLive.Index do
   alias Streamaze.Streams
   use StreamazeWeb, :live_view

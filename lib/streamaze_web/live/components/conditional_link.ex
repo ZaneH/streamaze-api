@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule ConditionalLink do
   use Phoenix.Component
   import Phoenix.HTML.Link

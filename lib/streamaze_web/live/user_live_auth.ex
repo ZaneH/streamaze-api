@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.UserLiveAuth do
   import Phoenix.Component
   import Phoenix.LiveView

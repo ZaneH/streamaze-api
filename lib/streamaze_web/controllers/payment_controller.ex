@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.PaymentController do
   alias Streamaze.Finances
   use StreamazeWeb, :controller

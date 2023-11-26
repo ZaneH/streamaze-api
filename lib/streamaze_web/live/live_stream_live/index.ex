@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.LiveStreamLive.Index do
   use StreamazeWeb, :live_view
 

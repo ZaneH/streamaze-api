@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.StripeWebhookController do
   use StreamazeWeb, :controller
   alias Streamaze.Payments
