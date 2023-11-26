@@ -1,12 +1,7 @@
-<h1>Confirm account</h1>
+<h5 class="text-xl font-medium text-gray-900 dark:text-white">Confirm Account</h5>
 
 <.form let={_f} for={:user} action={Routes.user_confirmation_path(@conn, :update, @token)}>
   <div>
-    <%= submit "Confirm my account" %>
+    <%= submit "Click to confirm your account" %>
   </div>
 </.form>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
