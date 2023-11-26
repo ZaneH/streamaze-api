@@ -3,20 +3,6 @@
 defmodule StreamazeWeb.Router do
   use StreamazeWeb, :router
 
-  alias StreamazeWeb.{
-    StreamerController,
-    DonationController,
-    ExpenseController,
-    LiveStreamController,
-    TTSController,
-    GiveawayEntryController,
-    StripeWebhookController,
-    UploadController,
-    ChatMonitorController,
-    PaypalWebhookController,
-    PaypalController
-  }
-
   import StreamazeWeb.UserAuth
 
   pipeline :browser do
@@ -31,30 +17,15 @@ defmodule StreamazeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
 
-    post "/stripe/webhook", StripeWebhookController, :index
-    post "/payment/paypal/webhook", PaypalWebhookController, :index
-    post "/payment/paypal/subscription", PaypalController, :subscription
+  pipeline :subscription_api do
+    plug :accepts, ["json"]
+    plug StreamazeWeb.Plugs.ValidSubscriptionPlug
+  end
 
-    get "/api/streamers/current", StreamerController, :current
-    get "/api/live_streams/current", LiveStreamController, :current
-
-    resources "/api/tts", TTSController, only: [:index, :create]
-    resources "/api/streamers", StreamerController, only: [:index, :create, :update]
-    resources "/api/donations", DonationController, only: [:index, :create]
-    resources "/api/expenses", ExpenseController, only: [:index, :create]
-    resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
-    resources "/api/chat-monitor", ChatMonitorController, only: [:index, :create, :update, :show]
-
-    resources "/api/giveaway_entries", GiveawayEntryController, only: [:index, :create, :update]
-
-    post "/api/giveaway_entries/reset", GiveawayEntryController, :reset
-
-    get "/api/giveaway_entry/:entry_username/:chat_username",
-        GiveawayEntryController,
-        :assign_chat_name
-
-    post "/api/upload/:type", UploadController, :upload
+  pipeline :no_subscription_api do
+    plug :accepts, ["json"]
   end
 
   scope "/", StreamazeWeb do
@@ -102,10 +73,48 @@ defmodule StreamazeWeb.Router do
     live "/analytics/chat", ChatAnalyticsLive.Index, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", StreamazeWeb do
-  #   pipe_through :api
-  # end
+  scope "/", StreamazeWeb do
+    pipe_through [:api]
+
+    post "/stripe/webhook", StripeWebhookController, :index
+    post "/payment/paypal/webhook", PaypalWebhookController, :index
+    post "/payment/paypal/subscription", PaypalController, :subscription
+    get "/has_valid_subscription", SubscriptionController, :index
+  end
+
+  scope "/", StreamazeWeb do
+    pipe_through [:no_subscription_api]
+
+    get "/api/streamers/current", StreamerController, :current
+    get "/api/live_streams/current", LiveStreamController, :current
+
+    resources "/api/donations", DonationController, only: [:index]
+    resources "/api/expenses", ExpenseController, only: [:index]
+    resources "/api/streamers", StreamerController, only: [:index, :create, :update]
+    # index lists available voices
+    resources "/api/tts", TTSController, only: [:index]
+    resources "/api/giveaway_entries", GiveawayEntryController, only: [:index]
+  end
+
+  scope "/", StreamazeWeb do
+    pipe_through [:subscription_api]
+
+    resources "/api/tts", TTSController, only: [:create]
+    resources "/api/donations", DonationController, only: [:create]
+    resources "/api/expenses", ExpenseController, only: [:create]
+    resources "/api/live_streams", LiveStreamController, only: [:index, :create, :update, :show]
+    resources "/api/chat-monitor", ChatMonitorController, only: [:index, :create, :update, :show]
+
+    resources "/api/giveaway_entries", GiveawayEntryController, only: [:create, :update]
+
+    post "/api/giveaway_entries/reset", GiveawayEntryController, :reset
+
+    get "/api/giveaway_entry/:entry_username/:chat_username",
+        GiveawayEntryController,
+        :assign_chat_name
+
+    post "/api/upload/:type", UploadController, :upload
+  end
 
   # Enables LiveDashboard only for development
   #

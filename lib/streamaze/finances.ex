@@ -298,9 +298,10 @@ defmodule Streamaze.Finances do
     Donation.changeset(donation, attrs)
   end
 
-  @doc """
+  def has_valid_subscription?(nil) do
+    false
+  end
 
-  """
   def has_valid_subscription?(user_id) do
     paypal_events =
       PaypalEvent
@@ -316,9 +317,11 @@ defmodule Streamaze.Finances do
 
     case paypal_events do
       nil ->
+        IO.puts("No subscription found for user_id: #{user_id}")
         false
 
       _ ->
+        IO.puts("Valid subscription found for user_id: #{user_id}")
         inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
         now = DateTime.utc_now()
         diff = DateTime.diff(now, inserted_at, :day)
