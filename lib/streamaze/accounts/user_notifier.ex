@@ -10,7 +10,7 @@ defmodule Streamaze.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"Streamaze", "contact@example.com"})
+      |> from({"Streamaze", "contact@streamerdash.com"})
       |> subject(subject)
       |> text_body(body)
 
@@ -74,6 +74,22 @@ defmodule Streamaze.Accounts.UserNotifier do
     #{url}
 
     If you didn't request this change, please ignore this.
+
+    ==============================
+    """)
+  end
+
+  @doc """
+  Deliver subscription receipt.
+  """
+  def deliver_subscription_receipt(user) do
+    deliver(user.email, "Subscription receipt", """
+
+    ==============================
+
+    Hi #{user.email},
+
+    You have successfully subscribed to Streamaze. Your subscription will be visible at https://my.streamerdash.com/account/upgrade
 
     ==============================
     """)

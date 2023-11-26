@@ -1,4 +1,6 @@
 defmodule StreamazeWeb.PaypalWebhookController do
+  alias Streamaze.Accounts
+  alias Streamaze.Accounts.UserNotifier
   alias Streamaze.Payments
   use StreamazeWeb, :controller
 
@@ -65,6 +67,17 @@ defmodule StreamazeWeb.PaypalWebhookController do
     conn |> get_req_header(key) |> List.first()
   end
 
+  defp maybe_send_email(user_id, event_type) do
+    try do
+      if event_type == "BILLING.SUBSCRIPTION.ACTIVATED" do
+        user = Accounts.get_user!(user_id)
+        UserNotifier.deliver_subscription_receipt(user)
+      end
+    rescue
+      _ -> nil
+    end
+  end
+
   def index(conn, params) do
     raw_body = StreamazeWeb.Plugs.CachingBodyReader.get_raw_body(conn)
 
@@ -97,6 +110,7 @@ defmodule StreamazeWeb.PaypalWebhookController do
               _ ->
                 case Payments.create_paypal_event(Map.put(data, :user_id, user_id)) do
                   {:ok, _} ->
+                    maybe_send_email(user_id, event_type)
                     send_resp(conn, 200, "OK")
 
                   {:error, err} ->

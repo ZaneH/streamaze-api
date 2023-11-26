@@ -313,8 +313,7 @@ defmodule Streamaze.Finances do
       |> where([ps], ps.user_id == ^user_id)
       |> where(
         [ps],
-        ps.event_type == "BILLING.SUBSCRIPTION.CREATED" or
-          ps.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"
+        ps.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"
       )
       |> order_by(desc: :inserted_at)
       |> limit(1)

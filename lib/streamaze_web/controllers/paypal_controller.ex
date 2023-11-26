@@ -20,7 +20,5 @@ defmodule StreamazeWeb.PaypalController do
       {:error, _} ->
         send_resp(conn, 500, "Error")
     end
-
-    send_resp(conn, 200, "OK")
   end
 end
