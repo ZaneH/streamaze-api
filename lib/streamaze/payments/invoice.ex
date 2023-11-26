@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Payments.StripeInvoice do
   use Ecto.Schema
   import Ecto.Changeset

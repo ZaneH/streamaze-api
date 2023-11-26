@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Connectivity.Viewers do
   # alias Wallaby.Browser
   # import Wallaby.Query

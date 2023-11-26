@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Finances.Expense do
   use Ecto.Schema
   import Ecto.Changeset

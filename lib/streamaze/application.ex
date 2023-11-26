@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
@@ -18,7 +20,8 @@ defmodule Streamaze.Application do
       StreamazeWeb.Endpoint,
       # Start a worker by calling: Streamaze.Worker.start_link(arg)
       # {Streamaze.Worker, arg}
-      {ChannelWatcher, :streamer}
+      {ChannelWatcher, :streamer},
+      {Cachex, name: :subscription_cache, expiration: {:expiration, 3600 * 60, 50, true}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

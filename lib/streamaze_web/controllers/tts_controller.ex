@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.TTSController do
   use StreamazeWeb, :controller
 

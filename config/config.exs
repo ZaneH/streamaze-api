@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 # This file is responsible for configuring your application
 # and its dependencies with the aid of the Config module.
 #

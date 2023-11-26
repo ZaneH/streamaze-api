@@ -1,9 +1,14 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Finances do
   @moduledoc """
   The Finances context.
   """
 
   import Ecto.Query, warn: false
+  alias Streamaze.Finances
+  alias Streamaze.Payments.PaypalEvent
+  alias Streamaze.PaypalSubscription
   alias Streamaze.Repo
 
   alias Streamaze.Finances.{Expense, Donation}
@@ -292,5 +297,68 @@ defmodule Streamaze.Finances do
   """
   def change_donation(%Donation{} = donation, attrs \\ %{}) do
     Donation.changeset(donation, attrs)
+  end
+
+  defp get_subscription_status(user_id) do
+    Cachex.get(:subscription_cache, Kernel.to_string(user_id))
+  end
+
+  defp store_subscription_status(user_id, status) do
+    Cachex.put(:subscription_cache, Kernel.to_string(user_id), status)
+  end
+
+  defp check_subscription(user_id) do
+    paypal_events =
+      PaypalEvent
+      |> where([ps], ps.user_id == ^user_id)
+      |> where(
+        [ps],
+        ps.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"
+      )
+      |> order_by(desc: :inserted_at)
+      |> limit(1)
+      |> Repo.one()
+
+    result =
+      case paypal_events do
+        nil ->
+          IO.puts("No subscription found for user_id: #{user_id}")
+          false
+
+        _ ->
+          IO.puts("Valid subscription found for user_id: #{user_id}")
+          inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
+          now = DateTime.utc_now()
+          diff = DateTime.diff(now, inserted_at, :day)
+
+          diff < 31
+      end
+
+    # Store the result in the cache
+    store_subscription_status(user_id, result)
+
+    result
+  end
+
+  def has_valid_subscription?(user_id) when is_nil(user_id) do
+    false
+  end
+
+  def has_valid_subscription?(user_id) do
+    case get_subscription_status(user_id) do
+      {:ok, true} ->
+        true
+
+      _ ->
+        # Handle no subscription or cache error
+        # fallback to rechecking the subscription
+        case check_subscription(user_id) do
+          true ->
+            true
+
+          _ ->
+            false
+        end
+    end
   end
 end

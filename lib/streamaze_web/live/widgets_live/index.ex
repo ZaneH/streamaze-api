@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.WidgetsLive.Index do
   alias Streamaze.Accounts
   use StreamazeWeb, :live_view
@@ -9,9 +11,21 @@ defmodule StreamazeWeb.WidgetsLive.Index do
 
     form = %{
       "subathon_clock_url" =>
-        form_field_url("https://streamaze.live/subathon/clock?api_key=", "#{api_key}"),
-      "chat_overlay_url" => form_field_url("https://streamaze.live/chat?api_key=", "#{api_key}"),
-      "ticker_url" => form_field_url("https://streamaze.live/widget/ticker/", "#{discord_id}")
+        form_field_url("https://streamerdash.com/subathon/clock?api_key=", "#{api_key}"),
+      "chat_overlay_url" =>
+        form_field_url("https://streamerdash.com/chat?api_key=", "#{api_key}"),
+      "ticker_url" => form_field_url("https://streamerdash.com/widget/ticker/", "#{discord_id}"),
+      "maze_url" => form_field_url("https://streamerdash.com/widget/maze/", "#{discord_id}"),
+      "all_subs_url" =>
+        form_field_url(
+          "https://streamerdash.com/widget/subs/all?isUser=true&streamazeKey=",
+          "#{api_key}"
+        ),
+      "kick_subs_url" =>
+        form_field_url(
+          "https://streamerdash.com/widget/subs/kick?isUser=true&streamazeKey=",
+          "#{api_key}"
+        )
     }
 
     {:ok, socket |> assign(:form, form)}

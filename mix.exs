@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.MixProject do
   use Mix.Project
 
@@ -63,7 +65,8 @@ defmodule Streamaze.MixProject do
       {:stripity_stripe,
        git: "https://github.com/beam-community/stripity_stripe",
        ref: "d0d7ffd5066f8751bb86a9588c81693c889ce7d2"},
-      {:paginator, "~> 1.2.0"}
+      {:paginator, "~> 1.2.0"},
+      {:cachex, "~> 3.6"}
     ]
   end
 

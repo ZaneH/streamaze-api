@@ -21,13 +21,6 @@
         </div>
 
         <div class="mb-6">
-            <%= label f, :sub_goal_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
-                Sub Goal URL
-            <% end %>
-            <%= text_input f, "sub_goal_url", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", value: "Coming soon" %>
-        </div>
-
-        <div class="mb-6">
             <%= label f, :ticker_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
                 News Ticker URL
             <% end %>
@@ -36,9 +29,37 @@
 
         <%!-- <div class="mb-6">
             <%= label f, :gps_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
-                Subathon Clock URL
+                GPS Overlay URL
             <% end %>
             <%= text_input f, "gps_url", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
         </div> --%>
+
+         <div class="mb-6">
+            <%= label f, :maze_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
+                Maze Game URL
+            <% end %>
+            <%= text_input f, "maze_url", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+        </div>
+
+         <div class="mb-6">
+            <%= label f, :all_subs_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
+                All Subs URL
+            <% end %>
+            <%= text_input f, "all_subs_url", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+        </div>
+
+         <div class="mb-6">
+            <%= label f, :kick_subs_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
+                Kick Subs URL
+            <% end %>
+            <%= text_input f, "kick_subs_url", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+        </div>
+
+        <div class="mb-6">
+            <%= label f, :sub_goal_url, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" do %>
+                Sub Goal URL
+            <% end %>
+            <%= text_input f, "sub_goal_url", disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", value: "Coming soon" %>
+        </div>
     </.form>
 </div>

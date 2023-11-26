@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.CodesLive.Index do
   alias Streamaze.Accounts
   use StreamazeWeb, :live_view

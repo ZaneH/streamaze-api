@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 import Config
 
 # Only in tests, remove the complexity from the password hashing algorithm

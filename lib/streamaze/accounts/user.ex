@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule Streamaze.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
@@ -14,6 +16,7 @@ defmodule Streamaze.Accounts.User do
     belongs_to :streamer, Streamaze.Accounts.Streamer
 
     has_many :streamer_managers, Streamaze.StreamerManager
+    has_many :paypal_subscriptions, Streamaze.PaypalSubscription
 
     timestamps()
   end

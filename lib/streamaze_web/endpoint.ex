@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule StreamazeWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :streamaze
 
@@ -47,7 +49,8 @@ defmodule StreamazeWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
+    json_decoder: Phoenix.json_library(),
+    body_reader: {StreamazeWeb.Plugs.CachingBodyReader, :read_body, []}
 
   plug Plug.MethodOverride
   plug Plug.Head

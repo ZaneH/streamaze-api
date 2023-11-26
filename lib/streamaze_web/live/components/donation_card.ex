@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 defmodule DonationCard do
   import StreamazeWeb.LiveHelpers
   use Phoenix.LiveComponent

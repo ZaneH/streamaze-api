@@ -1,3 +1,5 @@
+# Copyright 2023, Zane Helton, All rights reserved.
+
 import Config
 
 # For production, don't forget to configure the url host
