@@ -21,7 +21,7 @@ defmodule StreamazeWeb.StreamerView do
     }
   end
 
-  def render("show_private.json", %{streamer: streamer}) do
+  def render("show_private.json", %{streamer: streamer, has_valid_subscription: hvs}) do
     admin_accounts = get_admin_accounts(streamer)
 
     %{
@@ -38,7 +38,8 @@ defmodule StreamazeWeb.StreamerView do
         streamers: admin_accounts,
         role: streamer.admin_config["role"],
         obs_key: streamer.admin_config["obs_key"]
-      }
+      },
+      has_valid_subscription: hvs
     }
   end
 

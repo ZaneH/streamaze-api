@@ -1,6 +1,7 @@
 # Copyright 2023, Zane Helton, All rights reserved.
 
 defmodule StreamazeWeb.StreamerController do
+  alias Streamaze.Finances
   use StreamazeWeb, :controller
 
   alias Streamaze.Streams
@@ -9,8 +10,12 @@ defmodule StreamazeWeb.StreamerController do
     try do
       detected_streamer_id = Streams.get_streamer_id_for_api_key(api_key)
       streamer = Streams.get_streamer!(detected_streamer_id)
+      has_valid_subscription = Finances.has_valid_subscription?(streamer.user_id)
 
-      render(conn, "show_private.json", streamer: streamer)
+      render(conn, "show_private.json",
+        streamer: streamer,
+        has_valid_subscription: has_valid_subscription
+      )
     rescue
       _ ->
         conn

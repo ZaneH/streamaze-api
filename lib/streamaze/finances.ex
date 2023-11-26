@@ -6,6 +6,7 @@ defmodule Streamaze.Finances do
   """
 
   import Ecto.Query, warn: false
+  alias Streamaze.Finances
   alias Streamaze.Payments.PaypalEvent
   alias Streamaze.PaypalSubscription
   alias Streamaze.Repo
@@ -298,11 +299,15 @@ defmodule Streamaze.Finances do
     Donation.changeset(donation, attrs)
   end
 
-  def has_valid_subscription?(nil) do
-    false
+  defp get_subscription_status(user_id) do
+    Cachex.get(:subscription_cache, Kernel.to_string(user_id))
   end
 
-  def has_valid_subscription?(user_id) do
+  defp store_subscription_status(user_id, status) do
+    Cachex.put(:subscription_cache, Kernel.to_string(user_id), status)
+  end
+
+  defp check_subscription(user_id) do
     paypal_events =
       PaypalEvent
       |> where([ps], ps.user_id == ^user_id)
@@ -315,18 +320,46 @@ defmodule Streamaze.Finances do
       |> limit(1)
       |> Repo.one()
 
-    case paypal_events do
-      nil ->
-        IO.puts("No subscription found for user_id: #{user_id}")
-        false
+    result =
+      case paypal_events do
+        nil ->
+          IO.puts("No subscription found for user_id: #{user_id}")
+          false
+
+        _ ->
+          IO.puts("Valid subscription found for user_id: #{user_id}")
+          inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
+          now = DateTime.utc_now()
+          diff = DateTime.diff(now, inserted_at, :day)
+
+          diff < 31
+      end
+
+    # Store the result in the cache
+    store_subscription_status(user_id, result)
+
+    result
+  end
+
+  def has_valid_subscription?(user_id) when is_nil(user_id) do
+    false
+  end
+
+  def has_valid_subscription?(user_id) do
+    case get_subscription_status(user_id) do
+      {:ok, true} ->
+        true
 
       _ ->
-        IO.puts("Valid subscription found for user_id: #{user_id}")
-        inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
-        now = DateTime.utc_now()
-        diff = DateTime.diff(now, inserted_at, :day)
+        # Handle no subscription or cache error
+        # fallback to rechecking the subscription
+        case check_subscription(user_id) do
+          true ->
+            true
 
-        diff < 31
+          _ ->
+            false
+        end
     end
   end
 end

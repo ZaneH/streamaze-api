@@ -21,7 +21,7 @@ defmodule Streamaze.Application do
       # Start a worker by calling: Streamaze.Worker.start_link(arg)
       # {Streamaze.Worker, arg}
       {ChannelWatcher, :streamer},
-      {Cachex, name: :subscription_cache, expiration: {:expiration, 3600, 50, true}}
+      {Cachex, name: :subscription_cache, expiration: {:expiration, 3600 * 60, 50, true}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -79,7 +79,6 @@ defmodule StreamazeWeb.Router do
     post "/stripe/webhook", StripeWebhookController, :index
     post "/payment/paypal/webhook", PaypalWebhookController, :index
     post "/payment/paypal/subscription", PaypalController, :subscription
-    get "/has_valid_subscription", SubscriptionController, :index
   end
 
   scope "/", StreamazeWeb do
