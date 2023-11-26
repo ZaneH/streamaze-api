@@ -26,8 +26,8 @@
     </div>
     <% else %>
     <div class="max-w-sm">
-        <div id="paypal-button-container-P-8046699486893250KMVMROZY"></div>
-        <script src="https://www.paypal.com/sdk/js?client-id=AURgfLiZNamuVaOvcrQEkf6pknxEHHXDShuHlZaIyHgQpSkWa0w1pqM7-LXyt1g14cKQDoVqqF-auqaW&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+        <div id="paypal-button-container"></div>
+        <script src={"https://www.paypal.com/sdk/js?client-id=#{@paypal_client_id}&vault=true&intent=subscription"} data-sdk-integration-source="button-factory"></script>
 
         <script>
         function savePendingSubscription(method, url, body, callback) {
@@ -55,7 +55,7 @@
             },
             createSubscription: function(data, actions) {
                 return actions.subscription.create({
-                    plan_id: 'P-8046699486893250KMVMROZY'
+                    plan_id: "<%= @paypal_plan_1_id %>"
                 }).then(function(subscriptionId) {
                     const userId = <%= @user_id %>;
                     return new Promise(function(res, rej) {
@@ -70,7 +70,7 @@
             onApprove: function(_data, _actions) {
                 alert('You have subscribed! Payments are usually processed in 1 or 2 minutes.');
             }
-        }).render('#paypal-button-container-P-8046699486893250KMVMROZY'); // Renders the PayPal button
+        }).render('#paypal-button-container'); // Renders the PayPal button
         </script>
     </div>
     <% end %>

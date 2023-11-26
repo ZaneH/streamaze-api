@@ -8,7 +8,12 @@ defmodule StreamazeWeb.PaymentController do
     user_id = conn.assigns.current_user.id
     is_subscribed = Finances.has_valid_subscription?(user_id)
 
-    render(conn, "index.html", user_id: user_id, is_subscribed: is_subscribed)
+    render(conn, "index.html",
+      user_id: user_id,
+      is_subscribed: is_subscribed,
+      paypal_client_id: System.get_env("PAYPAL_CLIENT_ID"),
+      paypal_plan_1_id: System.get_env("PAYPAL_PLAN_1_ID")
+    )
   end
 
   defp create_checkout_session(conn, price_id, trial_period_days, metadata) do
