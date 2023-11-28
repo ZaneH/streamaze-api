@@ -6,9 +6,7 @@ defmodule Streamaze.Finances do
   """
 
   import Ecto.Query, warn: false
-  alias Streamaze.Finances
   alias Streamaze.Payments.PaypalEvent
-  alias Streamaze.PaypalSubscription
   alias Streamaze.Repo
 
   alias Streamaze.Finances.{Expense, Donation}
@@ -308,36 +306,40 @@ defmodule Streamaze.Finances do
   end
 
   defp check_subscription(user_id) do
-    paypal_events =
-      PaypalEvent
-      |> where([ps], ps.user_id == ^user_id)
-      |> where(
-        [ps],
-        ps.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"
-      )
-      |> order_by(desc: :inserted_at)
-      |> limit(1)
-      |> Repo.one()
+    true
 
-    result =
-      case paypal_events do
-        nil ->
-          IO.puts("No subscription found for user_id: #{user_id}")
-          false
+    # uncomment to check for valid PayPal subscription
+    #
+    # paypal_events =
+    #   PaypalEvent
+    #   |> where([ps], ps.user_id == ^user_id)
+    #   |> where(
+    #     [ps],
+    #     ps.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"
+    #   )
+    #   |> order_by(desc: :inserted_at)
+    #   |> limit(1)
+    #   |> Repo.one()
 
-        _ ->
-          IO.puts("Valid subscription found for user_id: #{user_id}")
-          inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
-          now = DateTime.utc_now()
-          diff = DateTime.diff(now, inserted_at, :day)
+    # result =
+    #   case paypal_events do
+    #     nil ->
+    #       IO.puts("No subscription found for user_id: #{user_id}")
+    #       false
 
-          diff < 31
-      end
+    #     _ ->
+    #       IO.puts("Valid subscription found for user_id: #{user_id}")
+    #       inserted_at = paypal_events.inserted_at |> DateTime.from_naive!("Etc/UTC")
+    #       now = DateTime.utc_now()
+    #       diff = DateTime.diff(now, inserted_at, :day)
 
-    # Store the result in the cache
-    store_subscription_status(user_id, result)
+    #       diff < 31
+    #   end
 
-    result
+    # # Store the result in the cache
+    # store_subscription_status(user_id, result)
+
+    # result
   end
 
   def has_valid_subscription?(user_id) when is_nil(user_id) do

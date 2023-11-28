@@ -1,14 +1,38 @@
-# Streamaze
+# Streamaze API
 
-To start your Phoenix server:
+## Setup
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+```
+$ git clone https://github.com/ZaneH/streamaze-api.git
+$ cd streamaze-api
+$ mix deps.get
+$ mix ecto.setup # check dev.exs if this fails
+$ mix ecto.migrate
+$ iex -S mix phx.server # on localhost:4000
+```
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Environment Variables
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+```
+# AWS config for S3 uploads
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+export AWS_REGION=
+
+# For OBS control, livebond is closed-source, fill this with a dummy value
+export LIVEBOND_API_URL=
+
+# For PayPal Subscriptions. Subscriptions aren't required in
+# the open-source version, but the code is still there.
+export PAYPAL_CLIENT_ID= # PayPal API client ID
+export PAYPAL_SECRET_KEY= # PayPal API secret key
+export PAYPAL_WEBHOOK_ID= # PayPal API webhook ID
+export PAYPAL_PLAN_1_ID= # PayPal API plan ID
+
+# Mailgun config
+export MAILGUN_API_KEY=
+export MAILGUN_DOMAIN=
+```
 
 ## Learn more
 
