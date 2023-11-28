@@ -2,7 +2,6 @@
 
 defmodule StreamazeWeb.ChatAnalyticsLive.Index do
   alias Streamaze.Streams
-  alias Streamaze.Accounts
   use StreamazeWeb, :live_view
   on_mount(Streamaze.UserLiveAuth)
 
