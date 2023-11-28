@@ -78,7 +78,7 @@ defmodule StreamazeWeb.PaypalWebhookController do
     end
   end
 
-  def index(conn, params) do
+  def index(conn, _params) do
     raw_body = StreamazeWeb.Plugs.CachingBodyReader.get_raw_body(conn)
 
     case get_auth_token() do
