@@ -1,5 +1,9 @@
 # Streamaze API
 
+## Depends On
+
+- [ZaneH/streamaze-donation-service](https://github.com/ZaneH/streamaze-donation-service)
+
 ## Setup
 
 ```
