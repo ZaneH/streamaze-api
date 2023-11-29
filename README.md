@@ -12,6 +12,8 @@ $ cd streamaze-api
 $ mix deps.get
 $ mix ecto.setup # check dev.exs if this fails
 $ mix ecto.migrate
+$ cd assets/; npm install;
+$ cd ..
 $ iex -S mix phx.server # on localhost:4000
 ```
 
