@@ -35,6 +35,10 @@ export PAYPAL_SECRET_KEY= # PayPal API secret key
 export PAYPAL_WEBHOOK_ID= # PayPal API webhook ID
 export PAYPAL_PLAN_1_ID= # PayPal API plan ID
 
+# For Stripe subscriptions. Stripe is no longer used.
+export STRIPE_SECRET= # fill with dummy data
+export STRIPE_DEV_SECRET= # fill with dummy data
+
 # Mailgun config
 export MAILGUN_API_KEY=
 export MAILGUN_DOMAIN=
