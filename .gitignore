@@ -32,6 +32,5 @@ streamaze-*.tar
 npm-debug.log
 /assets/node_modules/
 
-.env
 chromedriver
 .DS_Store
