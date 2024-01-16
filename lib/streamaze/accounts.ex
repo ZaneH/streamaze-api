@@ -72,42 +72,47 @@ defmodule Streamaze.Accounts do
 
   def get_user_by_invite_code(invite_code) do
     Repo.one(
-      from u in User,
+      from(u in User,
         where: u.invite_code == ^invite_code,
         select: u
+      )
     )
   end
 
   def get_user_by_api_key(streamer_id, api_key) do
     Repo.one(
-      from u in User,
+      from(u in User,
         where: u.api_key == ^api_key and u.streamer_id == ^streamer_id,
         select: u
+      )
     )
     |> Repo.preload(:streamer)
   end
 
   def get_invite_code_for_user(user_id) do
     Repo.one(
-      from u in User,
+      from(u in User,
         where: u.id == ^user_id,
         select: u.invite_code
+      )
     )
   end
 
   def get_discord_id_for_user(user_id) do
     Repo.one(
-      from s in Streamer,
+      from(s in Streamer,
         where: s.user_id == ^user_id,
         select: s.lanyard_config["discord_user_id"]
+      )
     )
   end
 
   def get_api_key_for_user(user_id) do
     Repo.one(
-      from u in User,
+      from(u in User,
         where: u.id == ^user_id,
         select: u.api_key
+      )
     )
   end
 

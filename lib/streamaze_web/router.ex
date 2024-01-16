@@ -82,6 +82,7 @@ defmodule StreamazeWeb.Router do
   end
 
   scope "/", StreamazeWeb do
+    # Non-subscribed routes
     pipe_through [:no_subscription_api]
 
     get "/api/streamers/current", StreamerController, :current
@@ -93,11 +94,8 @@ defmodule StreamazeWeb.Router do
     # index lists available voices
     resources "/api/tts", TTSController, only: [:index]
     resources "/api/giveaway_entries", GiveawayEntryController, only: [:index]
-  end
-
-  scope "/", StreamazeWeb do
-    pipe_through [:subscription_api]
-
+    
+    # Premium routes
     resources "/api/tts", TTSController, only: [:create]
     resources "/api/donations", DonationController, only: [:create]
     resources "/api/expenses", ExpenseController, only: [:create]
@@ -113,6 +111,10 @@ defmodule StreamazeWeb.Router do
         :assign_chat_name
 
     post "/api/upload/:type", UploadController, :upload
+  end
+
+  scope "/", StreamazeWeb do
+    pipe_through [:subscription_api]
   end
 
   # Enables LiveDashboard only for development
