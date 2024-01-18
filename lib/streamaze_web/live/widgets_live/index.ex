@@ -3,7 +3,9 @@
 defmodule StreamazeWeb.WidgetsLive.Index do
   alias Streamaze.Accounts
   use StreamazeWeb, :live_view
-  on_mount Streamaze.UserLiveAuth
+  on_mount(Streamaze.UserLiveAuth)
+
+  @url_prefix "http://localhost:3000"
 
   def mount(_params, _session, socket) do
     api_key = Accounts.get_api_key_for_user(socket.assigns.current_user.id)
@@ -11,19 +13,27 @@ defmodule StreamazeWeb.WidgetsLive.Index do
 
     form = %{
       "subathon_clock_url" =>
-        form_field_url("https://streamerdash.com/subathon/clock?api_key=", "#{api_key}"),
+        form_field_url("#{@url_prefix}/subathon/clock?isUser=true&streamazeKey=", "#{api_key}"),
       "chat_overlay_url" =>
-        form_field_url("https://streamerdash.com/chat?api_key=", "#{api_key}"),
-      "ticker_url" => form_field_url("https://streamerdash.com/widget/ticker/", "#{discord_id}"),
-      "maze_url" => form_field_url("https://streamerdash.com/widget/maze/", "#{discord_id}"),
+        form_field_url("#{@url_prefix}/chat?isUser=true&streamazeKey=", "#{api_key}"),
+      "ticker_url" =>
+        form_field_url(
+          "#{@url_prefix}/widget/ticker/#{discord_id}?isUser=true&streamazeKey=",
+          "#{api_key}"
+        ),
+      "maze_url" =>
+        form_field_url(
+          "#{@url_prefix}/widget/maze/#{discord_id}?isUser=true&streamazeKey=",
+          "#{api_key}"
+        ),
       "all_subs_url" =>
         form_field_url(
-          "https://streamerdash.com/widget/subs/all?isUser=true&streamazeKey=",
+          "#{@url_prefix}/widget/subs/all?isUser=true&streamazeKey=",
           "#{api_key}"
         ),
       "kick_subs_url" =>
         form_field_url(
-          "https://streamerdash.com/widget/subs/kick?isUser=true&streamazeKey=",
+          "#{@url_prefix}/widget/subs/kick?isUser=true&streamazeKey=",
           "#{api_key}"
         )
     }
